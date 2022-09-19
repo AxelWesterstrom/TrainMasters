@@ -7,8 +7,8 @@ async function routeSeed() {
 
     await db.query('DELETE FROM routes');
     await db.query('DELETE FROM stations');
-    //await db.query('ALTER routes AUTO_INCREMENT = ?', [1]);
-    //await db.query('ALTER stations AUTO_INCREMENT = ?', [1]);
+    //await db.query('ALTER routes AUTO_INCREMENT = 1'); This does not work in mySQL 
+    //await db.query('ALTER stations AUTO_INCREMENT = 1');
     let trainset = 1;
     let counter = 0;
     for (let routeName of Object.keys(data)) {

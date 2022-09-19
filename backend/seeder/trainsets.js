@@ -1,6 +1,11 @@
 const db = require('../DatabaseQuerry');
-// DELETE at the start
+
 async function seedTrainSets() {
+    await db.query('DELETE FROM locomotives');
+    await db.query('DELETE FROM trainsets');
+    await db.query('DELETE FROM carriages');
+    await db.query('DELETE FROM seats');
+
     let types = { 1: 54, 2: 74, 3: 28, 4: 42 };
     let handicap = {
         1: [46, 49, 52],
@@ -54,6 +59,6 @@ async function seedTrainSets() {
         }
         counter++;
     }
-    console.log('Trainsets done');
+    console.log('Trainsets populated!');
 }
 seedTrainSets();
