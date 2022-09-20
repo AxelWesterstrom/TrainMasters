@@ -1,7 +1,7 @@
 const data = require("./routesJson.json");
 const db = require("../DatabaseQuerry");
 
-async function routeSeed() {
+module.exports = async function routeSeed() {
   db.connect();
   await db.query("SET foreign_key_checks = 0;");
 
@@ -30,6 +30,6 @@ async function routeSeed() {
   }
   await db.query("SET foreign_key_checks = 0;");
   console.log("Done seeding routes");
-}
+};
 routeSeed();
 //route , name, arrivalOffset, departureOffset, platform
