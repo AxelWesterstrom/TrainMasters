@@ -1,6 +1,6 @@
 const db = require("../DatabaseQuerry");
 
-module.exports = async function seedTrainSets() {
+async function seedTrainSets() {
   await db.query("SET foreign_key_checks = 0;");
 
   await db.query("DELETE FROM locomotives");
@@ -63,5 +63,5 @@ module.exports = async function seedTrainSets() {
   }
   await db.query("SET foreign_key_checks = 1;");
   console.log("Trainsets populated!");
-};
+}
 seedTrainSets();
