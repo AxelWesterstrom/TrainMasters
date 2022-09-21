@@ -16,7 +16,7 @@ function SearchBar() {
               <Col className="col-lg-6 col-md-12">
                 <Form.Group className="mb-3" controlId="destinationStation">
                   <Form.Label>Till</Form.Label>
-                  <Form.Control type="password" className="customInput" />
+                  <Form.Control type="text" className="customInput" />
                 </Form.Group>
               </Col>
             </Row>
