@@ -9,7 +9,7 @@ async function routeSeed() {
   await db.query("DELETE FROM stations");
   await db.query("ALTER TABLE routes AUTO_INCREMENT = 1");
   await db.query("ALTER TABLE stations AUTO_INCREMENT = 1");
-  let trainset = 1;
+  let trainset = 1; // Borde inte vara hårdkodad
   let counter = 0;
   for (let routeName of Object.keys(data)) {
     console.log(routeName, trainset);
@@ -28,7 +28,7 @@ async function routeSeed() {
     counter++;
     trainset += counter % 2 == 0;
   }
-  await db.query("SET foreign_key_checks = 0;");
+  await db.query("SET foreign_key_checks = 0;"); // should it be a 1 insteed of 0 here?
   console.log("Done seeding routes");
 }
 routeSeed();
