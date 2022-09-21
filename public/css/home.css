@@ -29,7 +29,8 @@
   background-image: url("../bg-home.jpg");
   background-repeat: no-repeat !important;
   background-attachment: fixed;
-  background-size:cover;
+  background-size: cover;
+  background-position: center;
 
 }
 
