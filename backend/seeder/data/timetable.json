@@ -1,0 +1,32 @@
+{
+  "Stockholm C - Göteborg C": [
+    { "time": "07:00", "justOnWeekdays": false },
+    { "time": "18:00", "justOnWeekdays": false }
+  ],
+  "Göteborg C - Stockholm C": [
+    { "time": "12:30", "justOnWeekdays": false },
+    { "time": "23:00", "justOnWeekdays": false }
+  ],
+  "Göteborg C - Hyllie": [
+    { "time": "12:00", "justOnWeekdays": false },
+    { "time": "23:00", "justOnWeekdays": false }
+  ],
+  "Hyllie - Göteborg C": [
+    { "time": "07:00", "justOnWeekdays": false },
+    { "time": "15:40", "justOnWeekdays": false }
+  ],
+  "Helsingborg C - Trelleborg": [
+    { "time": "07:00", "justOnWeekdays": false },
+    { "time": "11:00", "justOnWeekdays": false },
+    { "time": "14:00", "justOnWeekdays": false },
+    { "time": "18:00", "justOnWeekdays": false },
+    { "time": "22:00", "justOnWeekdays": true }
+  ],
+  "Trelleborg - Helsingborg C": [
+    { "time": "09:00", "justOnWeekdays": false },
+    { "time": "12:00", "justOnWeekdays": false },
+    { "time": "16:00", "justOnWeekdays": false },
+    { "time": "20:00", "justOnWeekdays": false },
+    { "time": "00:00", "justOnWeekdays": true }
+  ]
+}
