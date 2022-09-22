@@ -1,4 +1,4 @@
-const data = require("./timetable.json");
+const data = require("./data/timetable.json");
 const db = require("../DatabaseQuerry");
 
 async function seedJourneys() {

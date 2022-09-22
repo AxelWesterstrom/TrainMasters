@@ -1,4 +1,4 @@
-const data = require("./routesJson.json");
+const data = require("./data/routesJson.json");
 const db = require("../DatabaseQuerry");
 
 async function routeSeed() {
