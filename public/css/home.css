@@ -19,14 +19,12 @@
 
 .home{
   font-family: 'Open Sans', sans-serif;
-  font-weight: bold;
-  font-size: 25px;
   position:absolute;
   top:0px;
   right:0px;
   bottom:0px;
   left:0px;
-  background-image: url("../bg-home.jpg");
+  background-image: url("bg-home.jpg");
   background-repeat: no-repeat !important;
   background-attachment: fixed;
   background-size: cover;
@@ -38,4 +36,30 @@
   .home {
     font-size: 15px;
   }
+}
+
+.customSuggestionList{
+  cursor: pointer;
+}
+
+.customSuggestionList:last-child{
+  margin-bottom: 1rem;
+}
+
+.customSuggestionList:first-child{
+  margin-top: 1rem;
+}
+
+.customInputLabel{
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.customSuggestContainer{
+  background-color: rgba(255, 255, 255, 255);
+  border: #7AAC71;
+  border-radius: 2px;
+  position: absolute;
+
+
 }
