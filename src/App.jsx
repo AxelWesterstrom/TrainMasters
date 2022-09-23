@@ -1,25 +1,34 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import './App.css'
 
 function App() {
+  const [count, setCount] = useState(1)
+
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/valj-resa" /> //we have route path in swedish like SJ's
-          website
-          <Route path="/valj-tag" /> //There is a header component and we can
-          use it for all other pages
-          <Route path="/anpassa-resa" />
-          <Route path="/kassan" />
-          <Route path="/mina-biljetter" />
-        </Routes>
-      </BrowserRouter>
+      <div>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src="/vite.svg" className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://reactjs.org" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + count)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
