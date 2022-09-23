@@ -14,7 +14,7 @@ async function seedJourneys() {
     for (let { time, justOnWeekdays } of data[name]) {
       console.log(routeId, time, justOnWeekdays);
       await db.query(
-        "INSERT INTO journeys(route, startTime, justOnWeekdays) VALUES (?,?, ?)",
+        "INSERT INTO journeys(routeId, startTime, justOnWeekdays) VALUES (?,?, ?)",
         [routeId, time, justOnWeekdays]
       );
     }
@@ -23,4 +23,3 @@ async function seedJourneys() {
   console.log("Journeys populated");
 }
 seedJourneys();
-//route, startTime, justOnWeekdays
