@@ -13,11 +13,12 @@ function JourneyList(props) {
   useEffect(() => {
     async function fetchData() {
       let data = await fetch(
-        `/api/connectStationsOnJourneyId?stationNameA=${departure}&stationNameB=${arrival}`
+        `/api/connectStationsWithTimesOnJourneyId?stationNameA=${departure}&stationNameB=${arrival}`
       );
       setJourneys(await data.json());
     }
     fetchData();
+    console.log("Journeys ", journeys);
   }, []);
 
   return (

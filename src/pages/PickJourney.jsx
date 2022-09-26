@@ -14,8 +14,8 @@ import { useNavigate } from "react-router-dom";
 function PickJourney() {
   const [date, setDate] = useState("2022-09-26");
   // const [journeys, setJourneys] = useState([]);
-  const [departure, setDeparture] = useState("Stockholm C");
-  const [arrival, setArrival] = useState("Göteborg C");
+  const [departure, setDeparture] = useState("Bålsta");
+  const [arrival, setArrival] = useState("Töreboda");
   const navigate = useNavigate();
 
   /* useEffect(() => {
