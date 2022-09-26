@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import "bootstrap/dist/css/bootstrap.min.css";
+import CustomizeTrip from "./pages/CustomizeTrip";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
           website
           <Route path="/valj-tag" /> //There is a header component and we can
           use it for all other pages
-          <Route path="/anpassa-resa" />
+          <Route path="/anpassa-resa" element={<CustomizeTrip />} />
           <Route path="/kassan" />
           <Route path="/mina-biljetter" />
         </Routes>
