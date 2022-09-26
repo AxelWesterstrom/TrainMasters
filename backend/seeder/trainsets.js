@@ -31,14 +31,14 @@ async function seedTrainSets() {
       [counter]
     );
     let { insertId: trainSetId } = await db.query(
-      "INSERT INTO trainSets(locomotive) VALUES(?)",
+      "INSERT INTO trainSets(locomotiveId) VALUES(?)",
       [locomotiveId]
     );
     let carriageNumber = 1;
     for (let carriageType of train) {
       let numberOfSeats = types[carriageType];
       let { insertId: carriageId } = await db.query(
-        "INSERT INTO carriages(trainset, number, petsAllowed, firstClass, bistro) VALUES(?,?,?,?,?)",
+        "INSERT INTO carriages(trainSetId, number, petsAllowed, firstClass, bistro) VALUES(?,?,?,?,?)",
         [
           trainSetId,
           carriageNumber,
@@ -49,7 +49,7 @@ async function seedTrainSets() {
       );
       for (let seatNumber = 1; seatNumber <= numberOfSeats; seatNumber++) {
         await db.query(
-          "INSERT INTO seats(carriage, seatNumber, isHandicapSeat) VALUES(?,?,?)",
+          "INSERT INTO seats(carriageId, seatNumber, isHandicapSeat) VALUES(?,?,?)",
           [
             carriageId,
             seatNumber,
