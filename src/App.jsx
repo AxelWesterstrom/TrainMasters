@@ -17,9 +17,9 @@ function App() {
           header component and we can use it for all other pages
           <Route path='/anpassa-resa' />
           <Route path='/kassan' />
-          <Route path='/mina-biljetter' />
-          <Route path='/valj-tag' /> //There is a header component and we can
-          use it for all other pages
+          <Route path='/mina-biljetter' element={<Ticket />} />
+          <Route path='/valj-tag' element={<PickJourney />} /> //There is a
+          header component and we can use it for all other pages
           <Route path='/anpassa-resa' />
           <Route path='/kassan' />
           <Route path='/mina-biljetter' element={<Ticket />} />
