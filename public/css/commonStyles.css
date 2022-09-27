@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
+
+body{
+  font-family: 'Open Sans', sans-serif;
+}
+
+@media screen and (max-width: 600px) {
+  .body {
+    font-size: 12px;
+  }
+  .custom-lable{
+    font-size: 18px !important;
+  }
+  .back-button{    /* Arrow button on the left top conrner */
+    width: 26px !important;
+  }
+}
+
+.custom-lable{
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.custom-button{
+  width: 100px;
+  border-color: #62256A !important;
+  background-color:#62256A !important;
+}
+
+.back-button{
+  cursor: pointer;
+  width: 40px;
+}

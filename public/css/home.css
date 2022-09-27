@@ -5,11 +5,6 @@
   border-radius: 15px !important;
 }
 
-.customButton{
-  width: 100px;
-  border-color: #62256A !important;
-  background-color:#62256A !important;
-}
 .customContainer{
   padding: 20px;
   border: 7AAC71 solid;
@@ -18,7 +13,6 @@
 }
 
 .home{
-  font-family: 'Open Sans', sans-serif;
   position:absolute;
   top:0px;
   right:0px;
@@ -29,7 +23,6 @@
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
-
 }
 
 @media screen and (max-width: 600px) {
@@ -50,16 +43,9 @@
   margin-top: 1rem;
 }
 
-.customInputLabel{
-  font-weight: bold;
-  font-size: 25px;
-}
-
 .customSuggestContainer{
   background-color: rgba(255, 255, 255, 255);
   border: #7AAC71;
   border-radius: 2px;
   position: absolute;
-
-
 }

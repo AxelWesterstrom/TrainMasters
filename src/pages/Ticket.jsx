@@ -17,7 +17,7 @@ function Ticket() {
         <TicketTemplate _ />
       </Row>
       <div className="d-flex justify-content-center">
-        <Button className="ticketButton" type="submit">
+        <Button className="custom-button" type="submit">
           Fortsätt
         </Button>
       </div>

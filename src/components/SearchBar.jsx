@@ -27,19 +27,19 @@ function SearchBar({ stations }) {
             <Row className="row-centered">
               <Col className="col-lg-6 col-12">
                 <Form.Group className="mb-3" controlId="departureStation">
-                  <Form.Label className="customInputLabel">Från</Form.Label>
+                  <Form.Label className="custom-lable">Från</Form.Label>
                   <AutoSuggest stations={stations} setUserInput={setDepature} />
                 </Form.Group>
               </Col>
               <Col className="col-lg-6 col-12">
                 <Form.Group className="mb-3" controlId="destinationStation">
-                  <Form.Label className="customInputLabel">Till</Form.Label>
+                  <Form.Label className="custom-lable">Till</Form.Label>
                   <AutoSuggest stations={stations} setUserInput={setArrival} />
                 </Form.Group>
               </Col>
             </Row>
             <div className="d-flex justify-content-end">
-              <Button className="customButton" onClick={goToNextPage}>
+              <Button className="custom-button" onClick={goToNextPage}>
                 Sök
               </Button>
             </div>
@@ -48,11 +48,11 @@ function SearchBar({ stations }) {
             <Modal.Header closeButton></Modal.Header>
 
             <Modal.Body>
-              <p>Fyll i destination och avreseort!</p>
+              <p className="custom-lable">Fyll i destination och avreseort!</p>
             </Modal.Body>
 
             <Modal.Footer>
-              <Button className="customButton" onClick={handleClose}>
+              <Button className="custom-button" onClick={handleClose}>
                 Close
               </Button>
             </Modal.Footer>

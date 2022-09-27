@@ -37,28 +37,27 @@ function PickJourney() {
       <div>
         <img
           alt="arrowBack"
-          src="arrow-left.svg"
+          src="../images/arrow-left.svg"
           className="mt-2 ms-3 back-button"
           onClick={() => navigate(-1)}
         />
       </div>
 
-
       <Container className="journeyContainer">
         <Row className="d-flex justify-content-between">
           <Col className="d-flex justify-content-center">
-            <p>Resa från</p>
+            <p className="custom-lable">Resa från</p>
           </Col>
           <Col className="d-flex justify-content-center">
-            <p>Resa till</p>
-            </Col>
+            <p className="custom-lable">Resa till</p>
+          </Col>
         </Row>
         <Row className="d-flex justify-content-between">
           <Col className="d-flex justify-content-center">
-            <p>{departure}</p>
+            <p className="custom-lable">{departure}</p>
           </Col>
           <Col className="d-flex justify-content-center">
-            <p>{arrival}</p>
+            <p className="custom-lable">{arrival}</p>
           </Col>
         </Row>
 
@@ -68,7 +67,7 @@ function PickJourney() {
         </Row>
         <Row className="d-flex justify-content-end">
           <Col className="col-2">
-            <Button className="customButton mt-5" onClick={goToNextPage}>
+            <Button className="custom-button mt-5" onClick={goToNextPage}>
               Fortsätt
             </Button>
           </Col>

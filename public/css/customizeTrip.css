@@ -1,29 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
-
-.back-button{
-  cursor: pointer;
-  width: 40px;
-}
-
-@media screen and (max-width: 600px) {
-  .back-button{
-    width: 25px;
-  }
-  .body,
-  .train-info-container,
-  .class-selector-container{
-    font-size: 15px !important;
-  }
-}
-.body{
-  font-family: 'Open Sans', sans-serif;
-}
 
 .train-info-container,
 .class-selector-container
 {
   max-width: 30rem;
-  font-size: 25px;
   border: solid #7AAC71;
   border-radius: 10px;
 }
@@ -33,6 +12,7 @@
   background-color: rgba(0,0,0,0);
   
 }
+
 .change-button:hover{
   background-color: #E5EFE3 !important;
 }
