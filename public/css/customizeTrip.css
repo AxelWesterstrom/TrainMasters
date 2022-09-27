@@ -7,12 +7,6 @@
   border-radius: 10px;
 }
 
-.change-button{
-  float: right;
+.custom-button{
   background-color: rgba(0,0,0,0);
-  
-}
-
-.change-button:hover{
-  background-color: #E5EFE3 !important;
 }

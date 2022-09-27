@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
-
 .customInput{
   border-color:#7AAC71 !important;
   border-radius: 15px !important;
@@ -23,12 +21,6 @@
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
-}
-
-@media screen and (max-width: 600px) {
-  .home {
-    font-size: 15px;
-  }
 }
 
 .customSuggestionList{

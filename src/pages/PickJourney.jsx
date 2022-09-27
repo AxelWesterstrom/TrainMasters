@@ -38,40 +38,45 @@ function PickJourney() {
         <img
           alt="arrowBack"
           src="../images/arrow-left.svg"
-          className="mt-2 ms-3 back-button"
+          className="mt-2 ms-3 mb-2 back-button"
           onClick={() => navigate(-1)}
         />
       </div>
 
       <Container className="journeyContainer">
-        <Row className="d-flex justify-content-between">
-          <Col className="d-flex justify-content-center">
-            <p className="custom-lable">Resa från</p>
-          </Col>
-          <Col className="d-flex justify-content-center">
-            <p className="custom-lable">Resa till</p>
-          </Col>
-        </Row>
-        <Row className="d-flex justify-content-between">
-          <Col className="d-flex justify-content-center">
-            <p className="custom-lable">{departure}</p>
-          </Col>
-          <Col className="d-flex justify-content-center">
-            <p className="custom-lable">{arrival}</p>
-          </Col>
-        </Row>
-
+        <Container className="custom-container">
+          <Row className="d-flex justify-content-between">
+            <Col className="d-flex justify-content-start">
+              <p className="custom-label">Resa från</p>
+            </Col>
+            <Col className="d-flex justify-content-end">
+              <p className="custom-label">Resa till</p>
+            </Col>
+          </Row>
+          <Row className="d-flex justify-content-between">
+            <Col className="d-flex justify-content-start">
+              <p className="custom-label">{departure}</p>
+            </Col>
+            <Col className="d-flex justify-content-end">
+              <p className="custom-label">{arrival}</p>
+            </Col>
+          </Row>
+        </Container>
         <DateSlider {...{ date, setDate }} />
-        <Row id="journeyList">
-          <JourneyList {...{ departure, arrival }} />
-        </Row>
-        <Row className="d-flex justify-content-end">
-          <Col className="col-2">
-            <Button className="custom-button mt-5" onClick={goToNextPage}>
-              Fortsätt
-            </Button>
-          </Col>
-        </Row>
+
+        <Container className="pe-2 ps-2">
+          <Container className="info">
+            <Row className="journeyList">
+              <JourneyList {...{ departure, arrival }} />
+            </Row>
+          </Container>
+        </Container>
+
+        <Container className="d-flex justify-content-end p-5 info">
+          <Button className="custom-button mt-3 mb-5" onClick={goToNextPage}>
+            Fortsätt
+          </Button>
+        </Container>
       </Container>
     </div>
   );

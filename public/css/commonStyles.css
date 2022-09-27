@@ -8,17 +8,24 @@ body{
   .body {
     font-size: 12px;
   }
-  .custom-lable{
+  .custom-label{
     font-size: 18px !important;
+  }
+  .custom-text{
+    font-size: 16px !important;
   }
   .back-button{    /* Arrow button on the left top conrner */
     width: 26px !important;
   }
 }
 
-.custom-lable{
+.custom-label{
   font-weight: bold;
   font-size: 25px;
+}
+
+.custom-text{
+  font-size: 20px;
 }
 
 .custom-button{
