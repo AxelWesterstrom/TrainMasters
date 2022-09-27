@@ -14,7 +14,7 @@ function Header({ isMyTicketPage }) {
           <Container className="col-8 logo">
             <Navbar.Brand>
               <Nav.Link as={Link} to="/">
-                <img alt="" src="logo.svg" className="logo-img" />
+                <img alt="" src="../images/logo.svg" className="logo-img" />
               </Nav.Link>
             </Navbar.Brand>
           </Container>
@@ -27,7 +27,7 @@ function Header({ isMyTicketPage }) {
                   className="ticket-button text-center"
                 >
                   <div className="mt-2">
-                    <img src="ticket-icon.svg" className="ticket-img" />
+                    <img src="../images/ticket-icon.svg" className="ticket-img" />
                   </div>
                   <p className="ticket-button-text">Biljetter</p>
                 </Nav.Link>

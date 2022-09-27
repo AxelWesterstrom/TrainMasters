@@ -69,7 +69,7 @@ function TicketTemplate() {
             </Row>
           </Container>
           <Row className="imageRow">
-            <Image className="qrCode" src="../qrCode.svg">
+            <Image className="qrCode" src="../images/qrCode.svg">
 
             </Image>
           </Row>

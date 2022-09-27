@@ -43,6 +43,7 @@ function PickJourney() {
         />
       </div>
 
+
       <Container className="journeyContainer">
         <Row className="d-flex justify-content-between">
           <Col className="d-flex justify-content-center">
@@ -50,7 +51,7 @@ function PickJourney() {
           </Col>
           <Col className="d-flex justify-content-center">
             <p>Resa till</p>
-          </Col>
+            </Col>
         </Row>
         <Row className="d-flex justify-content-between">
           <Col className="d-flex justify-content-center">
