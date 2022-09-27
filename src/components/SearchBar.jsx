@@ -1,11 +1,20 @@
 import { Row, Col, Button, Form, Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function SearchBar() {
+  const navigate = useNavigate();
+
+  // FIXME: Validate input before preceding
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate("/valj-resa");
+  };
+
   return (
     <>
       <div className="d-flex justify-content-center mt-5 pt-5">
         <Container className="p-1 m-1">
-          <Form className="customContainer">
+          <Form className="customContainer" onSubmit={handleSubmit}>
             <Row className="row-centered">
               <Col className="col-lg-6 col-md-12">
                 <Form.Group className="mb-3" controlId="departureStation">
