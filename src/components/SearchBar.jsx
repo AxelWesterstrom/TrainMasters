@@ -1,13 +1,22 @@
-import { Row, Col, Button, Form, Container } from "react-bootstrap";
+import { Row, Col, Button, Form, Container, Modal } from "react-bootstrap";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AutoSuggest from "./AutoSuggest";
 
-function SearchBar() {
+function SearchBar({ stations }) {
+  const [departure, setDepature] = useState("");
+  const [arrival, setArrival] = useState("");
   const navigate = useNavigate();
 
-  // FIXME: Validate input before preceding
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    navigate("/valj-resa");
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+
+  const goToNextPage = () => {
+    if (departure.length !== 0 && arrival.length !== 0) {
+      navigate("/valj-resa", { state: { departure, arrival } });
+    } else {
+      setShow(true);
+    }
   };
 
   return (
@@ -16,25 +25,38 @@ function SearchBar() {
         <Container className="p-1 m-1">
           <Form className="customContainer" onSubmit={handleSubmit}>
             <Row className="row-centered">
-              <Col className="col-lg-6 col-md-12">
+              <Col className="col-lg-6 col-12">
                 <Form.Group className="mb-3" controlId="departureStation">
-                  <Form.Label>Från</Form.Label>
-                  <Form.Control type="text" className="customInput" />
+                  <Form.Label className="customInputLabel">Från</Form.Label>
+                  <AutoSuggest stations={stations} setUserInput={setDepature} />
                 </Form.Group>
               </Col>
-              <Col className="col-lg-6 col-md-12">
+              <Col className="col-lg-6 col-12">
                 <Form.Group className="mb-3" controlId="destinationStation">
-                  <Form.Label>Till</Form.Label>
-                  <Form.Control type="text" className="customInput" />
+                  <Form.Label className="customInputLabel">Till</Form.Label>
+                  <AutoSuggest stations={stations} setUserInput={setArrival} />
                 </Form.Group>
               </Col>
             </Row>
             <div className="d-flex justify-content-end">
-              <Button className="customButton" type="submit">
+              <Button className="customButton" onClick={goToNextPage}>
                 Sök
               </Button>
             </div>
           </Form>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton></Modal.Header>
+
+            <Modal.Body>
+              <p>Fyll i destination och avreseort!</p>
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button className="customButton" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </Container>
       </div>
     </>

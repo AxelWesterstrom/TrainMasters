@@ -1,0 +1,49 @@
+.pickJourney {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+#journeyItem {
+  border: 1px solid #7aac71;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 20px;
+}
+
+#journeyItem:hover {
+  border: 1px solid #7aac71;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: rgba(122, 172, 113, 0.1);
+  margin: 20px;
+}
+
+#journeyList {
+  border: 1px solid #7aac71;
+  border-radius: 5px;
+  width: 60%;
+  margin: auto;
+  padding: 30px;
+  justify-content: center;
+}
+
+.departAndArrivalStations {
+  margin-bottom: 150px;
+}
+
+#departure {
+  margin-top: 20px;
+  text-align: start;
+}
+
+#arrival {
+  margin-top: 20px;
+  text-align: end;
+}
+
+.dateSlider {
+  justify-content: center;
+}

@@ -3,7 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Picker from "./pages/Picker.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Header from "./components/Header";
+import CustomizeTrip from "./pages/CustomizeTrip";
+import PickJourney from "./pages/PickJourney";
+import Ticket from "./pages/Ticket";
 
 function App() {
   return (
@@ -11,13 +13,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/valj-resa" element={<Picker />} /> //we have route path
-          in swedish like SJ's website
-          <Route path="/valj-tag" /> //There is a header component and we can
-          use it for all other pages
-          <Route path="/anpassa-resa" />
+          <Route path="/valj-resa" element={<Picker />} />
+          <Route path="/valj-tag" element={<PickJourney />} />
+          <Route path="/anpassa-resa" element={<CustomizeTrip />} />
           <Route path="/kassan" />
-          <Route path="/mina-biljetter" />
+          <Route path="/mina-biljetter" element={<Ticket />} />
         </Routes>
       </BrowserRouter>
     </div>

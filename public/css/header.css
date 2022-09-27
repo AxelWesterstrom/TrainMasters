@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
+
+.body{
+   font-family: 'Open Sans', sans-serif;
+}
+
+.logo{
+  display: flex;
+  justify-content: center !important;
+}
+
+.logo-img{
+  width: 200px;
+  height: 70px;
+}
+
+@media screen and (max-width: 600px) {
+  .logo{
+    display: flex;
+    justify-content: end !important;
+  }
+  .logo-img{
+    width: 140px;
+    height: 45px;
+  }
+  .ticket-img{
+    width:20px;
+  }
+  .ticket-button-text{
+    font-size: smaller;
+  }
+}
+
+.ticket-button{
+  color: #ffff !important;
+}
+
+
+
+
