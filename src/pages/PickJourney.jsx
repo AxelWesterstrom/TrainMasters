@@ -45,7 +45,7 @@ function PickJourney() {
           <Col className='mt-3'>
             <img
               alt='arrowBack'
-              src='arrow-back.svg'
+              src='../images/arrow-back.svg'
               width='100'
               height='100'
               onClick={() => navigate(-1)}

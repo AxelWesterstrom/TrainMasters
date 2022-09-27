@@ -44,7 +44,7 @@ function CustomizeTrip() {
       <Header />
       <div className="body">
         <div>
-          <img src="arrow-left.svg" className="mt-2 ms-3 back-button" />
+          <img src="../images/arrow-left.svg" className="mt-2 ms-3 back-button" />
         </div>
         <Container className="p-2">
           <Container className="train-info-container p-5">

@@ -34,7 +34,7 @@ function DateSlider(props) {
       <Col className='col-2 item-justify-end'>
         <img
           alt='left-arrow'
-          src='left-arrow.png'
+          src='../images/left-arrow.png'
           width='150'
           height='100'
           onClick={() => handleDateChange(-1)}
@@ -46,7 +46,7 @@ function DateSlider(props) {
       <Col className='col-2 item-justify-start'>
         <img
           alt='right-arrow'
-          src='right-arrow.png'
+          src='../images/right-arrow.png'
           width='150'
           height='100'
           onClick={() => handleDateChange(1)}
