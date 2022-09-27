@@ -3,19 +3,15 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import JourneyList from "../components/JourneyList";
 import DateSlider from "../components/DateSlider";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import "../../public/css/journey.css";
-import "../../public/css/home.css";
 import { useNavigate } from "react-router-dom";
 
 function PickJourney() {
   const [date, setDate] = useState("2022-09-26");
   // const [journeys, setJourneys] = useState([]);
-  const [departure, setDeparture] = useState("Bålsta");
-  const [arrival, setArrival] = useState("Töreboda");
+  const [departure, setDeparture] = useState("Trelleborg");
+  const [arrival, setArrival] = useState("Malmö C");
   const navigate = useNavigate();
 
   /* useEffect(() => {
@@ -36,41 +32,42 @@ function PickJourney() {
   };
 
   return (
-    <div className='pickJourney'>
-      <div className='header'>
-        <Header />
+    <div className="pickJourney">
+      <Header />
+      <div>
+        <img
+          alt="arrowBack"
+          src="arrow-left.svg"
+          className="mt-2 ms-3 back-button"
+          onClick={() => navigate(-1)}
+        />
       </div>
-      <Container className='journeyContainer'>
-        <Row className='justify-content-start'>
-          <Col className='mt-3'>
-            <img
-              alt='arrowBack'
-              src='arrow-back.svg'
-              width='100'
-              height='100'
-              onClick={() => navigate(-1)}
-            />
+
+      <Container className="journeyContainer">
+        <Row className="d-flex justify-content-between">
+          <Col className="d-flex justify-content-center">
+            <p>Resa från</p>
+          </Col>
+          <Col className="d-flex justify-content-center">
+            <p>Resa till</p>
           </Col>
         </Row>
-        <Row className='departAndArrivalStations'>
-          <Col id='departure'>
-            <h2>Resa från</h2>
-            <br></br>
-            <h2>{departure}</h2>
+        <Row className="d-flex justify-content-between">
+          <Col className="d-flex justify-content-center">
+            <p>{departure}</p>
           </Col>
-          <Col id='arrival' className='text-align-center'>
-            <h2>Resa till</h2>
-            <br></br>
-            <h2>{arrival}</h2>
+          <Col className="d-flex justify-content-center">
+            <p>{arrival}</p>
           </Col>
         </Row>
+
         <DateSlider {...{ date, setDate }} />
-        <Row id='journeyList'>
+        <Row id="journeyList">
           <JourneyList {...{ departure, arrival }} />
         </Row>
-        <Row className='d-flex justify-content-end'>
-          <Col className='col-2'>
-            <Button className='customButton mt-5' onClick={goToNextPage}>
+        <Row className="d-flex justify-content-end">
+          <Col className="col-2">
+            <Button className="customButton mt-5" onClick={goToNextPage}>
               Fortsätt
             </Button>
           </Col>

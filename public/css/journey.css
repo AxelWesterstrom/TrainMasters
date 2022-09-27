@@ -1,10 +1,3 @@
-.pickJourney {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-}
 
 #journeyItem {
   border: 1px solid #7aac71;
@@ -30,20 +23,11 @@
   justify-content: center;
 }
 
-.departAndArrivalStations {
-  margin-bottom: 150px;
-}
-
-#departure {
-  margin-top: 20px;
-  text-align: start;
-}
-
-#arrival {
-  margin-top: 20px;
-  text-align: end;
-}
-
 .dateSlider {
   justify-content: center;
+}
+
+.back-button{
+  cursor: pointer;
+  width: 40px;
 }
