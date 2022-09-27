@@ -60,25 +60,25 @@ function Journey(props) {
       <Row className='mt-3 mb-3'>
         {!!hasHandicapSeats && (
           <Col className='col-1' id='wheelchair'>
-            <img alt='wheelchair' src='wheelchair.svg' width='50' height='50' />
+            <img alt='wheelchair' src='../images/wheelchair.svg' width='50' height='50' />
           </Col>
         )}
         {!!hasBistro && (
           <Col className='col-1' id='knifeAndFork'>
             <img
               alt='knifeAndFork'
-              src='knife-and-fork.svg'
+              src='../images/knife-and-fork.svg'
               width='50'
               height='50'
             />
           </Col>
         )}
         <Col className='col-1' id='wifi'>
-          <img alt='wifi' src='wifi.svg' width='50' height='50' />
+          <img alt='wifi' src='../images/wifi.svg' width='50' height='50' />
         </Col>
         {!!isPetsAllowed && (
           <Col className='col-1' id='dog'>
-            <img alt='dog' src='dog.svg' width='50' height='50' />
+            <img alt='dog' src='../images/dog.svg' width='50' height='50' />
           </Col>
         )}
         <Col className='col-5'></Col>
