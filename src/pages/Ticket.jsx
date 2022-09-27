@@ -7,10 +7,11 @@ import { Row, Col, Button, Form, Container } from "react-bootstrap";
 
 
 function Ticket() {
+  const isMyTicketPage = true; //added one variable to control the my-tickets button on the header
   return (
     <>
       <Row className="header">
-        <Header />
+        <Header isMyTicketPage={isMyTicketPage} />
       </Row>
       <Row>
         <TicketTemplate _ />
@@ -21,7 +22,6 @@ function Ticket() {
         </Button>
       </div>
     </>
-
   );
 }
 export default Ticket;

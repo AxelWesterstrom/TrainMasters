@@ -5,20 +5,7 @@ import { Container, Navbar, Nav } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import style from "../../public/css/header.css";
 
-function Header() {
-  const location = useLocation();
-  const [currentRoute, setCurrentRoute] = useState("");
-  const [isMyTicketPage, setIsMyTicketPage] = useState(false);
-
-  useEffect(() => {
-    setCurrentRoute(location.pathname);
-    if (currentRoute == "/mina-biljetter") {
-      setIsMyTicketPage(true);
-    } else {
-      setIsMyTicketPage(false);
-    }
-  }, [location]);
-
+function Header({ isMyTicketPage }) {
   return (
     <>
       <Navbar style={{ background: "#4C2C50" }} expand="lg" className="body">
