@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PickJourney from "./pages/PickJourney";
+import Ticket from "./pages/Ticket";
 
 function App() {
   return (
@@ -17,6 +18,11 @@ function App() {
           <Route path='/anpassa-resa' />
           <Route path='/kassan' />
           <Route path='/mina-biljetter' />
+          <Route path='/valj-tag' /> //There is a header component and we can
+          use it for all other pages
+          <Route path='/anpassa-resa' />
+          <Route path='/kassan' />
+          <Route path='/mina-biljetter' element={<Ticket />} />
         </Routes>
       </BrowserRouter>
     </div>
