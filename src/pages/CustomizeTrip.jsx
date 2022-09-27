@@ -39,32 +39,43 @@ function CustomizeTrip() {
     navigate("/valj-tag");
   };
 
+  const goToNextPage = () => {
+    navigate("/kassan");
+  };
+
   return (
     <>
       <Header />
       <div className="body">
-        <div>
+        <div onClick={handleClick}>
           <img
             src="../images/arrow-left.svg"
             className="mt-2 ms-3 back-button"
           />
         </div>
-        <Container className="p-2">
-          <Container className="train-info-container p-5">
-            <Container className="m-3">
-              <p className="custom-label">
-                {train.depature} - {train.arrival}
-              </p>
-              <p className="custom-label">{train.date}</p>
-              <p className="custom-label">{train.time}</p>
-              <Button className="custom-button" onClick={handleClick}>
-                Ändra
-              </Button>
+        <Container>
+          <Container className="p-2">
+            <Container className="train-info-container p-5">
+              <Container className="m-3">
+                <p className="custom-label">
+                  {train.depature} - {train.arrival}
+                </p>
+                <p className="custom-label">{train.date}</p>
+                <p className="custom-label">{train.time}</p>
+                <Button className="custom-button" onClick={handleClick}>
+                  Ändra
+                </Button>
+              </Container>
             </Container>
           </Container>
+          <ClassSelector />
+          <SeatsSelector />
         </Container>
-        <ClassSelector />
-        <SeatsSelector />
+        <Container className="d-flex justify-content-end  info">
+          <Button className="custom-button mt-3 mb-5" onClick={goToNextPage}>
+            Fortsätt
+          </Button>
+        </Container>
       </div>
     </>
   );

@@ -14,10 +14,10 @@
     height: 45px;
   }
   .ticket-img{
-    width:20px;
+    width:22px !important;
   }
   .ticket-button-text{
-    font-size: smaller;
+    font-size: small;
   }
 }
 
