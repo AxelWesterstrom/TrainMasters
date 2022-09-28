@@ -71,7 +71,7 @@ function SeatsSelector() {
             <div
               key={seat.number}
               onClick={() => checkSeatNumber(seat.number)}
-              className="seat"
+              className="seat col-1"
             >
               <img
                 key={seat.number}
@@ -84,11 +84,11 @@ function SeatsSelector() {
           return (
             <div>
               {changeRow && allSeats.length === 3 && (
-                <div className="seat-row">
+                <Row className="seat-row">
                   {allSeats.map((x) => {
                     return x;
                   })}
-                </div>
+                </Row>
               )}
             </div>
           );

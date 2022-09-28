@@ -42,8 +42,10 @@ input[type="radio"]:checked{
   justify-content: flex-end;
 }
 
-.carriage-container{
-  position: fixed;
-  left: 45%;
-  top: 20%;
+.seat{
+  max-width: 3rem;
+}
+
+.seat:first-child{
+  margin-left: 40px;
 }
