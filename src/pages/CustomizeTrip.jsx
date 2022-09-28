@@ -76,6 +76,7 @@ function CustomizeTrip() {
           <Container className="p-2">
             <Container className="seat-selector-container p-5">
               <p className="custom-label m-4" onClick={goToChooseSeats}>
+                <img src="../images/plus-icon.svg" className="custom-icon" />
                 Välj plats
               </p>
             </Container>

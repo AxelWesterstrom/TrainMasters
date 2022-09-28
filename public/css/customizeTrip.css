@@ -19,3 +19,31 @@
 input[type="radio"]:checked{
   background-color: #62256A;
 }
+
+.custom-label{
+  cursor: pointer;
+}
+
+.custom-icon{
+  width: 28px !important;
+  margin-right: 10px;
+}
+
+@media screen and (max-width: 600px) {
+
+  .custom-icon{
+    width:10px !important;
+  }
+}
+
+.seat-row{
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.carriage-container{
+  position: fixed;
+  left: 45%;
+  top: 20%;
+}
