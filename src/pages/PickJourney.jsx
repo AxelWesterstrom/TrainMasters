@@ -3,10 +3,7 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import JourneyList from "../components/JourneyList";
 import DateSlider from "../components/DateSlider";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
+import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import "../../public/css/journey.css";
 import "../../public/css/home.css";
 import { useNavigate } from "react-router-dom";
@@ -14,67 +11,91 @@ import { useNavigate } from "react-router-dom";
 function PickJourney() {
   const [date, setDate] = useState("2022-09-26");
   // const [journeys, setJourneys] = useState([]);
-  const [departure, setDeparture] = useState("Bålsta");
-  const [arrival, setArrival] = useState("Töreboda");
+  const [departure, setDeparture] = useState("Trelleborg");
+  const [arrival, setArrival] = useState("Malmö C");
+  const [chosenJourney, setChosenJourney] = useState();
   const navigate = useNavigate();
 
-  /* useEffect(() => {
-    async function fetchData() {
-      let data = await fetch(
-        `/api/connectStationsOnJourneyId?stationNameA=${departure}&stationNameB=${arrival}`
-      );
-      setJourneys(await data.json());
-    }
-    fetchData();
-    console.log("Journeys", journeys);
-  }, []);*/
+  const [showModal, setShowModal] = useState(false);
+  const handleClose = () => setShowModal(false);
 
   const goToNextPage = () => {
-    //if (!journey.length === 0) {
-    navigate("/anpassa-resa", { state: { departure, arrival } });
-    //  }
+    if (chosenJourney !== undefined) {
+      navigate("/anpassa-resa", {
+        state: { chosenJourney, date, departure, arrival }
+      });
+    } else {
+      setShowModal(true);
+    }
   };
 
   return (
     <div className='pickJourney'>
-      <div className='header'>
-        <Header />
+      <Header />
+      <div>
+        <img
+          alt='arrowBack'
+          src='../images/arrow-left.svg'
+          className='mt-2 ms-3 mb-2 back-button'
+          onClick={() => navigate("/valj-resa")}
+        />
       </div>
+
       <Container className='journeyContainer'>
-        <Row className='justify-content-start'>
-          <Col className='mt-3'>
-            <img
-              alt='arrowBack'
-              src='arrow-back.svg'
-              width='100'
-              height='100'
-              onClick={() => navigate(-1)}
-            />
-          </Col>
-        </Row>
-        <Row className='departAndArrivalStations'>
-          <Col id='departure'>
-            <h2>Resa från</h2>
-            <br></br>
-            <h2>{departure}</h2>
-          </Col>
-          <Col id='arrival' className='text-align-center'>
-            <h2>Resa till</h2>
-            <br></br>
-            <h2>{arrival}</h2>
-          </Col>
-        </Row>
+        <Container className='custom-container'>
+          <Row className='d-flex justify-content-between'>
+            <Col className='d-flex justify-content-start'>
+              <p className='custom-label'>Resa från</p>
+            </Col>
+            <Col className='d-flex justify-content-end'>
+              <p className='custom-label'>Resa till</p>
+            </Col>
+          </Row>
+          <Row className='d-flex justify-content-between'>
+            <Col className='d-flex justify-content-start'>
+              <p className='custom-label'>{departure}</p>
+            </Col>
+            <Col className='d-flex justify-content-end'>
+              <p className='custom-label'>{arrival}</p>
+            </Col>
+          </Row>
+        </Container>
         <DateSlider {...{ date, setDate }} />
-        <Row id='journeyList'>
-          <JourneyList {...{ departure, arrival }} />
-        </Row>
-        <Row className='d-flex justify-content-end'>
-          <Col className='col-2'>
-            <Button className='customButton mt-5' onClick={goToNextPage}>
-              Fortsätt
+
+        <Container className='pe-2 ps-2'>
+          <Container className='info'>
+            <Row className='journeyList'>
+              <JourneyList
+                {...{
+                  date,
+                  departure,
+                  arrival,
+                  chosenJourney,
+                  setChosenJourney
+                }}
+              />
+            </Row>
+          </Container>
+        </Container>
+
+        <Container className='d-flex justify-content-end p-5 info'>
+          <Button className='custom-button mt-3 mb-5' onClick={goToNextPage}>
+            Fortsätt
+          </Button>
+        </Container>
+        <Modal show={showModal} onHide={handleClose}>
+          <Modal.Header closeButton></Modal.Header>
+
+          <Modal.Body>
+            <p className='custom-label'>Välj en resa!</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button className='custom-button' onClick={handleClose}>
+              Close
             </Button>
-          </Col>
-        </Row>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </div>
   );

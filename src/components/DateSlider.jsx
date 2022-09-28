@@ -1,6 +1,5 @@
 import { useState } from "react";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+import { Container, Col, Row } from "react-bootstrap";
 import "../../public/css/journey.css";
 
 function DateSlider(props) {
@@ -27,32 +26,29 @@ function DateSlider(props) {
   }
 
   return (
-    <Row
-      id='dateSlider'
-      className='row d-flex justify-content-center text-center'
-    >
-      <Col className='col-2 item-justify-end'>
-        <img
-          alt='left-arrow'
-          src='left-arrow.png'
-          width='150'
-          height='100'
-          onClick={() => handleDateChange(-1)}
-        />
-      </Col>
-      <Col className='col-4 mt-4'>
-        <h3>{date}</h3>
-      </Col>
-      <Col className='col-2 item-justify-start'>
-        <img
-          alt='right-arrow'
-          src='right-arrow.png'
-          width='150'
-          height='100'
-          onClick={() => handleDateChange(1)}
-        />
-      </Col>
-    </Row>
+    <Container className='custom-container'>
+      <Row id='dateSlider' className='row d-flex align-item-center m-1'>
+        <Col className='col-3 d-flex justify-content-center'>
+          <img
+            alt='left-arrow'
+            src='../images/left-arrow.png'
+            className='date-arrow-left'
+            onClick={() => handleDateChange(-1)}
+          />
+        </Col>
+        <Col className='col-6 d-flex justify-content-center align-items-center'>
+          <p className='custom-label'>{date}</p>
+        </Col>
+        <Col className='col-3 d-flex justify-content-center'>
+          <img
+            alt='right-arrow'
+            src='../images/right-arrow.png'
+            className='date-arrow-right'
+            onClick={() => handleDateChange(1)}
+          />
+        </Col>
+      </Row>
+    </Container>
   );
 }
 export default DateSlider;

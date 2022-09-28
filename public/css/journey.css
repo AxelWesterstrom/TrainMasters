@@ -1,16 +1,6 @@
-.pickJourney {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-}
-
-#journeyItem {
-  border: 1px solid #7aac71;
-  border-radius: 5px;
-  padding: 20px;
-  margin: 20px;
+.journeyItem {
+  border: solid #7aac71;
+  border-radius: 10px;
 }
 
 #journeyItem:hover {
@@ -20,30 +10,45 @@
   background-color: rgba(122, 172, 113, 0.1);
   margin: 20px;
 }
-
-#journeyList {
-  border: 1px solid #7aac71;
-  border-radius: 5px;
-  width: 60%;
-  margin: auto;
-  padding: 30px;
-  justify-content: center;
+.journeyItem:active {
+  background-color: rgba(122, 172, 113, 0.1);
 }
 
-.departAndArrivalStations {
-  margin-bottom: 150px;
+.journeyList {
+  padding: 25px;
+  border: solid #7aac71;
+  border-radius: 10px;
 }
 
-#departure {
-  margin-top: 20px;
-  text-align: start;
+.back-button {
+  cursor: pointer;
+  width: 40px;
 }
 
-#arrival {
-  margin-top: 20px;
-  text-align: end;
+.info,
+.custom-container {
+  max-width: 45rem !important;
 }
 
-.dateSlider {
-  justify-content: center;
+.custom-icon {
+  width: 35px;
+}
+
+.date-arrow-right,
+.date-arrow-left {
+  width: 95px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .custom-icon {
+    width: 23px !important;
+  }
+  .date-arrow-right,
+  .date-arrow-left {
+    width: 75px;
+  }
+  .journeyList {
+    padding: 15px;
+  }
 }
