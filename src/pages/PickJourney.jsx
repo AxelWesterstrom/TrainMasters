@@ -5,7 +5,6 @@ import JourneyList from "../components/JourneyList";
 import DateSlider from "../components/DateSlider";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import "../../public/css/journey.css";
-import "../../public/css/home.css";
 import { useNavigate } from "react-router-dom";
 
 function PickJourney() {

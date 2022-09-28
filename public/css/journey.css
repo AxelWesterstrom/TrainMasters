@@ -3,12 +3,8 @@
   border-radius: 10px;
 }
 
-#journeyItem:hover {
-  border: 1px solid #7aac71;
-  border-radius: 5px;
-  padding: 20px;
+.journeyItem:hover {
   background-color: rgba(122, 172, 113, 0.1);
-  margin: 20px;
 }
 .journeyItem:active {
   background-color: rgba(122, 172, 113, 0.1);

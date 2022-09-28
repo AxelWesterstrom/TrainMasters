@@ -28,11 +28,8 @@ padding-left: 40px;
  flex: none;
 }
 
-.ticketButton {
+.custom-button {
   margin-top: 20px;
-  width: 100px;
-  border-color: #62256A !important;
-  background-color: #62256A !important;
 }
 
 .imageRow{

@@ -86,7 +86,6 @@ function Journey(props) {
             <img alt='dog' className='custom-icon' src='../images/dog.svg' />
           </Col>
         )}
-        <Col className='col-5'></Col>
       </Row>
       <Row className='p-2 mt-1'>
         <Col className='content-justify-start'>
