@@ -55,14 +55,7 @@ function JourneyList(props) {
   function handleClickedJourney(journey) {
     setChosenJourney({ ...journey });
   }
-  /*
-  function formatDate(d) {
-    let year = d.getFullYear();
-    let month = d.getMonth() < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
-    let date = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
-    return year + "-" + month + "-" + date;
-  }
-*/
+
   return (
     <>
       {!!weekday &&
