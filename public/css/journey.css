@@ -1,6 +1,7 @@
 .journeyItem {
   border: solid #7aac71;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .journeyItem:hover {

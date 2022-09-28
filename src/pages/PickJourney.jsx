@@ -28,6 +28,18 @@ function PickJourney() {
     }
   };
 
+  function formatDate(date) {
+    let d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  }
+
   return (
     <div className='pickJourney'>
       <Header />
@@ -59,7 +71,7 @@ function PickJourney() {
             </Col>
           </Row>
         </Container>
-        <DateSlider {...{ date, setDate }} />
+        <DateSlider {...{ date, setDate, formatDate }} />
 
         <Container className='pe-2 ps-2'>
           <Container className='info'>
@@ -70,7 +82,8 @@ function PickJourney() {
                   departure,
                   arrival,
                   chosenJourney,
-                  setChosenJourney
+                  setChosenJourney,
+                  formatDate
                 }}
               />
             </Row>

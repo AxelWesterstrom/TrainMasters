@@ -4,54 +4,95 @@ import Journey from "./Journey";
 import "../../public/css/journey.css";
 
 function JourneyList(props) {
-  let { date, departure, arrival, chosenJourney, setChosenJourney } = props;
+  let {
+    date,
+    departure,
+    arrival,
+    chosenJourney,
+    setChosenJourney,
+    formatDate
+  } = props;
   const [journeys, setJourneys] = useState([]);
   const [weekday, setWeekday] = useState(true);
-  let holidays;
+  const [holidays, setHolidays] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-      let holidayData = await fetch(`/api/holidays/1`);
-      holidays = await holidayData.json();
       let data = await fetch(
         `/api/connectStationsWithTimesOnJourneyId?stationNameA=${departure}&stationNameB=${arrival}`
       );
       setJourneys(await data.json());
-      console.log(holidays);
+      let holidayData = await fetch("/api/holidays");
+      setHolidays(await holidayData.json());
     }
     fetchData();
   }, []);
 
   useEffect(() => {
-    () => {
-      console.log("Running datecheck");
-      let d = new Date(date);
-      let day = d.getDay();
-      if (/*holidays.includes(date) ||*/ day === 6 || day === 5) {
-        console.log("it is a holiday");
-        setWeekday(false);
+    function weekdayCheck() {
+      let day = new Date(date).getDay();
+      let isHoliday = false;
+      for (let i = 0; i < holidays.length; i++) {
+        let holidayDate = new Date(holidays[i].date);
+        let holidayDateString = formatDate(holidayDate);
+        if (holidayDateString === date) {
+          isHoliday = true;
+          break;
+        } else {
+          isHoliday = false;
+        }
       }
-    };
+      console.log(isHoliday);
+      if (isHoliday || day === 6 || day === 0) {
+        setWeekday(false);
+      } else {
+        setWeekday(true);
+      }
+    }
+    weekdayCheck(date);
   }, [date]);
 
   function handleClickedJourney(journey) {
     setChosenJourney({ ...journey });
   }
-
+  /*
+  function formatDate(d) {
+    let year = d.getFullYear();
+    let month = d.getMonth() < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+    let date = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+    return year + "-" + month + "-" + date;
+  }
+*/
   return (
     <>
-      {journeys.map((journey, index) => (
-        <Journey
-          key={index}
-          {...{
-            weekday,
-            journey,
-            chosenJourney,
-            setChosenJourney,
-            handleClickedJourney
-          }}
-        />
-      ))}
+      {!!weekday &&
+        journeys.map((journey, index) => (
+          <Journey
+            key={index}
+            {...{
+              weekday,
+              journey,
+              chosenJourney,
+              setChosenJourney,
+              handleClickedJourney
+            }}
+          />
+        ))}
+      {!weekday &&
+        journeys
+          .filter(journey => journey.justOnWeekdays === 0)
+          .map((journey, index) => (
+            <Journey
+              key={index}
+              {...{
+                weekday,
+                journey,
+                chosenJourney,
+                setChosenJourney,
+                handleClickedJourney
+              }}
+            />
+          ))}
     </>
   );
 }

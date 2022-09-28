@@ -17,7 +17,7 @@ function Journey(props) {
     journeyId
   } = journey;
   let price = 350;
-  const [hasBistro, setHasBistro] = useState(true);
+  const [hasBistro, setHasBistro] = useState(false);
   const [hasHandicapSeats, setHasHandicapSeats] = useState(true);
   const [isPetsAllowed, setIsPetsAllowed] = useState(true);
 
@@ -69,6 +69,14 @@ function Journey(props) {
             />
           </Col>
         )}
+        <Col className='col-2' id='wifi'>
+          <img alt='wifi' className='custom-icon' src='../images/wifi.svg' />
+        </Col>
+        {!!isPetsAllowed && (
+          <Col className='col-2' id='dog'>
+            <img alt='dog' className='custom-icon' src='../images/dog.svg' />
+          </Col>
+        )}
         {!!hasBistro && (
           <Col className='col-2' id='knifeAndFork'>
             <img
@@ -76,14 +84,6 @@ function Journey(props) {
               className='custom-icon'
               src='../images/knife-and-fork.svg'
             />
-          </Col>
-        )}
-        <Col className='col-2' id='wifi'>
-          <img alt='wifi' className='custom-icon' src='../images/wifi.svg' />
-        </Col>
-        {!!isPetsAllowed && (
-          <Col className='col-2' id='dog'>
-            <img alt='dog' className='custom-icon' src='../images/dog.svg' />
           </Col>
         )}
       </Row>

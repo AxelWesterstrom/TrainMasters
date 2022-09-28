@@ -3,7 +3,7 @@ import { Container, Col, Row } from "react-bootstrap";
 import "../../public/css/journey.css";
 
 function DateSlider(props) {
-  const { date, setDate } = props;
+  const { date, setDate, formatDate } = props;
 
   function handleDateChange(change) {
     let dateToChange = new Date(date);
@@ -11,18 +11,6 @@ function DateSlider(props) {
     let d = new Date(newDate);
     let dateToSet = formatDate(d);
     setDate(dateToSet);
-  }
-
-  function formatDate(date) {
-    let d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    return [year, month, day].join("-");
   }
 
   return (
