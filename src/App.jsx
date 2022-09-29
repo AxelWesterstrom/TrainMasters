@@ -8,7 +8,6 @@ import Ticket from "./pages/Ticket";
 import styles from "../public/css/commonStyles.css"; // Common styling for all pages
 import SeatsSelector from "./components/SeatsSelector";
 
-
 function App() {
   return (
     <div className="App">

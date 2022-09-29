@@ -23,3 +23,4 @@ async function seedJourneys() {
   console.log("Journeys populated");
 }
 seedJourneys();
+
