@@ -27,6 +27,7 @@ function SearchBar({ stations }) {
             <Row className="row-centered">
               <Col className="col-lg-6 col-12">
                 <Form.Group className="mb-3" controlId="departureStation">
+
                   <Form.Label className="custom-label">Från</Form.Label>
                   <AutoSuggest stations={stations} setUserInput={setDepature} />
                 </Form.Group>
