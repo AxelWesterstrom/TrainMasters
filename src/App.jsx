@@ -18,7 +18,6 @@ function App() {
           <Route path="/valj-resa" />
           <Route path="/valj-tag" element={<PickJourney />} />
           <Route path="/anpassa-resa" element={<CustomizeTrip />} />
-          <Route path="/valj-plats" element={<SeatsSelector />} />
           <Route path="/kassan" />
           <Route path="/mina-biljetter" element={<Ticket />} />
         </Routes>

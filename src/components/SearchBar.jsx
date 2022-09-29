@@ -11,6 +11,7 @@ function SearchBar({ stations }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
+  //should check if departure and arrival is in same route, should fetch routesWithStations view
   const goToNextPage = () => {
     if (departure.length !== 0 && arrival.length !== 0) {
       navigate("/valj-resa", { state: { departure, arrival } });

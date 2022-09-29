@@ -6,34 +6,64 @@ import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import CarriageSelector from "../components/CarriageSelector";
 
 function CustomizeTrip() {
   const navigate = useNavigate();
   // const { state } = useLocation();
   // const { train } = state;
+  const [showModal, setShowModal] = useState(false);
 
   let train = {
-    date: "2022-10-20",
-    time: "17:00",
-    depature: "Malmö C",
-    arrival: "Göteborg C",
-    routeId: 2,
+    //This should be fetch from the former page - "valj-tag"
+    date: "2022-09-23",
+    departure: 103,
+    arrival: 97,
+    journeyId: 8,
   };
 
-  const [data, setData] = useState("");
+  const [bookedSeats, setBookedSeats] = useState();
+  const [routeAndTrainSet, setRouteAndTrainSet] = useState();
+  const [trainSetAndCarriages, setTrainSetAndCarriages] = useState();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await fetch(
-  //       `/api/journeysWithRoutesWithStationsAndCarriagesWithSeats/?routeId=${train.routeId}`
-  //     ).then((res) => {
-  //       if (res.ok) {
-  //         setData(res.json());
-  //       }
-  //     });
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetch(
+        `/api/bookingPartsWithDepartureAndArrivalStationInfo/?date=${train.date.slice(
+          0,
+          10
+        )}&departureStationDeparture<=${
+          train.departure
+        }&arrivalStationArrival>=${train.arrival}&journeyId=${train.journeyId}`
+      ).then((res) => {
+        if (res.ok) {
+          setBookedSeats(res.json());
+        }
+      });
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetch(`/api/routes/?id=${bookedSeats[0].routeId}`).then((res) => {
+        if (res.ok) {
+          setRouteAndTrainSet(res.json());
+        }
+      });
+    };
+    fetchData();
+  }, []);
+
+  // bookedSeats.map((x) => {
+  //   console.log(x);
+  // });
+
+  //What if there is no booking?
+  //Check the data if it's empty
+
+  //Need trainsetId and carriageId in occupiedSeatIdWithDateAndJourneyId
+  //Eventually also need carriagesAndSeats view
 
   const handleClick = () => {
     navigate("/valj-tag");
@@ -44,7 +74,7 @@ function CustomizeTrip() {
   };
 
   const goToChooseSeats = () => {
-    navigate("/valj-plats");
+    setShowModal(true);
   };
 
   return (
@@ -82,6 +112,7 @@ function CustomizeTrip() {
             </Container>
           </Container>
         </Container>
+        <CarriageSelector showModal={showModal} setShowModal={setShowModal} />
 
         <Container className="d-flex justify-content-end  info">
           <Button className="custom-button mt-3 mb-5" onClick={goToNextPage}>
