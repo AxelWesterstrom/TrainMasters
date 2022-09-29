@@ -36,16 +36,16 @@ input[type="radio"]:checked{
   }
 }
 
-.seat-row{
+/* .seat-row{
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
-}
+} */
 
 .seat{
   max-width: 3rem;
 }
 
-.seat:first-child{
-  margin-left: 40px;
+.seat-row:first-child{
+  margin-bottom: 40px;
 }

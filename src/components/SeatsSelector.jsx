@@ -82,7 +82,7 @@ function SeatsSelector() {
           );
 
           return (
-            <div>
+            <>
               {changeRow && allSeats.length === 3 && (
                 <Row className="seat-row">
                   {allSeats.map((x) => {
@@ -90,7 +90,7 @@ function SeatsSelector() {
                   })}
                 </Row>
               )}
-            </div>
+            </>
           );
         })}
       </Container>

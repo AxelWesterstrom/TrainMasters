@@ -16,54 +16,79 @@ function CustomizeTrip() {
 
   let train = {
     //This should be fetch from the former page - "valj-tag"
-    date: "2022-09-23",
-    departure: 103,
-    arrival: 97,
-    journeyId: 8,
+    arrivalOffsetA: null,
+
+    arrivalOffsetB: 32,
+
+    arrivalTimeA: null,
+
+    arrivalTimeB: "12:32",
+
+    departureOffsetA: 0,
+
+    departureOffsetB: 34,
+
+    departureTimeA: "12:00",
+
+    departureTimeB: "12:34",
+
+    journeyId: 15,
+
+    justOnWeekdays: 0,
+
+    platformA: 2,
+
+    platformB: 3,
+
+    routeId: 6,
+
+    routeName: "Trelleborg - Helsingborg C",
+
+    startTime: "12:00",
+
+    stationIdA: 90,
+
+    stationIdB: 96,
+
+    stationNameA: "Trelleborg",
+
+    stationNameB: "Malmö C",
+
+    trainSetId: 3,
   };
 
-  const [bookedSeats, setBookedSeats] = useState();
-  const [routeAndTrainSet, setRouteAndTrainSet] = useState();
+  let date = "2022-09-26";
+  let departure = "Trelleborg";
+  let arrival = "Malmö C";
+
+  const [bookedSeats, setBookedSeats] = useState([]);
   const [trainSetAndCarriages, setTrainSetAndCarriages] = useState();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchBookdSeats = async () => {
       await fetch(
-        `/api/bookingPartsWithDepartureAndArrivalStationInfo/?date=${train.date.slice(
+        `/api/bookingPartsWithDepartureAndArrivalStationInfo/?date=${date.slice(
           0,
           10
-        )}&departureStationDeparture<=${
-          train.departure
-        }&arrivalStationArrival>=${train.arrival}&journeyId=${train.journeyId}`
-      ).then((res) => {
-        if (res.ok) {
-          setBookedSeats(res.json());
-        }
-      });
+        )}&departureStationDeparture<=${departure}&arrivalStationArrival>=${arrival}&journeyId=${
+          train.journeyId
+        }`
+      )
+        .then((res) => res.json())
+        .then((jsonData) => setBookedSeats(jsonData));
     };
-    fetchData();
+
+    fetchBookdSeats();
   }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetch(`/api/routes/?id=${bookedSeats[0].routeId}`).then((res) => {
-        if (res.ok) {
-          setRouteAndTrainSet(res.json());
-        }
-      });
+      await fetch(`/api/carriagesWithSeats/?trainsetId=${train.trainSetId}}`)
+        .then((res) => res.json())
+        .then((jsonData) => setTrainSetAndCarriages(jsonData));
     };
     fetchData();
-  }, []);
-
-  // bookedSeats.map((x) => {
-  //   console.log(x);
-  // });
-
-  //What if there is no booking?
-  //Check the data if it's empty
-
-  //Need trainsetId and carriageId in occupiedSeatIdWithDateAndJourneyId
-  //Eventually also need carriagesAndSeats view
+  }, [bookedSeats]);
 
   const handleClick = () => {
     navigate("/valj-tag");
@@ -76,6 +101,7 @@ function CustomizeTrip() {
   const goToChooseSeats = () => {
     setShowModal(true);
   };
+  console.log(trainSetAndCarriages);
 
   return (
     <>
@@ -92,10 +118,10 @@ function CustomizeTrip() {
             <Container className="train-info-container p-5">
               <Container className="m-3">
                 <p className="custom-label">
-                  {train.depature} - {train.arrival}
+                  {train.stationNameA} - {train.stationNameB}
                 </p>
-                <p className="custom-label">{train.date}</p>
-                <p className="custom-label">{train.time}</p>
+                <p className="custom-label">{date}</p>
+                <p className="custom-label">{train.departureTimeA}</p>
                 <Button className="custom-button" onClick={handleClick}>
                   Ändra
                 </Button>
