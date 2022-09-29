@@ -14,14 +14,14 @@ async function routeSeed() {
   for (let routeName of Object.keys(data)) {
     console.log(routeName, trainset);
     let result = await db.query(
-      "INSERT INTO routes(trainset, name) VALUES (?,?)",
+      "INSERT INTO routes(trainSetId, name) VALUES (?,?)",
       [trainset, routeName]
     );
     let routeId = result.insertId;
 
     for (let { station, arrival, departure, platform } of data[routeName]) {
       await db.query(
-        "INSERT INTO stations(route, name, arrivalOffset, departureOffset, platform) VALUES (?,?,?,?,?)",
+        "INSERT INTO stations(routeId, name, arrivalOffset, departureOffset, platform) VALUES (?,?,?,?,?)",
         [routeId, station, arrival, departure, platform]
       );
     }

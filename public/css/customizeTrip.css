@@ -1,0 +1,12 @@
+
+.train-info-container,
+.class-selector-container
+{
+  max-width: 30rem;
+  border: solid #7AAC71;
+  border-radius: 10px;
+}
+
+.custom-button{
+  background-color: rgba(0,0,0,0);
+}

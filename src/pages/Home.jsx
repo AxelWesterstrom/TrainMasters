@@ -9,21 +9,24 @@ function Home() {
   let allStations = [];
 
   useEffect(() => {
-    fetch("/api/stations") //Fetch station table from database
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .then((jsonRes) => {
-        jsonRes.map((station) => {
-          if (!allStations.includes(station.name)) {
-            //Delete the duplicate stations
-            allStations.push(station.name);
+    const fetchData = async () => {
+      await fetch("/api/stations") //Fetch station table from database
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
           }
-        });
-      })
-      .then(setStations(allStations));
+        })
+        .then((jsonRes) => {
+          jsonRes.map((station) => {
+            if (!allStations.includes(station.name)) {
+              //Delete the duplicate stations
+              allStations.push(station.name);
+            }
+          });
+        })
+        .then(setStations(allStations));
+    };
+    fetchData();
   }, []);
 
   return (
