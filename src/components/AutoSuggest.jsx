@@ -13,6 +13,7 @@ function AutoSuggest({
   const [isArrivalFocus, setArrivalFocus] = useState(false);
   const [suggestDepature, setSuggestDepature] = useState([]);
   const [suggestArrival, setSuggestArrival] = useState([]);
+  const [text, setText] = useState("");
   let allStations = [];
 
   const handleDepature = (e) => {
@@ -37,6 +38,7 @@ function AutoSuggest({
   };
 
   const handleArrival = (e) => {
+    setText("Alla möjliga stationer");
     setArrivalFocus(true);
     let searchValue = e.target.value;
     let suggestion = [];
@@ -61,6 +63,7 @@ function AutoSuggest({
     });
 
     if (searchValue.length !== 0) {
+      setText("Föreslagna stationer");
       suggestion = suggestion
         .sort()
         .filter(
@@ -133,7 +136,7 @@ function AutoSuggest({
                 className="customSuggestContainer mt-1"
                 style={{ overflowY: "scroll" }}
               >
-                <p>Alla möjlia stationer</p>
+                <p>{text}</p>
                 {suggestArrival.map((item, index) => {
                   return (
                     <div
