@@ -87,6 +87,7 @@ function AutoSuggest({
             <Form.Label className="custom-label">Från</Form.Label>
 
             <Form.Control
+              autoComplete="off"
               type="text"
               className="customInput"
               value={departure}
@@ -122,6 +123,7 @@ function AutoSuggest({
           <Form.Group className="mb-3" controlId="destinationStation">
             <Form.Label className="custom-label">Till</Form.Label>
             <Form.Control
+              autoComplete="off"
               data-togg
               type="text"
               className="customInput"
