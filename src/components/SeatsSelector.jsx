@@ -1,98 +1,39 @@
+import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import CarriageSelector from "./CarriageSelector";
 
-function SeatsSelector() {
-  const seats = [
-    {
-      number: 1,
-    },
-    {
-      number: 2,
-    },
-    {
-      number: 3,
-    },
-    {
-      number: 4,
-    },
-    {
-      number: 5,
-    },
-    {
-      number: 6,
-    },
-    {
-      number: 7,
-    },
-    {
-      number: 8,
-    },
-    {
-      number: 9,
-    },
-    {
-      number: 10,
-    },
-  ];
-
+function SeatsSelector({ trainSetAndCarriages, carriageNumber }) {
   const checkSeatNumber = (number) => {
     console.log(number);
   };
 
+  const [carriage, setCarriage] = useState(carriageNumber);
+
   const RenderSeats = () => {
-    return seats.map((seat, index) => {
-      return (
-        <div
-          key={seat.number}
-          onClick={() => checkSeatNumber(seat.number)}
-          className="seat"
-        >
-          <img
-            key={seat.number}
-            src="../images/seat.svg"
-            style={{ width: "40px" }}
-          />
-        </div>
-      );
+    return trainSetAndCarriages.map((seat, index) => {
+      if (seat.carriageNumber === carriage) {
+        return (
+          <div
+            key={seat.seatId}
+            onClick={() => checkSeatNumber(seat.seatId)}
+            className="seat"
+          >
+            <img
+              key={seat.seatId}
+              src="../images/seat.svg"
+              style={{ width: "40px" }}
+            />
+            <div className="seat-number">{seat.seatNumber}</div>
+          </div>
+        );
+      }
     });
   };
-  let changeRow = false;
-  let allSeats = [];
 
   return (
     <>
-      <Container className="carriage-container">
-        {seats.map((seat, index) => {
-          if ((seat.number - 1) % 3 === 0) {
-            changeRow = true;
-            allSeats = [];
-          }
-
-          allSeats.push(
-            <div
-              key={seat.number}
-              onClick={() => checkSeatNumber(seat.number)}
-              className="seat col-1"
-            >
-              <img
-                key={seat.number}
-                src="../images/seat.svg"
-                style={{ width: "40px" }}
-              />
-            </div>
-          );
-
-          return (
-            <>
-              {changeRow && allSeats.length === 3 && (
-                <Row className="seat-row">
-                  {allSeats.map((x) => {
-                    return x;
-                  })}
-                </Row>
-              )}
-            </>
-          );
-        })}
+      <Container className="slider">
+        <Row>{RenderSeats()}</Row>
       </Container>
     </>
   );

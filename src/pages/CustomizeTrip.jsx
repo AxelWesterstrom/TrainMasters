@@ -4,7 +4,7 @@ import SeatsSelector from "../components/SeatsSelector";
 import styles from "../../public/css/customizeTrip.css";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Container, Button } from "react-bootstrap";
+import { Container, Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import CarriageSelector from "../components/CarriageSelector";
 
@@ -13,6 +13,7 @@ function CustomizeTrip() {
   // const { state } = useLocation();
   // const { train } = state;
   const [showModal, setShowModal] = useState(false);
+  const handleClose = () => setShowModal(false);
 
   let train = {
     //This should be fetch from the former page - "valj-tag"
@@ -101,7 +102,6 @@ function CustomizeTrip() {
   const goToChooseSeats = () => {
     setShowModal(true);
   };
-  console.log(trainSetAndCarriages);
 
   return (
     <>
@@ -138,8 +138,20 @@ function CustomizeTrip() {
             </Container>
           </Container>
         </Container>
-        <CarriageSelector showModal={showModal} setShowModal={setShowModal} />
 
+        <Modal show={showModal} onHide={handleClose} className="modal-xl">
+          <Modal.Header closeButton>
+            <Modal.Title>Välj plats</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <CarriageSelector trainSetAndCarriages={trainSetAndCarriages} />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleClose}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <Container className="d-flex justify-content-end  info">
           <Button className="custom-button mt-3 mb-5" onClick={goToNextPage}>
             Fortsätt
