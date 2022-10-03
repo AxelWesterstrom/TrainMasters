@@ -8,10 +8,10 @@ import "../../public/css/journey.css";
 import { useNavigate } from "react-router-dom";
 
 function PickJourney() {
-  const [date, setDate] = useState("2022-09-26");
+  const [date, setDate] = useState("2022-10-01");
   // const [journeys, setJourneys] = useState([]);
-  const [departure, setDeparture] = useState("Trelleborg");
-  const [arrival, setArrival] = useState("Malmö C");
+  const [departure, setDeparture] = useState("Glumslöv");
+  const [arrival, setArrival] = useState("Burlöv");
   const [chosenJourney, setChosenJourney] = useState();
   const navigate = useNavigate();
 

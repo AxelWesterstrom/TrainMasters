@@ -21,6 +21,7 @@ function JourneyList(props) {
       let data = await fetch(
         `/api/connectStationsWithTimesOnJourneyId?stationNameA=${departure}&stationNameB=${arrival}`
       );
+
       setJourneys(await data.json());
       let holidayData = await fetch("/api/holidays");
       setHolidays(await holidayData.json());
@@ -42,7 +43,7 @@ function JourneyList(props) {
           isHoliday = false;
         }
       }
-      console.log(isHoliday);
+
       if (isHoliday || day === 6 || day === 0) {
         setWeekday(false);
       } else {
@@ -63,6 +64,7 @@ function JourneyList(props) {
           <Journey
             key={index}
             {...{
+              date,
               weekday,
               journey,
               chosenJourney,
@@ -78,6 +80,7 @@ function JourneyList(props) {
             <Journey
               key={index}
               {...{
+                date,
                 weekday,
                 journey,
                 chosenJourney,
