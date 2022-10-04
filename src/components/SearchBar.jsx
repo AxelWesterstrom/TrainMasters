@@ -1,7 +1,7 @@
 import { Row, Col, Button, Form, Container, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AutoSuggest from "./AutoSuggest";
+import AutoSuggest from "./AutoSuggest.jsx";
 
 function SearchBar({ stations }) {
   const [departure, setDepature] = useState("");
@@ -23,7 +23,7 @@ function SearchBar({ stations }) {
     <>
       <div className="d-flex justify-content-center mt-5 pt-5">
         <Container className="p-1 m-1">
-          <Form className="customContainer" onSubmit={handleSubmit}>
+          <Form className="customContainer" onSubmit={goToNextPage}>
             <Row className="row-centered">
               <Col className="col-lg-6 col-12">
                 <Form.Group className="mb-3" controlId="departureStation">
