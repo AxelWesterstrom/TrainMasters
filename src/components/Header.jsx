@@ -1,16 +1,23 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Container, Navbar, Nav } from "react-bootstrap";
+import { Container, Navbar, Nav, Modal } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import style from "../../public/css/header.css";
+import LoginPopup from "./LoginPopup";
 
 function Header({ isMyTicketPage }) {
   return (
     <>
       <Navbar style={{ background: "#4C2C50" }} expand="lg" className="body">
         <Container fluid className="row">
-          <Container className="col-2 custom-column"></Container>
+          <Container className="col-2 custom-column">
+            <div className="mt-2">
+              <img src="../images/profile.svg" className="profile-img" />
+              <LoginPopup />
+            </div>
+            <p className="profile-button-text">Profil</p>
+          </Container>
           <Container className="col-8 logo">
             <Navbar.Brand>
               <Nav.Link as={Link} to="/">
