@@ -6,7 +6,6 @@ import { react, useState, useEffect } from "react";
 
 function Home() {
   const [stations, setStations] = useState([]);
-  let allStations = [];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,14 +16,8 @@ function Home() {
           }
         })
         .then((jsonRes) => {
-          jsonRes.map((station) => {
-            if (!allStations.includes(station.name)) {
-              //Delete the duplicate stations
-              allStations.push(station.name);
-            }
-          });
-        })
-        .then(setStations(allStations));
+          setStations(jsonRes);
+        });
     };
     fetchData();
   }, []);

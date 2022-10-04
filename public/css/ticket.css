@@ -28,29 +28,12 @@ padding-left: 40px;
  flex: none;
 }
 
-.custom-button {
-  margin-top: 20px;
-}
-
-.imageRow{
-  display: flex;
+.qrCode{
+    display: flex;
     align-items: center;
     justify-content: center;
     padding-bottom: 20px;
 }
 
-.qrCode {
-  height: auto;
-  max-height: 200px;
-  width: auto;
-  max-width: 200px;
-}
 
-@media screen and (min-width: 1000px){
-.qrCode {
-  height: auto;
-    max-height: 150px;
-    width: auto;
-    max-width: 150px;
-}
-}
+
