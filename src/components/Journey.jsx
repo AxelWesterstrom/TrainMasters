@@ -43,48 +43,52 @@ function Journey(props) {
   }, []);
 
   return (
-    <Container id='journeyItem'>
-      <Row>
-        <Col className='col-3'>
-          <h4>
+    <Container className="journeyItem mb-3">
+      <Row className="p-2">
+        <Col className="col-6">
+          <p className="custom-text">
             {departureTimeA} - {arrivalTimeB}
-          </h4>
+          </p>
         </Col>
         {/* <Col className='col-6 justify-content-start' id='clock'>
           <img alt='clock' src='clock.svg' width='100' height='100' />
   </Col>*/}
-        <Col className='col-3 offset-6'>
-          <h5>fr. {price} kr</h5>
+        <Col className="col-6 d-flex justify-content-end">
+          <p className="custom-text">fr. {price} kr</p>
         </Col>
       </Row>
-      <Row className='mt-3 mb-3'>
+      <Row className="p-2">
         {!!hasHandicapSeats && (
-          <Col className='col-1' id='wheelchair'>
-            <img alt='wheelchair' src='wheelchair.svg' width='50' height='50' />
-          </Col>
-        )}
-        {!!hasBistro && (
-          <Col className='col-1' id='knifeAndFork'>
+          <Col className="col-2" id="wheelchair">
             <img
-              alt='knifeAndFork'
-              src='knife-and-fork.svg'
-              width='50'
-              height='50'
+              alt="wheelchair"
+              className="custom-icon"
+              src="../images/wheelchair.svg"
             />
           </Col>
         )}
-        <Col className='col-1' id='wifi'>
-          <img alt='wifi' src='wifi.svg' width='50' height='50' />
-        </Col>
-        {!!isPetsAllowed && (
-          <Col className='col-1' id='dog'>
-            <img alt='dog' src='dog.svg' width='50' height='50' />
+        {!!hasBistro && (
+          <Col className="col-2" id="knifeAndFork">
+            <img
+              alt="knifeAndFork"
+              className="custom-icon"
+              src="../images/knife-and-fork.svg"
+            />
           </Col>
         )}
-        <Col className='col-5'></Col>
+        <Col className="col-2" id="wifi">
+          <img alt="wifi" className="custom-icon" src="../images/wifi.svg" />
+        </Col>
+        {!!isPetsAllowed && (
+          <Col className="col-2" id="dog">
+            <img alt="dog" className="custom-icon" src="../images/dog.svg" />
+          </Col>
+        )}
       </Row>
-      <Row>
-        <Col className='content-justify-start'>Tågnummer</Col>
+      <Row className="p-2 mt-1">
+        <Col className="content-justify-start">
+          <p className="custom-text">Tågnummer</p>
+        </Col>
       </Row>
     </Container>
   );

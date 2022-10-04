@@ -4,17 +4,23 @@ import { useNavigate } from "react-router-dom";
 import AutoSuggest from "./AutoSuggest.jsx";
 
 function SearchBar({ stations }) {
-  const [departure, setDepature] = useState("");
+  const [departure, setDeparture] = useState("");
   const [arrival, setArrival] = useState("");
+  const [noTrain, setNoTrain] = useState(false);
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
   const goToNextPage = () => {
-    if (departure.length !== 0 && arrival.length !== 0) {
+    if (departure.length !== 0 && arrival.length !== 0 && !noTrain) {
       navigate("/valj-resa", { state: { departure, arrival } });
-    } else {
+    } else if (noTrain && arrival.length !== 0) {
+      setErrorMessage("Tvyär! Vi har inget dirket tåg till " + arrival + "!");
+      setShow(true);
+    } else if (departure.length === 0 || arrival.length === 0) {
+      setErrorMessage("Fyll i destination och avreseort!");
       setShow(true);
     }
   };
@@ -23,37 +29,29 @@ function SearchBar({ stations }) {
     <>
       <div className="d-flex justify-content-center mt-5 pt-5">
         <Container className="p-1 m-1">
-          <Form className="customContainer" onSubmit={goToNextPage}>
-            <Row className="row-centered">
-              <Col className="col-lg-6 col-12">
-                <Form.Group className="mb-3" controlId="departureStation">
-                  <Form.Label className="customInputLabel">Från</Form.Label>
-                  <AutoSuggest stations={stations} setUserInput={setDepature} />
-                </Form.Group>
-              </Col>
-              <Col className="col-lg-6 col-12">
-                <Form.Group className="mb-3" controlId="destinationStation">
-                  <Form.Label className="customInputLabel">Till</Form.Label>
-                  <AutoSuggest stations={stations} setUserInput={setArrival} />
-                </Form.Group>
-              </Col>
-            </Row>
+          <Form className="customContainer">
+            <AutoSuggest
+              stations={stations}
+              departure={departure}
+              arrival={arrival}
+              setDeparture={setDeparture}
+              setArrival={setArrival}
+              setNoTrain={setNoTrain}
+            />
             <div className="d-flex justify-content-end">
-              <Button className="customButton" onClick={goToNextPage}>
+              <Button className="custom-button" onClick={goToNextPage}>
                 Sök
               </Button>
             </div>
           </Form>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton></Modal.Header>
-
             <Modal.Body>
-              <p>Fyll i destination och avreseort!</p>
+              <p className="custom-label">{errorMessage}</p>
             </Modal.Body>
-
             <Modal.Footer>
-              <Button className="customButton" onClick={handleClose}>
-                Close
+              <Button className="custom-button" onClick={handleClose}>
+                Stäng
               </Button>
             </Modal.Footer>
           </Modal>

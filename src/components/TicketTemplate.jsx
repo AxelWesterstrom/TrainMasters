@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Button, Form, Container, Card, CardImg } from "react-bootstrap";
-import Image from 'react-bootstrap/Image'
+import { Row, Col, Container } from "react-bootstrap";
+import QRCode from "react-qr-code"
 
 function TicketTemplate() {
   return (
@@ -68,10 +68,12 @@ function TicketTemplate() {
               </Col>
             </Row>
           </Container>
-          <Row className="imageRow">
-            <Image className="qrCode" src="../qrCode.svg">
-
-            </Image>
+          <Row >
+            <Col className="qrCode">
+              <QRCode
+                size={150}
+                value={"asdasadsadadsssf"}
+              /></Col>
           </Row>
         </Container>
       </Container>

@@ -1,15 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
-
 .customInput{
   border-color:#7AAC71 !important;
   border-radius: 15px !important;
 }
 
-.customButton{
-  width: 100px;
-  border-color: #62256A !important;
-  background-color:#62256A !important;
-}
 .customContainer{
   padding: 20px;
   border: 7AAC71 solid;
@@ -18,24 +11,16 @@
 }
 
 .home{
-  font-family: 'Open Sans', sans-serif;
   position:absolute;
   top:0px;
   right:0px;
   bottom:0px;
   left:0px;
-  background-image: url("bg-home.jpg");
+  background-image: url("/public/images/bg-home.jpg");
   background-repeat: no-repeat !important;
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
-
-}
-
-@media screen and (max-width: 600px) {
-  .home {
-    font-size: 15px;
-  }
 }
 
 .customSuggestionList{
@@ -50,16 +35,18 @@
   margin-top: 1rem;
 }
 
-.customInputLabel{
-  font-weight: bold;
-  font-size: 25px;
-}
-
 .customSuggestContainer{
   background-color: rgba(255, 255, 255, 255);
   border: #7AAC71;
-  border-radius: 2px;
+  border-radius: 10px;
   position: absolute;
+  padding: 2px;
+  height: 300px;
+}
+.custom-text{
+  cursor: pointer;
+}
 
-
+.custom-text:hover{
+  background-color:rgba(122, 172, 113, 0.1);
 }

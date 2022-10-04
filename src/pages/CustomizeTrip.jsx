@@ -44,21 +44,20 @@ function CustomizeTrip() {
       <Header />
       <div className="body">
         <div>
-          <img src="arrow-left.svg" className="mt-2 ms-3 back-button" />
+          <img
+            src="../images/arrow-left.svg"
+            className="mt-2 ms-3 back-button"
+          />
         </div>
         <Container className="p-2">
           <Container className="train-info-container p-5">
             <Container className="m-3">
-              <p>
+              <p className="custom-label">
                 {train.depature} - {train.arrival}
               </p>
-              <p>{train.date}</p>
-              <p>{train.time}</p>
-              <Button
-                variant="light"
-                className="change-button"
-                onClick={handleClick}
-              >
+              <p className="custom-label">{train.date}</p>
+              <p className="custom-label">{train.time}</p>
+              <Button className="custom-button" onClick={handleClick}>
                 Ändra
               </Button>
             </Container>
