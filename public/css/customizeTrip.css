@@ -42,10 +42,6 @@ input[type="radio"]:checked{
   justify-content: flex-end;
 } */
 
-.seat{
-  max-width: 3rem;
-  text-align: center;
-}
 
 .slider{
   overflow-x: scroll !important;
@@ -64,4 +60,16 @@ input[type="radio"]:checked{
 
 .active-anim {
   opacity: 1;
+}
+
+.seat{
+  background-image: url("../images//seat.svg");
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+}
+
+.carriage-container{
+  height: 400px;
 }

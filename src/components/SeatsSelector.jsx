@@ -16,14 +16,9 @@ function SeatsSelector({ trainSetAndCarriages, carriageNumber }) {
           <div
             key={seat.seatId}
             onClick={() => checkSeatNumber(seat.seatId)}
-            className="seat"
+            className="seat d-flex align-items-center m-1"
           >
-            <img
-              key={seat.seatId}
-              src="../images/seat.svg"
-              style={{ width: "40px" }}
-            />
-            <div className="seat-number">{seat.seatNumber}</div>
+            {seat.seatNumber}
           </div>
         );
       }

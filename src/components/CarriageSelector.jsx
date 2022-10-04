@@ -49,7 +49,7 @@ function CarriageSelector({ showModal, setShowModal, trainSetAndCarriages }) {
     <>
       <Container>
         <Row>
-          <Col className="col col-1">
+          <Col className="col col-1 d-flex align-items-center">
             <img
               alt="left-arrow"
               src="../images/left-arrow.png"
@@ -57,8 +57,10 @@ function CarriageSelector({ showModal, setShowModal, trainSetAndCarriages }) {
               onClick={() => slide()}
             />
           </Col>
-          <Col className="col col-10">{chooseCarriage()}</Col>
-          <Col className="col col-1">
+          <Col className="col col-10 d-flex align-items-center carriage-container">
+            {chooseCarriage()}
+          </Col>
+          <Col className="col col-1 d-flex align-items-center">
             <img
               alt="right-arrow"
               src="../images/right-arrow.png"

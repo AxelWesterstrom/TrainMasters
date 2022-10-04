@@ -18,7 +18,7 @@ function SearchBar({ stations }) {
     if (departure.length !== 0 && arrival.length !== 0 && !noTrain) {
       navigate("/valj-resa", { state: { departure, arrival } });
     } else if (noTrain && arrival.length !== 0) {
-      setErrorMessage("Tvyär! Vi har inget dirket tåg till " + arrival + "!");
+      setErrorMessage("Tyvär! Vi har inget dirket tåg till " + arrival + "!");
       setShow(true);
     } else if (departure.length === 0 || arrival.length === 0) {
       setErrorMessage("Fyll i destination och avreseort!");
