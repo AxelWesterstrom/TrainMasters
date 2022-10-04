@@ -6,7 +6,7 @@ import AutoSuggest from "./AutoSuggest";
 function SearchBar({ stations }) {
   const [departure, setDeparture] = useState("");
   const [arrival, setArrival] = useState("");
-  const [noTrain, setNoTrain] = useState(false);
+  const [foundTrain, setFoundTrain] = useState(false);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -15,9 +15,9 @@ function SearchBar({ stations }) {
 
   //should check if departure and arrival is in same route, should fetch routesWithStations view
   const goToNextPage = () => {
-    if (departure.length !== 0 && arrival.length !== 0 && !noTrain) {
+    if (departure.length !== 0 && arrival.length !== 0 && foundTrain) {
       navigate("/valj-resa", { state: { departure, arrival } });
-    } else if (noTrain && arrival.length !== 0) {
+    } else if (!foundTrain && arrival.length !== 0) {
       setErrorMessage("Tyvär! Vi har inget dirket tåg till " + arrival + "!");
       setShow(true);
     } else if (departure.length === 0 || arrival.length === 0) {
@@ -37,7 +37,7 @@ function SearchBar({ stations }) {
               arrival={arrival}
               setDeparture={setDeparture}
               setArrival={setArrival}
-              setNoTrain={setNoTrain}
+              setFoundTrain={setFoundTrain}
             />
             <div className="d-flex justify-content-end">
               <Button className="custom-button" onClick={goToNextPage}>
