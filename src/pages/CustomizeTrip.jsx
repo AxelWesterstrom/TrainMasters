@@ -17,70 +17,21 @@ function CustomizeTrip() {
 
   let train = {
     //This should be fetch from the former page - "valj-tag"
-    arrivalOffsetA: null,
+    stationNameA: "Ängelholm",
 
-    arrivalOffsetB: 32,
+    stationNameB: "Halmstad C",
 
-    arrivalTimeA: null,
+    trainSetId: 2,
 
-    arrivalTimeB: "12:32",
+    journeyId: 8,
 
-    departureOffsetA: 0,
+    departureStationDeparture: 85,
 
-    departureOffsetB: 34,
-
-    departureTimeA: "12:00",
-
-    departureTimeB: "12:34",
-
-    journeyId: 15,
-
-    justOnWeekdays: 0,
-
-    platformA: 2,
-
-    platformB: 3,
-
-    routeId: 6,
-
-    routeName: "Trelleborg - Helsingborg C",
-
-    startTime: "12:00",
-
-    stationIdA: 90,
-
-    stationIdB: 96,
-
-    stationNameA: "Trelleborg",
-
-    stationNameB: "Malmö C",
-
-    trainSetId: 3,
+    arrivalStationArrival: 115,
   };
 
-  let date = "2022-09-26";
-  let departure = "Trelleborg";
-  let arrival = "Malmö C";
-
-  const [bookedSeats, setBookedSeats] = useState([]);
+  let date = "2022-09-23";
   const [trainSetAndCarriages, setTrainSetAndCarriages] = useState();
-
-  useEffect(() => {
-    const fetchBookdSeats = async () => {
-      await fetch(
-        `/api/bookingPartsWithDepartureAndArrivalStationInfo/?date=${date.slice(
-          0,
-          10
-        )}&departureStationDeparture<=${departure}&arrivalStationArrival>=${arrival}&journeyId=${
-          train.journeyId
-        }`
-      )
-        .then((res) => res.json())
-        .then((jsonData) => setBookedSeats(jsonData));
-    };
-
-    fetchBookdSeats();
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,7 +40,7 @@ function CustomizeTrip() {
         .then((jsonData) => setTrainSetAndCarriages(jsonData));
     };
     fetchData();
-  }, [bookedSeats]);
+  }, []);
 
   const handleClick = () => {
     navigate("/valj-tag");
@@ -144,7 +95,10 @@ function CustomizeTrip() {
             <Modal.Title>Välj plats</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <CarriageSelector trainSetAndCarriages={trainSetAndCarriages} />
+            <CarriageSelector
+              trainSetAndCarriages={trainSetAndCarriages}
+              train={train}
+            />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" onClick={handleClose}>

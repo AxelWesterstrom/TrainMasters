@@ -46,8 +46,9 @@ input[type="radio"]:checked{
 
 .carriage-container{
   display: inline-block;
-  width: 100%;
+  width: 150%;
   white-space: nowrap;
+  margin-right: 20px;
 }
 
 
@@ -67,12 +68,14 @@ input[type="radio"]:checked{
 
 .seat{
   background-size: cover;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center !important;
 }
+
+
+
 
 
 
