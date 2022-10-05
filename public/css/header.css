@@ -9,19 +9,15 @@
 }
 
 @media screen and (max-width: 600px) {
-  .logo{
-    display: flex;
-    justify-content: end !important;
-  }
   .logo-img{
     width: 140px;
     height: 45px;
   }
   .ticket-img{
-    width:20px;
+    width:22px !important;
   }
   .ticket-button-text{
-    font-size: smaller;
+    font-size: small;
   }
 }
 
