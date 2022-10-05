@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import SeatsSelector from "./SeatsSelector";
 
-function CarriageSelector({ showModal, setShowModal, trainSetAndCarriages }) {
+function CarriageSelector({ trainSetAndCarriages }) {
   const [carriagesLayout, setCarriagesLayout] = useState([]);
 
   useEffect(() => {
@@ -19,13 +19,9 @@ function CarriageSelector({ showModal, setShowModal, trainSetAndCarriages }) {
 
   const chooseCarriage = () => {
     return carriagesLayout.map((x, index) => {
-      console.log(x);
       return (
-        <div
-          key={x}
-          className={slideIndex === index + 1 ? "slide-active-anim" : "slide"}
-        >
-          <p>Vagn: {x}</p>
+        <div className="carriage-container" key={x}>
+          <p className="ms-5">Vagn: {x}</p>
           <SeatsSelector
             trainSetAndCarriages={trainSetAndCarriages}
             carriageNumber={x}
@@ -35,41 +31,39 @@ function CarriageSelector({ showModal, setShowModal, trainSetAndCarriages }) {
     });
   };
 
-  const [slideIndex, setSlideIndex] = useState(1);
+  const slideLeft = () => {
+    let slider = document.getElementById("slider");
+    slider.scrollLeft = slider.scrollLeft - 150;
+  };
 
-  const slide = () => {
-    if (slideIndex !== carriagesLayout.length) {
-      setSlideIndex(slideIndex + 1);
-    } else if (slideIndex === carriagesLayout.length) {
-      setSlideIndex(1);
-    }
+  const slideRight = () => {
+    let slider = document.getElementById("slider");
+    slider.scrollLeft = slider.scrollLeft + 150;
   };
 
   return (
     <>
-      <Container>
-        <Row>
-          <Col className="col col-1 d-flex align-items-center">
-            <img
-              alt="left-arrow"
-              src="../images/left-arrow.png"
-              className="date-arrow-left"
-              onClick={() => slide()}
-            />
-          </Col>
-          <Col className="col col-10 d-flex align-items-center carriage-container">
-            {chooseCarriage()}
-          </Col>
-          <Col className="col col-1 d-flex align-items-center">
-            <img
-              alt="right-arrow"
-              src="../images/right-arrow.png"
-              className="date-arrow-right"
-              onClick={() => slide()}
-            />
-          </Col>
-        </Row>
-      </Container>
+      <div className="d-flex">
+        <div className="col col-1 d-flex align-items-center">
+          <img
+            alt="left-arrow"
+            src="../images/left-arrow.png"
+            className="date-arrow-left"
+            onClick={slideLeft}
+          />
+        </div>
+        <div id="slider" className="slider">
+          {chooseCarriage()}
+        </div>
+        <div className="col col-1 d-flex align-items-center">
+          <img
+            alt="right-arrow"
+            src="../images/right-arrow.png"
+            className="date-arrow-right"
+            onClick={slideRight}
+          />
+        </div>
+      </div>
     </>
   );
 }

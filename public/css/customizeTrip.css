@@ -36,40 +36,47 @@ input[type="radio"]:checked{
   }
 }
 
-/* .seat-row{
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-} */
-
 
 .slider{
-  overflow-x: scroll !important;
-  width: 100%;
+  max-height: 400px;
+  overflow: auto;
   white-space: nowrap;
-  scroll-behavior: smooth;
-}
-
-.slide {
-  width: 60%;
-  height: 100%;
-  position: absolute;
-  opacity: 0;
-  transition: opacity ;
-}
-
-.active-anim {
-  opacity: 1;
-}
-
-.seat{
-  background-image: url("../images//seat.svg");
-  background-size: cover;
-  width: 40px;
-  height: 40px;
-  text-align: center;
+  width: 100%;
 }
 
 .carriage-container{
-  height: 400px;
+  display: inline-block;
+  width: 100%;
+  white-space: nowrap;
 }
+
+
+.carriage-container-reverse{
+  display: inline-block;
+  width: 100%;
+  white-space: nowrap;
+}
+
+
+.seat-row-container{
+  display: flex;
+  flex-direction: column;
+  margin: 60px;
+  width: 100%;
+}
+
+.seat{
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+
+
+
+

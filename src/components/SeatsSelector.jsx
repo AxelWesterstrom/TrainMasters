@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import CarriageSelector from "./CarriageSelector";
+import SeatLayoutCalculater from "./SeatLayoutCalculater";
 
 function SeatsSelector({ trainSetAndCarriages, carriageNumber }) {
   const checkSeatNumber = (number) => {
@@ -9,29 +9,16 @@ function SeatsSelector({ trainSetAndCarriages, carriageNumber }) {
 
   const [carriage, setCarriage] = useState(carriageNumber);
 
-  const RenderSeats = () => {
-    return trainSetAndCarriages.map((seat, index) => {
-      if (seat.carriageNumber === carriage) {
-        return (
-          <div
-            key={seat.seatId}
-            onClick={() => checkSeatNumber(seat.seatId)}
-            className="seat d-flex align-items-center m-1"
-          >
-            {seat.seatNumber}
-          </div>
-        );
-      }
-    });
+  const renderSeats = () => {
+    return (
+      <SeatLayoutCalculater
+        carriage={carriage}
+        trainSetAndCarriages={trainSetAndCarriages}
+      />
+    );
   };
 
-  return (
-    <>
-      <Container className="slider">
-        <Row>{RenderSeats()}</Row>
-      </Container>
-    </>
-  );
+  return <>{renderSeats()}</>;
 }
 
 export default SeatsSelector;
