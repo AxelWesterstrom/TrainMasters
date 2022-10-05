@@ -9,8 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 function PickJourney() {
   const [date, setDate] = useState("2022-10-01");
-  // const [journeys, setJourneys] = useState([]);
-  const [departure, setDeparture] = useState("Glumslöv");
+  const [departure, setDeparture] = useState("Helsingborg C");
   const [arrival, setArrival] = useState("Burlöv");
   const [chosenJourney, setChosenJourney] = useState();
   const navigate = useNavigate();

@@ -49,3 +49,11 @@
     padding: 15px;
   }
 }
+
+.blurry {
+  filter: blur(7px);
+}
+
+.journeyItem > div {
+  transition: 1s filter;
+}

@@ -53,10 +53,6 @@ function JourneyList(props) {
     weekdayCheck(date);
   }, [date]);
 
-  function handleClickedJourney(journey) {
-    setChosenJourney({ ...journey });
-  }
-
   return (
     <>
       {!!weekday &&
@@ -65,11 +61,9 @@ function JourneyList(props) {
             key={index}
             {...{
               date,
-              weekday,
               journey,
               chosenJourney,
-              setChosenJourney,
-              handleClickedJourney
+              setChosenJourney
             }}
           />
         ))}
@@ -81,11 +75,9 @@ function JourneyList(props) {
               key={index}
               {...{
                 date,
-                weekday,
                 journey,
                 chosenJourney,
-                setChosenJourney,
-                handleClickedJourney
+                setChosenJourney
               }}
             />
           ))}
