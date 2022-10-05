@@ -7,7 +7,6 @@ import PickJourney from "./pages/PickJourney";
 import Ticket from "./pages/Ticket";
 import styles from "../public/css/commonStyles.css"; // Common styling for all pages
 
-
 function App() {
   return (
     <div className="App">
