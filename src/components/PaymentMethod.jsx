@@ -14,26 +14,25 @@ function PaymentMethod() {
         <Form className="paymentMethodForm">
           <Col>
             <Row>
-              <Col>
-                <label className="radioLabel" for="choice-Swish">
-                  Swish
-                </label>
-                <input
-                  className="custom-radio"
-                  type="radio"
-                  name="choice"
-                  value="Swish"
-                />
-                <label className="radioLabel" for="choice-Kort">
-                  Kort
-                </label>
-                <input
-                  className="custom-radio"
-                  type="radio"
-                  name="choice"
-                  value="Kort"
-                />
-              </Col>
+              {["radio"].map((type) => (
+                <div key={`${type}`} className="mb-3 custom-label">
+                  <Form.Check
+                    label="Swish"
+                    name="group1"
+                    type={type}
+                    onChange={(e) => setFirstClass(e.target.value)}
+                    id={`${type}-swish`}
+                  />
+                  <Form.Check
+                    label="Kort"
+                    name="group1"
+                    type={type}
+                    onChange={(e) => setSecondClass(e.target.value)}
+                    id={`${type}-kort`}
+                  />
+                </div>
+              ))}
+                
             </Row>
           </Col>
         </Form>
