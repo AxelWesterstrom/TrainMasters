@@ -17,6 +17,9 @@ body{
   .back-button{    /* Arrow button on the left top conrner */
     width: 26px !important;
   }
+  .custom-button{
+    font-size: 16px !important;
+  }
 }
 
 .custom-label{
@@ -29,7 +32,7 @@ body{
 }
 
 .custom-button{
-  width: 100px;
+  font-size: 18px;
   border-color: #62256A !important;
   background-color:#62256A !important;
 }
