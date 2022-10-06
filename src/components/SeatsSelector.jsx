@@ -6,11 +6,10 @@ import Seat from "./Seat";
 function SeatsSelector({ trainSetAndCarriages, carriageNumber, bookedSeats }) {
   const [carriage, setCarriage] = useState(carriageNumber);
   const [occupiedSeats, setOccupiedSeats] = useState([]);
-  const [avaliableSeats, setAvaliableSeats] = useState([]);
+  const [availableSeats, setAvailableSeats] = useState([]);
   const [handicapSeats, setHandicapSeats] = useState([]);
   const [rightFacingSeats, setRightFacingSeats] = useState([]);
-  const [seatsToBook, setSeatsToBook] = useState([]); //should be send from the former route
-  let rowHeight = "240px";
+  const [seatsToBook, setSeatsToBook] = useState(0); //should be send from the former route
 
   useEffect(() => {
     let idList = [];
@@ -18,38 +17,39 @@ function SeatsSelector({ trainSetAndCarriages, carriageNumber, bookedSeats }) {
       idList.push(seat.seatId);
     });
     setOccupiedSeats(idList);
+    //should get the total travller
+    setSeatsToBook(2);
   }, [bookedSeats]);
-
-  //should get the total travller
-  const selectSeats = (e) => {};
 
   useEffect(() => {
     let handicapSeatsList = [];
-    let avaliableSeatsList = [];
+    let availableSeatsList = [];
     let rightFacingSeatsList = [];
     trainSetAndCarriages.map((seat) => {
-      if (seat.isHandicapSeat === 0) {
+      if (seat.isHandicapSeat === 1) {
         handicapSeatsList.push(seat.seatId);
       }
-      if (seat.isFacingRight === 0) {
+      if (seat.isFacingRight === 1) {
         rightFacingSeatsList.push(seat.seatId);
       }
       if (!occupiedSeats.includes(seat.seatId)) {
-        avaliableSeatsList.push(seat.seatId);
+        availableSeatsList.push(seat.seatId);
       }
     });
 
-    setAvaliableSeats(avaliableSeatsList);
+    setAvailableSeats(availableSeatsList);
     setHandicapSeats(handicapSeatsList);
     setOccupiedSeats(handicapSeatsList);
-  }, [bookedSeats, trainSetAndCarriages]);
+    setRightFacingSeats(rightFacingSeatsList);
+  }, [trainSetAndCarriages]);
 
   const allCarriages = () => {
     return (
       <Seat
+        key={"carriage"}
         carriage={carriage}
         occupiedSeats={occupiedSeats}
-        avaliableSeats={avaliableSeats}
+        availableSeats={availableSeats}
         handicapSeats={handicapSeats}
         rightFacingSeats={rightFacingSeats}
         seatsToBook={seatsToBook}
