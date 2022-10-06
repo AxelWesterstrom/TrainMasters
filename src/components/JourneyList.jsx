@@ -1,31 +1,86 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Journey from "./Journey";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import "../../public/css/journey.css";
 
 function JourneyList(props) {
-  let { departure, arrival } = props;
+  let {
+    date,
+    departure,
+    arrival,
+    chosenJourney,
+    setChosenJourney,
+    formatDate
+  } = props;
   const [journeys, setJourneys] = useState([]);
+  const [weekday, setWeekday] = useState(true);
+  const [holidays, setHolidays] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       let data = await fetch(
         `/api/connectStationsWithTimesOnJourneyId?stationNameA=${departure}&stationNameB=${arrival}`
       );
+
       setJourneys(await data.json());
+      let holidayData = await fetch("/api/holidays");
+      setHolidays(await holidayData.json());
     }
     fetchData();
-    console.log("Journeys ", journeys);
   }, []);
+
+  useEffect(() => {
+    function weekdayCheck() {
+      let day = new Date(date).getDay();
+      let isHoliday = false;
+      for (let i = 0; i < holidays.length; i++) {
+        let holidayDate = new Date(holidays[i].date);
+        let holidayDateString = formatDate(holidayDate);
+        if (holidayDateString === date) {
+          isHoliday = true;
+          break;
+        } else {
+          isHoliday = false;
+        }
+      }
+
+      if (isHoliday || day === 6 || day === 0) {
+        setWeekday(false);
+      } else {
+        setWeekday(true);
+      }
+    }
+    weekdayCheck(date);
+  }, [date]);
 
   return (
     <>
-      {journeys.map((journey, index) => (
-        <Journey key={index} {...{ journey }} />
-      ))}
+      {!!weekday &&
+        journeys.map((journey, index) => (
+          <Journey
+            key={index}
+            {...{
+              date,
+              journey,
+              chosenJourney,
+              setChosenJourney
+            }}
+          />
+        ))}
+      {!weekday &&
+        journeys
+          .filter(journey => journey.justOnWeekdays === 0)
+          .map((journey, index) => (
+            <Journey
+              key={index}
+              {...{
+                date,
+                journey,
+                chosenJourney,
+                setChosenJourney
+              }}
+            />
+          ))}
     </>
   );
 }

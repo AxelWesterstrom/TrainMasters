@@ -19,6 +19,18 @@ async function seedTrainSets() {
     3: [3, 4],
     4: [41, 42]
   };
+  let seatsFacingRight = {
+    1: [
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+      22, 23, 24, 50, 51
+    ],
+    2: [
+      1, 2, 3, 4, 7, 8, 9, 10, 17, 18, 21, 22, 25, 26, 29, 30, 33, 34, 37, 38,
+      41, 42, 45, 46, 49, 50, 53, 54, 57, 58, 61, 62, 65, 66, 69, 70
+    ],
+    3: [1, 2, 3, 4, 5, 6, 9, 10],
+    4: [42, 3, 4, 9, 10, 11, 12, 15, 16, 19, 20, 23, 24, 27, 28, 29, 30, 33, 34]
+  };
   let trains = [
     [1, 2, 3, 2, 2, 4],
     [1, 2, 3, 2, 4],
@@ -49,11 +61,12 @@ async function seedTrainSets() {
       );
       for (let seatNumber = 1; seatNumber <= numberOfSeats; seatNumber++) {
         await db.query(
-          "INSERT INTO seats(carriageId, seatNumber, isHandicapSeat) VALUES(?,?,?)",
+          "INSERT INTO seats(carriageId, seatNumber, isHandicapSeat, isFacingRight) VALUES(?,?,?,?)",
           [
             carriageId,
             seatNumber,
-            handicap[carriageType].includes(seatNumber) ? 1 : 0
+            handicap[carriageType].includes(seatNumber) ? 1 : 0,
+            seatsFacingRight[carriageType].includes(seatNumber) ? 1 : 0
           ]
         );
       }
