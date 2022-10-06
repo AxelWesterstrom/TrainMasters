@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Form } from "react-bootstrap";
 import SeatsSelector from "./SeatsSelector";
 
 function CarriageSelector({ trainSetAndCarriages, train }) {
@@ -41,7 +41,7 @@ function CarriageSelector({ trainSetAndCarriages, train }) {
     return carriagesLayout.map((x, index) => {
       return (
         <div className="carriage-container" key={x}>
-          <p className="ms-5">Vagn: {x}</p>
+          <p className="ms-5 custom-text">Vagn: {x}</p>
           <SeatsSelector
             trainSetAndCarriages={trainSetAndCarriages}
             carriageNumber={x}
@@ -64,6 +64,19 @@ function CarriageSelector({ trainSetAndCarriages, train }) {
 
   return (
     <>
+      <div className="ms-2 mb-3 d-flex justify-content-center">
+        <div className="col col-4">
+          <Form.Select className="custom-text">
+            <option className="custom-text">Ospecificera plats</option>
+            <option className="custom-text" value="1">
+              Handikapplats
+            </option>
+            <option className="custom-text" value="2">
+              Djur tillåtet
+            </option>
+          </Form.Select>
+        </div>
+      </div>
       <div className="d-flex">
         <div className="col col-1 d-flex align-items-center">
           <img

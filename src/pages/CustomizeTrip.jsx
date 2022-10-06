@@ -101,8 +101,12 @@ function CustomizeTrip() {
             />
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" onClick={handleClose}>
-              Save Changes
+            <Button
+              variant="primary"
+              className="custom-button"
+              onClick={handleClose}
+            >
+              Fortsätt
             </Button>
           </Modal.Footer>
         </Modal>
