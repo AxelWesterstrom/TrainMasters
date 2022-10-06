@@ -7,8 +7,9 @@
 .journeyItem:hover {
   background-color: rgba(122, 172, 113, 0.1);
 }
-.journeyItem:active {
-  background-color: rgba(122, 172, 113, 0.1);
+
+.custom-text {
+  pointer-events: none;
 }
 
 .journeyList {
@@ -39,7 +40,7 @@
 
 @media screen and (max-width: 600px) {
   .custom-icon {
-    width: 23px !important;
+    width: 20px !important;
   }
   .date-arrow-right,
   .date-arrow-left {
