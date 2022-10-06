@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 
@@ -7,13 +8,12 @@ function AutoSuggest({
   departure,
   setDeparture,
   setArrival,
-  setNoTrain,
+  setFoundTrain,
 }) {
   const [isDepartureFocus, setDepartureFocus] = useState(false);
   const [isArrivalFocus, setArrivalFocus] = useState(false);
   const [suggestDepature, setSuggestDepature] = useState([]);
   const [suggestArrival, setSuggestArrival] = useState([]);
-  const [text, setText] = useState("");
   let allStations = [];
 
   const handleDepature = (e) => {
@@ -38,9 +38,52 @@ function AutoSuggest({
   };
 
   const handleArrival = (e) => {
-    setText("Alla möjliga stationer");
     setArrivalFocus(true);
+
     let searchValue = e.target.value;
+    let suggestions = [];
+    let routes = [];
+
+    for (let station of stations) {
+      if (station.name.toLowerCase() === departure.toLowerCase()) {
+        routes.push(station.routeId);
+      }
+    }
+
+    for (let station of stations) {
+      for (let route of routes) {
+        if (station.routeId === route && station.name !== departure) {
+          suggestions.push(station.name);
+        }
+      }
+    }
+    console.log(searchValue);
+
+    suggestions = suggestions.filter((value, index) => {
+      return suggestions.indexOf(value) === index;
+    });
+
+    if (searchValue.length !== 0) {
+      suggestions = suggestions
+        .sort()
+        .filter(
+          (x) =>
+            x.charAt(0).toLowerCase() === searchValue.charAt(0).toLowerCase()
+        );
+    }
+    setSuggestArrival(suggestions);
+    setArrival(searchValue);
+
+    for (let suggestion of suggestions) {
+      if (suggestion.toLowerCase() === searchValue.toLowerCase()) {
+        setFoundTrain(true);
+      }
+    }
+  };
+
+  const handleArrivalOnFocus = () => {
+    setArrivalFocus(true);
+
     let suggestion = [];
     let routes = [];
 
@@ -62,21 +105,7 @@ function AutoSuggest({
       return suggestion.indexOf(value) === index;
     });
 
-    if (searchValue.length !== 0) {
-      setText("Föreslagna stationer");
-      suggestion = suggestion
-        .sort()
-        .filter(
-          (x) =>
-            x.charAt(0).toLowerCase() === searchValue.charAt(0).toLowerCase()
-        );
-    }
     setSuggestArrival(suggestion);
-    setArrival(searchValue);
-
-    if (suggestArrival.length === 0) {
-      setNoTrain(true);
-    }
   };
 
   return (
@@ -128,7 +157,7 @@ function AutoSuggest({
               type="text"
               className="customInput"
               value={arrival}
-              onFocus={handleArrival}
+              onFocus={handleArrivalOnFocus}
               onBlur={() => setArrivalFocus(false)}
               onChange={handleArrival}
             />
@@ -138,7 +167,7 @@ function AutoSuggest({
                 className="customSuggestContainer mt-1"
                 style={{ overflowY: "scroll" }}
               >
-                <p>{text}</p>
+                <p>Alla möjliga stationer</p>
                 {suggestArrival.map((item, index) => {
                   return (
                     <div
@@ -146,6 +175,7 @@ function AutoSuggest({
                       key={index}
                       onMouseDown={() => {
                         setArrival(item);
+                        setFoundTrain(true);
                       }}
                     >
                       {item}

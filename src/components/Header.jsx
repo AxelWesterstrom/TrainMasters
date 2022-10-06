@@ -9,16 +9,14 @@ function Header({ isMyTicketPage }) {
   return (
     <>
       <Navbar style={{ background: "#4C2C50" }} expand="lg" className="body">
-        <Container fluid className="row">
-          <Container className="col-2 custom-column"></Container>
-          <Container className="col-8 logo">
-            <Navbar.Brand>
-              <Nav.Link as={Link} to="/">
-                <img alt="" src="../images/logo.svg" className="logo-img" />
-              </Nav.Link>
-            </Navbar.Brand>
+        <Container fluid className="row p-0">
+          <Container className="col-2 custom-column p-0"></Container>
+          <Container className="col-8 logo p-0">
+            <Nav.Link as={Link} to="/">
+              <img alt="" src="../images/logo.svg" className="logo-img" />
+            </Nav.Link>
           </Container>
-          <Container className="col-2 d-flex justify-content-end p-0">
+          <Container className="col-2 d-flex justify-content-end ">
             {!isMyTicketPage && (
               <Nav>
                 <Nav.Link
@@ -27,7 +25,10 @@ function Header({ isMyTicketPage }) {
                   className="ticket-button text-center"
                 >
                   <div className="mt-2">
-                    <img src="../images/ticket-icon.svg" className="ticket-img" />
+                    <img
+                      src="../images/ticket-icon.svg"
+                      className="ticket-img"
+                    />
                   </div>
                   <p className="ticket-button-text">Biljetter</p>
                 </Nav.Link>
