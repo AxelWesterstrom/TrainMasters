@@ -8,7 +8,7 @@
   height: 70px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 0px) {
   .logo{
     display: flex;
     justify-content: end !important;
@@ -40,5 +40,14 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+.dropdown-custom .btn:first-child{
+  background-color: #feae00;
+  color: black;
+  border-color: #feae00;
+}
 
-
+.dropdown-custom .btn:first-child:hover {
+  background-color: #7AAC71; 
+  color: black;
+  border-color: #7AAC71;
+}

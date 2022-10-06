@@ -5,7 +5,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import CustomizeTrip from "./pages/CustomizeTrip";
 import PickJourney from "./pages/PickJourney";
 import Ticket from "./pages/Ticket";
+import Login from "./pages/Login"
 import styles from "../public/css/commonStyles.css"; // Common styling for all pages
+import Contact from "./pages/Contact";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <Route path="/anpassa-resa" element={<CustomizeTrip />} />
           <Route path="/kassan" />
           <Route path="/mina-biljetter" element={<Ticket />} />
+          <Route path="/logga-in" element={<Login />} />
+          <Route path="/kontakta-oss" element={<Contact />} />
         </Routes>
       </BrowserRouter>
     </div>
