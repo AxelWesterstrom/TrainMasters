@@ -34,7 +34,7 @@ function Seat(props) {
       }
     }
   };
-  console.log(selectedSeats);
+
   return (
     <>
       <Row className="seat-row-container">
