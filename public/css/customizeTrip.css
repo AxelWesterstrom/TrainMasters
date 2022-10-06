@@ -1,8 +1,9 @@
 
 .train-info-container,
-.class-selector-container
+.class-selector-container,
+.seat-selector-container
 {
-  max-width: 30rem;
+  max-width: 45rem !important;
   border: solid #7AAC71;
   border-radius: 10px;
 }
@@ -10,3 +11,75 @@
 .custom-button{
   background-color: rgba(0,0,0,0);
 }
+
+#custom-radio-button{
+  margin-top: 12px;
+}
+
+input[type="radio"]:checked{
+  background-color: #62256A;
+}
+
+.custom-label{
+  cursor: pointer;
+}
+
+.custom-icon{
+  width: 28px !important;
+  margin-right: 10px;
+}
+
+@media screen and (max-width: 600px) {
+
+  .custom-icon{
+    width:10px !important;
+  }
+}
+
+
+.slider{
+  max-height: 400px;
+  overflow: auto;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.carriage-container{
+  display: inline-block;
+  width: 150%;
+  white-space: nowrap;
+  margin-right: 20px;
+}
+
+
+.carriage-container-reverse{
+  display: inline-block;
+  width: 100%;
+  white-space: nowrap;
+}
+
+
+.seat-row-container{
+  display: flex;
+  flex-direction: column;
+  margin: 60px;
+  width: 100%;
+}
+
+.seat{
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center !important;
+}
+
+
+
+
+
+
+
+
+
+
