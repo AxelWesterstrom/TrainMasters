@@ -1,4 +1,3 @@
-
 .train-info-container,
 .class-selector-container,
 .seat-selector-container
@@ -65,16 +64,3 @@ input[type="radio"]:checked{
   margin: 60px;
   height: 240px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

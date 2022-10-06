@@ -89,6 +89,7 @@ function PickJourney() {
           </Container>
         </Container>
 
+
         <Container className='d-flex justify-content-end p-5 info'>
           <Button className='custom-button mt-3 mb-5' onClick={goToNextPage}>
             Fortsätt

@@ -9,7 +9,6 @@ import Ticket from "./pages/Ticket";
 import Login from "./pages/Login"
 import styles from "../public/css/commonStyles.css"; // Common styling for all pages
 import Contact from "./pages/Contact";
-import SeatsSelector from "./components/SeatsSelector";
 
 function App() {
   return (

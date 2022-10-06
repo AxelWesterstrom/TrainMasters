@@ -1,6 +1,5 @@
 import ClassSelector from "../components/ClassSelector";
 import Header from "../components/Header";
-import SeatsSelector from "../components/SeatsSelector";
 import styles from "../../public/css/customizeTrip.css";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
