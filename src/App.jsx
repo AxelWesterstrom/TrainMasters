@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CustomizeTrip from "./pages/CustomizeTrip";
 import PickJourney from "./pages/PickJourney";
+import Payment from "./pages/Payment";
 import Ticket from "./pages/Ticket";
 import styles from "../public/css/commonStyles.css"; // Common styling for all pages
 import SeatsSelector from "./components/SeatsSelector";
@@ -17,7 +18,7 @@ function App() {
           <Route path="/valj-resa" />
           <Route path="/valj-tag" element={<PickJourney />} />
           <Route path="/anpassa-resa" element={<CustomizeTrip />} />
-          <Route path="/kassan" />
+          <Route path="/kassan" element = {<Payment />} />
           <Route path="/mina-biljetter" element={<Ticket />} />
         </Routes>
       </BrowserRouter>
