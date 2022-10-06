@@ -8,7 +8,11 @@
   height: 70px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 0px) {
+  .logo{
+    display: flex;
+    justify-content: end !important;
+  }
   .logo-img{
     width: 140px;
     height: 45px;
@@ -25,6 +29,25 @@
   color: #ffff !important;
 }
 
+.profile-img{
+  filter: invert(99%) sepia(3%) saturate(1186%) hue-rotate(212deg) brightness(122%) contrast(100%);
+  width: 40px;
+}
 
+.profile-button-text {
+  font-size: smaller;
+  color: #ffff;
+  font-family: 'Open Sans', sans-serif;
+}
 
+.dropdown-custom .btn:first-child{
+  background-color: #feae00;
+  color: black;
+  border-color: #feae00;
+}
 
+.dropdown-custom .btn:first-child:hover {
+  background-color: #7AAC71; 
+  color: black;
+  border-color: #7AAC71;
+}

@@ -1,0 +1,54 @@
+.travelerContainer{
+  border: rgba(122, 172, 113, 1);
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 14px;
+    margin-top: 60px;
+}
+.travelers{
+  margin-top: 4%;
+  margin-left: 6%;
+  margin-bottom: 2%x;
+}
+
+.person{
+  margin-left: 12%;
+
+}
+
+.nameInput{
+  border: rgba(122, 172, 113, 1);
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 30px;
+  margin:1%;
+  height:50px;
+}
+.firstNameInput{
+  margin-left: 2.2%;;
+}
+
+
+.nameLabel {
+  margin-left: 12%;
+}
+
+.custom-radio{
+  cursor: pointer;
+  
+  accent-color: black;
+  height: 25px;
+  width: 25px;
+}
+input[type="radio"]:checked{
+  background-color: #62256A;
+}
+
+.radioLabel{
+ color: black;
+}
+
+.paymentMethodForm{
+  display: grid;
+	place-items: center
+}
