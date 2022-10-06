@@ -133,7 +133,7 @@ function AutoSuggest({
                 {suggestDepature.map((item, index) => {
                   return (
                     <div
-                      className="custom-text m-1"
+                      className="autoSuggest-text m-1"
                       key={index}
                       onMouseDown={() => {
                         setDeparture(item);
@@ -171,7 +171,7 @@ function AutoSuggest({
                 {suggestArrival.map((item, index) => {
                   return (
                     <div
-                      className="custom-text m-1"
+                      className="autoSuggest-text m-1"
                       key={index}
                       onMouseDown={() => {
                         setArrival(item);
