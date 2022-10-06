@@ -18,7 +18,7 @@ function SearchBar({ stations }) {
     if (departure.length !== 0 && arrival.length !== 0 && foundTrain) {
       navigate("/valj-resa", { state: { departure, arrival } });
     } else if (!foundTrain && arrival.length !== 0) {
-      setErrorMessage("Tyvär! Vi har inget dirket tåg till " + arrival + "!");
+      setErrorMessage("Tyvärr! Vi har inget direkt tåg till " + arrival + "!");
       setShow(true);
     } else if (departure.length === 0 || arrival.length === 0) {
       setErrorMessage("Fyll i destination och avreseort!");
@@ -28,9 +28,9 @@ function SearchBar({ stations }) {
 
   return (
     <>
-      <div className="d-flex justify-content-center mt-5 pt-5">
-        <Container className="p-1 m-1">
-          <Form className="customContainer">
+      <div className='d-flex justify-content-center mt-5 pt-5'>
+        <Container className='p-1 m-1'>
+          <Form className='customContainer'>
             <AutoSuggest
               stations={stations}
               departure={departure}
@@ -39,8 +39,8 @@ function SearchBar({ stations }) {
               setArrival={setArrival}
               setFoundTrain={setFoundTrain}
             />
-            <div className="d-flex justify-content-end">
-              <Button className="custom-button" onClick={goToNextPage}>
+            <div className='d-flex justify-content-end'>
+              <Button className='custom-button' onClick={goToNextPage}>
                 Sök
               </Button>
             </div>
@@ -48,10 +48,10 @@ function SearchBar({ stations }) {
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton></Modal.Header>
             <Modal.Body>
-              <p className="custom-label">{errorMessage}</p>
+              <p className='custom-label'>{errorMessage}</p>
             </Modal.Body>
             <Modal.Footer>
-              <Button className="custom-button" onClick={handleClose}>
+              <Button className='custom-button' onClick={handleClose}>
                 Stäng
               </Button>
             </Modal.Footer>

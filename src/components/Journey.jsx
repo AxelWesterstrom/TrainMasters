@@ -135,12 +135,12 @@ function Journey(props) {
           </Col>
         </Row>
         <Row className='p-2'>
-          <Col className='col-2' id='wifi'>
+          <Col className='col-1' id='wifi'>
             <img alt='wifi' className='custom-icon' src='../images/wifi.svg' />
           </Col>
           {!!hasHandicapSeats ||
             (availableIsHandicapSeat > 0 && (
-              <Col className='col-2' id='wheelchair'>
+              <Col className='col-1' id='wheelchair'>
                 <img
                   alt='wheelchair'
                   className='custom-icon'
@@ -150,7 +150,7 @@ function Journey(props) {
             ))}
           {!!isPetsAllowed ||
             (availablePetsAllowed > 0 && (
-              <Col className='col-2' id='dog'>
+              <Col className='col-1' id='dog'>
                 <img
                   alt='dog'
                   className='custom-icon'
@@ -159,7 +159,7 @@ function Journey(props) {
               </Col>
             ))}
           {!!hasBistro && (
-            <Col className='col-2' id='knifeAndFork'>
+            <Col className='col-1' id='knifeAndFork'>
               <img
                 alt='knifeAndFork'
                 className='custom-icon'
