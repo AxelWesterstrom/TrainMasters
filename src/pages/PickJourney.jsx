@@ -19,6 +19,7 @@ function PickJourney() {
 
   const goToNextPage = () => {
     if (chosenJourney !== undefined) {
+      console.log(chosenJourney);
       navigate("/anpassa-resa", {
         state: { chosenJourney, date, departure, arrival }
       });

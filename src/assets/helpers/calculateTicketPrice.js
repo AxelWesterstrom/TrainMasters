@@ -10,7 +10,7 @@ function calculateTicketPrice(
   let price = isFirstClass ? totalMin * 3 : totalMin * 2;
   let occupancyFactor = 1.5 - (1 - occupancy);
   price = price * occupancyFactor;
-  let typeFactor = 0;
+  let typeFactor;
 
   switch (ticketType) {
     case "regular":
