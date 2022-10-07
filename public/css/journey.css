@@ -70,4 +70,5 @@
   background-color: #7aac71;
   border: solid #4b7c4b;
   border-radius: 10px;
+  pointer-events: none;
 }
