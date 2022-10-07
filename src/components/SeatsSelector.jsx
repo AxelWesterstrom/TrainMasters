@@ -3,23 +3,28 @@ import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Seat from "./Seat";
 
-function SeatsSelector({ trainSetAndCarriages, carriageNumber, bookedSeats }) {
+function SeatsSelector({
+  trainSetAndCarriages,
+  carriageNumber,
+  bookedSeats,
+  handleSelect,
+  selectedSeats,
+}) {
   const [carriage, setCarriage] = useState(carriageNumber);
   const [occupiedSeats, setOccupiedSeats] = useState([]);
   const [handicapSeats, setHandicapSeats] = useState([]);
   const [rightFacingSeats, setRightFacingSeats] = useState([]);
-  const [seatsToBook, setSeatsToBook] = useState(0); //should be send from the former route
+  const [availableSeats, setAvailableSeats] = useState([]);
 
   useEffect(() => {
     let handicapSeatsList = [];
     let rightFacingSeatsList = [];
     let idList = [];
+    let availableSeatsList = [];
     bookedSeats.map((seat) => {
       idList.push(seat.seatId);
     });
     setOccupiedSeats(idList);
-    //should get the total travller
-    setSeatsToBook(2);
 
     trainSetAndCarriages.map((seat) => {
       if (seat.isHandicapSeat === 1) {
@@ -28,9 +33,13 @@ function SeatsSelector({ trainSetAndCarriages, carriageNumber, bookedSeats }) {
       if (seat.isFacingRight === 1) {
         rightFacingSeatsList.push(seat.seatId);
       }
+      if (!occupiedSeats.includes(seat.seatId)) {
+        availableSeatsList.push(seat.seatId);
+      }
     });
 
     setHandicapSeats(handicapSeatsList);
+    setAvailableSeats(availableSeatsList);
     setRightFacingSeats(rightFacingSeatsList);
   }, [bookedSeats]);
 
@@ -42,8 +51,10 @@ function SeatsSelector({ trainSetAndCarriages, carriageNumber, bookedSeats }) {
         occupiedSeats={occupiedSeats}
         handicapSeats={handicapSeats}
         rightFacingSeats={rightFacingSeats}
-        seatsToBook={seatsToBook}
         trainSetAndCarriages={trainSetAndCarriages}
+        availableSeats={availableSeats}
+        selectedSeats={selectedSeats}
+        handleSelect={handleSelect}
       />
     );
   };

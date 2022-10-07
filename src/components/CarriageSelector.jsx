@@ -7,7 +7,8 @@ function CarriageSelector({ trainSetAndCarriages, train, date }) {
   const [carriagesLayout, setCarriagesLayout] = useState([]);
   const [bookedSeats, setBookedSeats] = useState([]);
   const [allSeatsInCarriage, setAllSeatsInCarriage] = useState([]);
-  console.log(train.journeyId);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [seatsToBook, setSeatsToBook] = useState(0); //should be send from the former route
 
   useEffect(() => {
     const fetchBookdSeats = async () => {
@@ -18,10 +19,10 @@ function CarriageSelector({ trainSetAndCarriages, train, date }) {
         .then((jsonData) => setBookedSeats(jsonData));
     };
 
+    setSeatsToBook(2); //should get the total travller
     fetchBookdSeats();
   }, [train]);
-  console.log(train);
-  console.log(bookedSeats);
+
   useEffect(() => {
     let carriages = [];
     trainSetAndCarriages.map((x) => {
@@ -33,6 +34,26 @@ function CarriageSelector({ trainSetAndCarriages, train, date }) {
     setCarriagesLayout(carriages);
   }, [trainSetAndCarriages]);
 
+  const handleSelect = (e) => {
+    let seatId = +e.target.id;
+    let seatList = [];
+    if (selectedSeats.length < seatsToBook) {
+      seatList = [...selectedSeats];
+      if (!seatList.includes(seatId)) {
+        seatList.push(seatId);
+        setSelectedSeats(seatList);
+      }
+    }
+    if (selectedSeats.length === seatsToBook) {
+      seatList = [...selectedSeats];
+      seatList.shift();
+      if (!seatList.includes(seatId)) {
+        seatList.push(seatId);
+        setSelectedSeats(seatList);
+      }
+    }
+  };
+
   const chooseCarriage = () => {
     return carriagesLayout.map((x, index) => {
       return (
@@ -42,6 +63,8 @@ function CarriageSelector({ trainSetAndCarriages, train, date }) {
             trainSetAndCarriages={trainSetAndCarriages}
             carriageNumber={x}
             bookedSeats={bookedSeats}
+            handleSelect={handleSelect}
+            selectedSeats={selectedSeats}
           />
         </div>
       );
