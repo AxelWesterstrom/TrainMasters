@@ -11,7 +11,6 @@ function Seat(props) {
   let rightFacingSeats = props.rightFacingSeats;
   let availableSeats = props.availableSeats;
   let customClassName = "";
-  let seatsToBook = props.seatsToBook;
   let selectedSeats = props.selectedSeats;
   const [activeCarriage, setActiveCarriage] = useState(0);
 
