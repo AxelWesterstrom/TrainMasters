@@ -12,24 +12,24 @@ function DateSlider(props) {
   }
 
   return (
-    <Container className='custom-container'>
-      <Row id='dateSlider' className='row d-flex align-item-center m-1'>
-        <Col className='col-3 d-flex justify-content-center'>
+    <Container className="custom-container">
+      <Row id="dateSlider" className="row d-flex align-item-center m-1 mb-2">
+        <Col className="col-3 d-flex justify-content-center">
           <img
-            alt='left-arrow'
-            src='../images/left-arrow.png'
-            className='date-arrow-left'
+            alt="left-arrow"
+            src="../images/arrow-left-date.svg"
+            className="date-arrow-left"
             onClick={() => handleDateChange(-1)}
           />
         </Col>
-        <Col className='col-6 d-flex justify-content-center align-items-center'>
-          <p className='custom-label'>{date}</p>
+        <Col className="col-6 d-flex justify-content-center align-items-center">
+          <p className="custom-label mb-0">{date}</p>
         </Col>
-        <Col className='col-3 d-flex justify-content-center'>
+        <Col className="col-3 d-flex justify-content-center">
           <img
-            alt='right-arrow'
-            src='../images/right-arrow.png'
-            className='date-arrow-right'
+            alt="right-arrow"
+            src="../images/arrow-right-date.svg"
+            className="date-arrow-right"
             onClick={() => handleDateChange(1)}
           />
         </Col>

@@ -56,7 +56,7 @@ function CustomizeTrip() {
   return (
     <>
       <Header />
-      <div className="body">
+      <div className="body pb-5">
         <div onClick={handleClick}>
           <img
             src="../images/arrow-left.svg"
@@ -89,7 +89,11 @@ function CustomizeTrip() {
           </Container>
         </Container>
 
-        <Modal show={showModal} onHide={handleClose} className="modal-xl">
+        <Modal
+          show={showModal}
+          onHide={handleClose}
+          className="seat-picker-modal modal-xl sm-modal-sm"
+        >
           <Modal.Header closeButton>
             <Modal.Title>Välj plats</Modal.Title>
           </Modal.Header>
@@ -109,12 +113,12 @@ function CustomizeTrip() {
             </Button>
           </Modal.Footer>
         </Modal>
-        <Container className="d-flex justify-content-end  info">
-          <Button className="custom-button mt-3 mb-5" onClick={goToNextPage}>
-            Fortsätt
-          </Button>
-        </Container>
       </div>
+      <Container className="d-flex justify-content-end info pb-5 mb-5">
+        <Button className="custom-button mt-1 mb-5 me-2" onClick={goToNextPage}>
+          Fortsätt
+        </Button>
+      </Container>
     </>
   );
 }

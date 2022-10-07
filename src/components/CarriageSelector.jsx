@@ -64,16 +64,12 @@ function CarriageSelector({ trainSetAndCarriages, train }) {
 
   return (
     <>
-      <div className="ms-2 mb-3 d-flex justify-content-center">
-        <div className="col col-4">
-          <Form.Select className="custom-text">
-            <option className="custom-text">Ospecificerad plats</option>
-            <option className="custom-text" value="1">
-              Handikapplats rullstol
-            </option>
-            <option className="custom-text" value="2">
-              Djur tillåtet
-            </option>
+      <div className="ms-4 mt-1 mb-3 d-flex">
+        <div className="col col-lg-4 col-xs-10">
+          <Form.Select>
+            <option>Ospecificerad plats</option>
+            <option value="1">Handikapplats rullstol</option>
+            <option value="2">Djur tillåtet</option>
           </Form.Select>
         </div>
         <div className="col col-4 ms-4">
@@ -84,18 +80,20 @@ function CarriageSelector({ trainSetAndCarriages, train }) {
         <div className="col col-1 d-flex align-items-center">
           <img
             alt="left-arrow"
-            src="../images/left-arrow.png"
+            src="../images/arrow-left-date.svg"
             className="date-arrow-left"
             onClick={slideLeft}
           />
         </div>
-        <div id="slider" className="slider">
-          {chooseCarriage()}
+        <div className="col col-10 seat-picker-container">
+          <div id="slider" className="slider">
+            {chooseCarriage()}
+          </div>
         </div>
         <div className="col col-1 d-flex align-items-center">
           <img
             alt="right-arrow"
-            src="../images/right-arrow.png"
+            src="../images/arrow-right-date.svg"
             className="date-arrow-right"
             onClick={slideRight}
           />
