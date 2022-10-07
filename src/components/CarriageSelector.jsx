@@ -3,30 +3,25 @@ import { useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import SeatsSelector from "./SeatsSelector";
 
-function CarriageSelector({ trainSetAndCarriages, train }) {
+function CarriageSelector({ trainSetAndCarriages, train, date }) {
   const [carriagesLayout, setCarriagesLayout] = useState([]);
   const [bookedSeats, setBookedSeats] = useState([]);
-  let date = "2022-09-23";
+  const [allSeatsInCarriage, setAllSeatsInCarriage] = useState([]);
+  console.log(train.journeyId);
 
   useEffect(() => {
     const fetchBookdSeats = async () => {
       await fetch(
-        `/api/bookingPartsWithDepartureAndArrivalStationInfo/?date=${date.slice(
-          0,
-          10
-        )}&departureStationDeparture<=${
-          train.departureStationDeparture
-        }&arrivalStationArrival>=${train.arrivalStationArrival}&journeyId=${
-          train.journeyId
-        }`
+        `/api/bookingPartsWithDepartureAndArrivalStationInfo/?date=${date}&departureStationDeparture>=${train.departureOffsetA}&arrivalStationArrival<=${train.arrivalOffsetB}&journeyId=${train.journeyId}`
       )
         .then((res) => res.json())
         .then((jsonData) => setBookedSeats(jsonData));
     };
 
     fetchBookdSeats();
-  }, []);
-
+  }, [train]);
+  console.log(train);
+  console.log(bookedSeats);
   useEffect(() => {
     let carriages = [];
     trainSetAndCarriages.map((x) => {
@@ -34,6 +29,7 @@ function CarriageSelector({ trainSetAndCarriages, train }) {
         carriages.push(x.carriageNumber);
       }
     });
+
     setCarriagesLayout(carriages);
   }, [trainSetAndCarriages]);
 

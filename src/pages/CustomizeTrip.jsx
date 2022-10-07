@@ -22,33 +22,15 @@ function CustomizeTrip() {
   } = chosenJourney;
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
-
-  /*let train = {
-    //This should be fetch from the former page - "valj-tag"
-    stationNameA: "Ängelholm",
-
-    stationNameB: "Halmstad C",
-
-    trainSetId: 2,
-
-    journeyId: 8,
-
-    departureStationDeparture: 85,
-
-    arrivalStationArrival: 115
-  };*/
-
-  //let date = "2022-09-23";
   const [trainSetAndCarriages, setTrainSetAndCarriages] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
       await fetch(`/api/carriagesWithSeats/?trainsetId=${trainSetId}}`)
-        .then(res => res.json())
-        .then(jsonData => setTrainSetAndCarriages(jsonData));
+        .then((res) => res.json())
+        .then((jsonData) => setTrainSetAndCarriages(jsonData));
     };
     fetchData();
-    console.log(chosenJourney);
   }, []);
 
   const handleClick = () => {
@@ -69,30 +51,30 @@ function CustomizeTrip() {
       <div className="body pb-5">
         <div onClick={handleClick}>
           <img
-            src='../images/arrow-left.svg'
-            className='mt-2 ms-3 back-button'
+            src="../images/arrow-left.svg"
+            className="mt-2 ms-3 back-button"
           />
         </div>
         <Container>
-          <Container className='p-2'>
-            <Container className='train-info-container p-5'>
-              <Container className='m-3'>
-                <p className='custom-label'>
+          <Container className="p-2">
+            <Container className="train-info-container p-5">
+              <Container className="m-3">
+                <p className="custom-label">
                   {stationNameA} - {stationNameB}
                 </p>
-                <p className='custom-label'>{date}</p>
-                <p className='custom-label'>{departureTimeA}</p>
-                <Button className='custom-button' onClick={handleClick}>
+                <p className="custom-label">{date}</p>
+                <p className="custom-label">{departureTimeA}</p>
+                <Button className="custom-button" onClick={handleClick}>
                   Ändra
                 </Button>
               </Container>
             </Container>
           </Container>
           <ClassSelector />
-          <Container className='p-2'>
-            <Container className='seat-selector-container p-5'>
-              <p className='custom-label m-4' onClick={goToChooseSeats}>
-                <img src='../images/plus-icon.svg' className='custom-icon' />
+          <Container className="p-2">
+            <Container className="seat-selector-container p-5">
+              <p className="custom-label m-4" onClick={goToChooseSeats}>
+                <img src="../images/plus-icon.svg" className="custom-icon" />
                 Välj plats
               </p>
             </Container>
@@ -111,12 +93,13 @@ function CustomizeTrip() {
             <CarriageSelector
               trainSetAndCarriages={trainSetAndCarriages}
               train={chosenJourney}
+              date={date}
             />
           </Modal.Body>
           <Modal.Footer>
             <Button
-              variant='primary'
-              className='custom-button'
+              variant="primary"
+              className="custom-button"
               onClick={handleClose}
             >
               Fortsätt

@@ -6,12 +6,13 @@ import Seat from "./Seat";
 function SeatsSelector({ trainSetAndCarriages, carriageNumber, bookedSeats }) {
   const [carriage, setCarriage] = useState(carriageNumber);
   const [occupiedSeats, setOccupiedSeats] = useState([]);
-  const [availableSeats, setAvailableSeats] = useState([]);
   const [handicapSeats, setHandicapSeats] = useState([]);
   const [rightFacingSeats, setRightFacingSeats] = useState([]);
   const [seatsToBook, setSeatsToBook] = useState(0); //should be send from the former route
 
   useEffect(() => {
+    let handicapSeatsList = [];
+    let rightFacingSeatsList = [];
     let idList = [];
     bookedSeats.map((seat) => {
       idList.push(seat.seatId);
@@ -19,12 +20,7 @@ function SeatsSelector({ trainSetAndCarriages, carriageNumber, bookedSeats }) {
     setOccupiedSeats(idList);
     //should get the total travller
     setSeatsToBook(2);
-  }, [bookedSeats]);
 
-  useEffect(() => {
-    let handicapSeatsList = [];
-    let availableSeatsList = [];
-    let rightFacingSeatsList = [];
     trainSetAndCarriages.map((seat) => {
       if (seat.isHandicapSeat === 1) {
         handicapSeatsList.push(seat.seatId);
@@ -32,16 +28,11 @@ function SeatsSelector({ trainSetAndCarriages, carriageNumber, bookedSeats }) {
       if (seat.isFacingRight === 1) {
         rightFacingSeatsList.push(seat.seatId);
       }
-      if (!occupiedSeats.includes(seat.seatId)) {
-        availableSeatsList.push(seat.seatId);
-      }
     });
 
-    setAvailableSeats(availableSeatsList);
     setHandicapSeats(handicapSeatsList);
-    setOccupiedSeats(handicapSeatsList);
     setRightFacingSeats(rightFacingSeatsList);
-  }, [trainSetAndCarriages]);
+  }, [bookedSeats]);
 
   const allCarriages = () => {
     return (
@@ -49,7 +40,6 @@ function SeatsSelector({ trainSetAndCarriages, carriageNumber, bookedSeats }) {
         key={"carriage"}
         carriage={carriage}
         occupiedSeats={occupiedSeats}
-        availableSeats={availableSeats}
         handicapSeats={handicapSeats}
         rightFacingSeats={rightFacingSeats}
         seatsToBook={seatsToBook}
