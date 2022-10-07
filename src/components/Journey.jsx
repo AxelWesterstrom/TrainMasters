@@ -98,6 +98,7 @@ function Journey(props) {
       setOccupancy(calculateOccupancy(numberOfSeats, occupiedSeats));
     }
     fetchData();
+    console.log(journey.journeyId);
   }, [date, numberOfSeats]);
 
   useEffect(() => {
@@ -119,7 +120,11 @@ function Journey(props) {
 
   return (
     <Container
-      className='journeyItem mb-3'
+      className={`journeyItem mb-3  ${
+        !chosenJourney || journeyId !== chosenJourney.journeyId
+          ? ""
+          : "activeJourney"
+      }`}
       onClick={() => {
         handleClickedJourney(journey);
       }}
