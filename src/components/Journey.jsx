@@ -63,7 +63,6 @@ function Journey(props) {
     fetchData();
   }, []);
 
-
   useEffect(() => {
     let occupiedIsHandicapSeats, occupiedPetsAllowed, occupiedFirstClass;
     async function fetchData() {
@@ -114,6 +113,10 @@ function Journey(props) {
     );
   }, [occupancy]);
 
+  useEffect(() => {
+    setChosenJourney({});
+  }, [date]);
+
   function handleClickedJourney(journey) {
     setChosenJourney({ ...journey });
   }
@@ -129,31 +132,37 @@ function Journey(props) {
         handleClickedJourney(journey);
       }}
     >
-      <div className={!price || isNaN(price) ? "blurry" : ""}>
-        <Row className="pt-2">
-          <Col className="col-6">
-            <p className="custom-text">
+      <div
+        className={
+          !price || isNaN(price) || !(numberOfSeats - occupiedSeats)
+            ? "blurry"
+            : ""
+        }
+      >
+        <Row className='pt-2'>
+          <Col className='col-6'>
+            <p className='custom-text'>
               {departureTimeA} - {arrivalTimeB}
             </p>
           </Col>
-          <Col className="col-6 d-flex justify-content-end">
-            <p className="custom-text">
-              {numberOfSeats - occupiedSeats <= 0
-                ? "Slutsåld"
-                : !price || isNaN(price) || price == Infinity
+          <Col className='col-6 d-flex justify-content-end'>
+            <p className='custom-text'>
+              {!price || isNaN(price) || price == Infinity
                 ? ""
-                : "fr. " + price + " kr"}
+                : numberOfSeats - occupiedSeats > 0
+                ? "fr. " + price + " kr"
+                : "Slutsåld"}
             </p>
           </Col>
         </Row>
-        <Row className="pt-2">
-          <Col className="col-6">
-            <p className="custom-text">
+        <Row className='pt-2'>
+          <Col className='col-6'>
+            <p className='custom-text'>
               Restid {Math.floor((arrivalOffsetB - departureOffsetA) / 60)}:
               {(arrivalOffsetB - departureOffsetA) % 60} timmar
             </p>
           </Col>
-          <Col className="pt-2 col-6 d-flex justify-content-end">
+          <Col className='pt-2 col-6 d-flex justify-content-end'>
             <p className={availableSecondClass > 0 ? "" : "lineThrough"}>
               2 klass,
             </p>
@@ -162,43 +171,43 @@ function Journey(props) {
             </p>
           </Col>
         </Row>
-        <Row className="pt-2">
-          <Col className="col-1" id="wifi">
-            <img alt="wifi" className="custom-icon" src="../images/wifi.svg" />
+        <Row className='pt-2'>
+          <Col className='col-1' id='wifi'>
+            <img alt='wifi' className='custom-icon' src='../images/wifi.svg' />
           </Col>
           {!!hasHandicapSeats ||
             (availableIsHandicapSeat > 0 && (
-              <Col className="col-1" id="wheelchair">
+              <Col className='col-1' id='wheelchair'>
                 <img
-                  alt="wheelchair"
-                  className="custom-icon"
-                  src="../images/wheelchair.svg"
+                  alt='wheelchair'
+                  className='custom-icon'
+                  src='../images/wheelchair.svg'
                 />
               </Col>
             ))}
           {!!isPetsAllowed ||
             (availablePetsAllowed > 0 && (
-              <Col className="col-1" id="dog">
+              <Col className='col-1' id='dog'>
                 <img
-                  alt="dog"
-                  className="custom-icon"
-                  src="../images/dog.svg"
+                  alt='dog'
+                  className='custom-icon'
+                  src='../images/dog.svg'
                 />
               </Col>
             ))}
           {!!hasBistro && (
-            <Col className="col-1" id="knifeAndFork">
+            <Col className='col-1' id='knifeAndFork'>
               <img
-                alt="knifeAndFork"
-                className="custom-icon"
-                src="../images/knife-and-fork.svg"
+                alt='knifeAndFork'
+                className='custom-icon'
+                src='../images/knife-and-fork.svg'
               />
             </Col>
           )}
         </Row>
-        <Row className="pt-2 mt-1">
-          <Col className="content-justify-start">
-            <p className="custom-text">Tågmästarna Tåg {trainNumber}</p>
+        <Row className='pt-2 mt-1'>
+          <Col className='content-justify-start'>
+            <p className='custom-text'>Tågmästarna Tåg {trainNumber}</p>
           </Col>
         </Row>
       </div>
