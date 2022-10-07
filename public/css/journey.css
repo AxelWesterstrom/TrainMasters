@@ -61,3 +61,7 @@
 .journeyItem > div {
   transition: 1s filter;
 }
+
+.lineThrough {
+  text-decoration: line-through;
+}
