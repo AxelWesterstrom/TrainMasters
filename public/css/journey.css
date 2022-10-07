@@ -7,6 +7,9 @@
 .journeyItem:hover {
   background-color: rgba(122, 172, 113, 0.1);
 }
+.journeyItem:active {
+  background-color: rgba(122, 172, 113, 0.1);
+}
 
 .custom-text {
   pointer-events: none;
@@ -34,7 +37,7 @@
 
 .date-arrow-right,
 .date-arrow-left {
-  width: 95px;
+  width: 50px;
   cursor: pointer;
 }
 
@@ -44,7 +47,7 @@
   }
   .date-arrow-right,
   .date-arrow-left {
-    width: 75px;
+    width: 35px;
   }
   .journeyList {
     padding: 15px;
@@ -57,4 +60,15 @@
 
 .journeyItem > div {
   transition: 1s filter;
+}
+
+.lineThrough {
+  text-decoration: line-through;
+}
+
+.activeJourney {
+  background-color: #7aac71;
+  border: solid #4b7c4b;
+  border-radius: 10px;
+  pointer-events: none;
 }
