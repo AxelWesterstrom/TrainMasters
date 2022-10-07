@@ -1,0 +1,85 @@
+.seat-disabled-left{
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center !important;
+  pointer-events: none;
+  background-image: url("/public/images/seat-disabled-left.svg");
+}
+.seat-disabled-right{
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center !important;
+  pointer-events: none;
+  background-image: url("/public/images/seat-disabled-right.svg");
+}
+.seat-selected-left{
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center !important;
+  cursor: pointer;
+  background-image: url("/public/images/seat-select-left.svg");
+}
+.seat-selected-right{
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center !important;
+  cursor: pointer;
+  background-image: url("/public/images/seat-select-right.svg");
+}
+.seat-avaliable-left{
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center !important;
+  cursor: pointer;
+  background-image: url("/public/images/seat-free-left.svg");
+}
+.seat-avaliable-right{
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center !important;
+  cursor: pointer;
+  background-image: url("/public/images/seat-free-right.svg");
+}
+.seat-wheelchair-free{
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center !important;
+  border: #7AAC71;
+  border-style: dotted;
+  cursor: pointer;
+}
+.seat-wheelchair-disabled{
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center !important;
+  border: gray;
+  border-style: dotted;
+  pointer-events: none;
+}
+.seat-wheelchair-selected{
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center !important;
+  border: #7AAC71;
+  border-style: dotted;
+  background-color: #7AAC71;
+  cursor: pointer;
+}

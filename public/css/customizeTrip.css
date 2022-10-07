@@ -1,4 +1,3 @@
-
 .train-info-container,
 .class-selector-container,
 .seat-selector-container
@@ -63,23 +62,5 @@ input[type="radio"]:checked{
   display: flex;
   flex-direction: column;
   margin: 60px;
-  width: 100%;
+  height: 240px;
 }
-
-.seat{
-  background-size: cover;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center !important;
-}
-
-
-
-
-
-
-
-
-
-

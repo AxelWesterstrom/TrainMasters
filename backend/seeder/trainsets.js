@@ -61,7 +61,9 @@ async function seedTrainSets() {
       );
       for (let seatNumber = 1; seatNumber <= numberOfSeats; seatNumber++) {
         await db.query(
+
           "INSERT INTO seats(carriageId, seatNumber, isHandicapSeat, isFacingRight) VALUES(?,?,?,?)",
+
           [
             carriageId,
             seatNumber,

@@ -3,7 +3,6 @@ import "../../public/css/journey.css";
 
 function DateSlider(props) {
   const { date, setDate, formatDate } = props;
-
   function handleDateChange(change) {
     let dateToChange = new Date(date);
     let newDate = dateToChange.setDate(dateToChange.getDate() + change);

@@ -67,14 +67,17 @@ function CarriageSelector({ trainSetAndCarriages, train }) {
       <div className="ms-2 mb-3 d-flex justify-content-center">
         <div className="col col-4">
           <Form.Select className="custom-text">
-            <option className="custom-text">Ospecificera plats</option>
+            <option className="custom-text">Ospecificerad plats</option>
             <option className="custom-text" value="1">
-              Handikapplats
+              Handikapplats rullstol
             </option>
             <option className="custom-text" value="2">
               Djur tillåtet
             </option>
           </Form.Select>
+        </div>
+        <div className="col col-4 ms-4">
+          <div></div>
         </div>
       </div>
       <div className="d-flex">

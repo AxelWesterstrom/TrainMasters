@@ -5,7 +5,6 @@ import calculateOccupancy from "../assets/helpers/calculateOccupancy";
 
 function Journey(props) {
   let { date, journey, chosenJourney, setChosenJourney } = props;
-
   let {
     startTime,
     trainSetId,
@@ -63,6 +62,7 @@ function Journey(props) {
     }
     fetchData();
   }, []);
+
 
   useEffect(() => {
     let occupiedIsHandicapSeats, occupiedPetsAllowed, occupiedFirstClass;
