@@ -66,7 +66,7 @@ function Seat(props) {
                   key={index}
                   id={seat.seatId}
                   style={firstClass ? { marginBottom: "90px" } : {}}
-                  onClick={(e) => props.handleSelect(e)}
+                  onClick={(e) => props.handleSelectSeat(e)}
                 >
                   {seat.seatNumber}
                 </div>
@@ -79,7 +79,7 @@ function Seat(props) {
                     key={index}
                     id={seat.seatId}
                     style={secondClass ? { marginBottom: "40px" } : {}}
-                    onClick={(e) => props.handleSelect(e)}
+                    onClick={(e) => props.handleSelectSeat(e)}
                   >
                     {seat.seatNumber}
                   </div>

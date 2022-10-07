@@ -7,7 +7,7 @@ function SeatsSelector({
   trainSetAndCarriages,
   carriageNumber,
   bookedSeats,
-  handleSelect,
+  handleSelectSeat,
   selectedSeats,
 }) {
   const [carriage, setCarriage] = useState(carriageNumber);
@@ -43,7 +43,7 @@ function SeatsSelector({
     setRightFacingSeats(rightFacingSeatsList);
   }, [bookedSeats]);
 
-  const allCarriages = () => {
+  const renderAllSeats = () => {
     return (
       <Seat
         key={"carriage"}
@@ -54,12 +54,12 @@ function SeatsSelector({
         trainSetAndCarriages={trainSetAndCarriages}
         availableSeats={availableSeats}
         selectedSeats={selectedSeats}
-        handleSelect={handleSelect}
+        handleSelectSeat={handleSelectSeat}
       />
     );
   };
 
-  return <>{allCarriages()}</>;
+  return <>{renderAllSeats()}</>;
 }
 
 export default SeatsSelector;

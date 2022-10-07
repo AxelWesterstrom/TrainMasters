@@ -1,9 +1,67 @@
+import { useEffect } from "react";
 import { useState } from "react";
-import { Container, Form } from "react-bootstrap";
+import { Container, Form, Modal, Button } from "react-bootstrap";
 
-function ClassSelector() {
-  const [firstClass, setFirstClass] = useState("");
-  const [secondClass, setSecondClass] = useState("");
+function ClassSelector({
+  totalOccupiedSeats,
+  totalSeatsInTrain,
+  firstClass,
+  setFirstClass,
+  secondClass,
+  setSecondClass,
+  wheechairSeatsFullBooked,
+  setWheelChairSeatsFullBooked,
+  petsCarraigeFullBooked,
+  setPetsCarriageFullBooked,
+}) {
+  const [firstClassFullBooked, setFirstClassFullBooked] = useState(false);
+  const [secondClassFullBooked, setSecondClassFullBooked] = useState(false);
+  const [show, setShow] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (
+      +totalOccupiedSeats["occupiedFirstClass"] ===
+      +totalSeatsInTrain["firstClass"]
+    ) {
+      setFirstClassFullBooked(true);
+      setSecondClass(true);
+    }
+    if (
+      +totalOccupiedSeats["occupiedSeats"] -
+        +totalOccupiedSeats["occupiedFirstClass"] ===
+      +totalSeatsInTrain["secondClass"]
+    ) {
+      setSecondClassFullBooked(true);
+      setFirstClass(true);
+    }
+    if (
+      +totalOccupiedSeats["occupiedPetsAllowed"] ===
+      +totalSeatsInTrain["petsAllowed"]
+    ) {
+      setPetsCarriageFullBooked(true);
+    }
+    if (
+      +totalOccupiedSeats["occupiedIsHandicapSeat"] ===
+      +totalSeatsInTrain["hasHandicapSeats"]
+    ) {
+      setWheelChairSeatsFullBooked(true);
+    }
+  }, [totalOccupiedSeats]);
+
+  const handleSelectClass = (e) => {
+    let className = e.target.id;
+    if (firstClassFullBooked && className === "firstClass") {
+      setErrorMessage("Tyvärr! 1 Klassen är fullbokad!");
+      setShow(true);
+    }
+    if (secondClassFullBooked && className === "secondClass") {
+      setErrorMessage("Tyvärr! 2 Klassen är fullbokad!");
+      setShow(true);
+    }
+  };
+
+  const handleClose = () => setShow(false);
 
   return (
     <>
@@ -18,15 +76,25 @@ function ClassSelector() {
                       label="1 Klass"
                       name="group1"
                       type={type}
-                      onChange={(e) => setFirstClass(e.target.value)}
-                      id={`${type}-firstClass`}
+                      value={firstClass}
+                      checked={
+                        firstClass === true ||
+                        (firstClass === false && secondClass === false)
+                      }
+                      onChange={(e) => handleSelectClass(e)}
+                      id="firstClass"
                     />
                     <Form.Check
                       label="2 Klass"
                       name="group1"
                       type={type}
-                      onChange={(e) => setSecondClass(e.target.value)}
-                      id={`${type}-secondClass`}
+                      value={secondClass}
+                      checked={
+                        secondClass === true ||
+                        (firstClass === false && secondClass === false)
+                      }
+                      onChange={(e) => handleSelectClass(e)}
+                      id="secondClass"
                     />
                   </div>
                 ))}
@@ -35,6 +103,17 @@ function ClassSelector() {
           </Container>
         </Container>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          <p className="custom-label">{errorMessage}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button className="custom-button" onClick={handleClose}>
+            Stäng
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

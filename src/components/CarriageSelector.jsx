@@ -3,25 +3,34 @@ import { useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import SeatsSelector from "./SeatsSelector";
 
-function CarriageSelector({ trainSetAndCarriages, train, date }) {
+function CarriageSelector({ chosenJourney, seatsToBook, date }) {
   const [carriagesLayout, setCarriagesLayout] = useState([]);
-  const [bookedSeats, setBookedSeats] = useState([]);
-  const [allSeatsInCarriage, setAllSeatsInCarriage] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [seatsToBook, setSeatsToBook] = useState(0); //should be send from the former route
+  const [trainSetAndCarriages, setTrainSetAndCarriages] = useState([]);
+  const [bookedSeats, setBookedSeats] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetch(
+        `/api/carriagesWithSeats/?trainsetId=${chosenJourney.trainSetId}}`
+      )
+        .then((res) => res.json())
+        .then((jsonData) => setTrainSetAndCarriages(jsonData));
+    };
+    fetchData();
+  }, [chosenJourney]);
 
   useEffect(() => {
     const fetchBookdSeats = async () => {
       await fetch(
-        `/api/bookingPartsWithDepartureAndArrivalStationInfo/?date=${date}&departureStationDeparture>=${train.departureOffsetA}&arrivalStationArrival<=${train.arrivalOffsetB}&journeyId=${train.journeyId}`
+        `/api/bookingPartsWithDepartureAndArrivalStationInfo/?date=${date}&departureStationDeparture>=${chosenJourney.departureOffsetA}&arrivalStationArrival<=${chosenJourney.arrivalOffsetB}&journeyId=${chosenJourney.journeyId}`
       )
         .then((res) => res.json())
         .then((jsonData) => setBookedSeats(jsonData));
     };
 
-    setSeatsToBook(2); //should get the total travller
     fetchBookdSeats();
-  }, [train]);
+  }, [chosenJourney, date]);
 
   useEffect(() => {
     let carriages = [];
@@ -34,7 +43,7 @@ function CarriageSelector({ trainSetAndCarriages, train, date }) {
     setCarriagesLayout(carriages);
   }, [trainSetAndCarriages]);
 
-  const handleSelect = (e) => {
+  const handleSelectSeat = (e) => {
     let seatId = +e.target.id;
     let seatList = [];
     if (selectedSeats.length < seatsToBook) {
@@ -54,7 +63,7 @@ function CarriageSelector({ trainSetAndCarriages, train, date }) {
     }
   };
 
-  const chooseCarriage = () => {
+  const renderAllCarriages = () => {
     return carriagesLayout.map((x, index) => {
       return (
         <div className="carriage-container" key={x}>
@@ -63,7 +72,7 @@ function CarriageSelector({ trainSetAndCarriages, train, date }) {
             trainSetAndCarriages={trainSetAndCarriages}
             carriageNumber={x}
             bookedSeats={bookedSeats}
-            handleSelect={handleSelect}
+            handleSelectSeat={handleSelectSeat}
             selectedSeats={selectedSeats}
           />
         </div>
@@ -106,7 +115,7 @@ function CarriageSelector({ trainSetAndCarriages, train, date }) {
         </div>
         <div className="col col-10 seat-picker-container">
           <div id="slider" className="slider">
-            {chooseCarriage()}
+            {renderAllCarriages()}
           </div>
         </div>
         <div className="col col-1 d-flex align-items-center">
