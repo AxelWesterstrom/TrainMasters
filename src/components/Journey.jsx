@@ -13,7 +13,8 @@ function Journey(props) {
     arrivalOffsetB,
     departureTimeA,
     arrivalTimeB,
-    journeyId
+    journeyId,
+    trainNumber
   } = journey;
 
   const [price, setPrice] = useState();
@@ -22,12 +23,15 @@ function Journey(props) {
   const [isPetsAllowed, setIsPetsAllowed] = useState(true);
   const [occupancy, setOccupancy] = useState(0);
   const [numberOfSeats, setNumberOfSeats] = useState(0);
+  const [occupiedSeats, setOccupiedSeats] = useState(0);
   const [petsAllowed, setPetsAllowed] = useState(0);
   const [isHandicapSeat, setIsHandicapSeat] = useState(0);
   const [firstClass, setFirstClass] = useState(0);
+  const [secondClass, setSecondClass] = useState(0);
   const [availableIsHandicapSeat, setAvailableIsHandicapSeat] = useState(0);
   const [availablePetsAllowed, setAvailablePetsAllowed] = useState(0);
   const [availableFirstClass, setAvailableFirstClass] = useState(0);
+  const [availableSecondClass, setAvailableSecondClass] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -44,6 +48,7 @@ function Journey(props) {
       data = data[0];
       setNumberOfSeats(data.numberOfSeats);
       setFirstClass(+data.firstClass);
+      setSecondClass(+data.secondClass);
 
       let bistro = +data.hasBistro;
       setHasBistro(bistro === 0 || bistro === undefined ? false : true);
@@ -60,10 +65,7 @@ function Journey(props) {
   }, []);
 
   useEffect(() => {
-    let occupiedSeats,
-      occupiedIsHandicapSeats,
-      occupiedPetsAllowed,
-      occupiedFirstClass;
+    let occupiedIsHandicapSeats, occupiedPetsAllowed, occupiedFirstClass;
     async function fetchData() {
       let occupiedSeatsData;
       try {
@@ -75,12 +77,12 @@ function Journey(props) {
       }
       let occupiedSeatsDataJson = await occupiedSeatsData.json();
       if (!occupiedSeatsDataJson[0] || occupiedSeatsDataJson[0] === undefined) {
-        occupiedSeats = 0;
+        setOccupiedSeats(0);
         occupiedIsHandicapSeats = 0;
         occupiedPetsAllowed = 0;
         occupiedFirstClass = 0;
       } else {
-        occupiedSeats = +occupiedSeatsDataJson[0].occupiedSeats;
+        setOccupiedSeats(+occupiedSeatsDataJson[0].occupiedSeats);
         occupiedIsHandicapSeats =
           +occupiedSeatsDataJson[0].occupiedIsHandicapSeat;
         occupiedPetsAllowed = +occupiedSeatsDataJson[0].occupiedPetsAllowed;
@@ -90,6 +92,9 @@ function Journey(props) {
       setAvailableIsHandicapSeat(isHandicapSeat - occupiedIsHandicapSeats);
       setAvailablePetsAllowed(petsAllowed - occupiedPetsAllowed);
       setAvailableFirstClass(firstClass - occupiedFirstClass);
+      setAvailableSecondClass(
+        secondClass - (occupiedSeats - occupiedFirstClass)
+      );
       setOccupancy(calculateOccupancy(numberOfSeats, occupiedSeats));
     }
     fetchData();
@@ -120,7 +125,7 @@ function Journey(props) {
       }}
     >
       <div className={!price || isNaN(price) ? "blurry" : ""}>
-        <Row className='p-2'>
+        <Row className='pt-2'>
           <Col className='col-6'>
             <p className='custom-text'>
               {departureTimeA} - {arrivalTimeB}
@@ -128,13 +133,31 @@ function Journey(props) {
           </Col>
           <Col className='col-6 d-flex justify-content-end'>
             <p className='custom-text'>
-              {!price || isNaN(price) || price == Infinity
+              {numberOfSeats - occupiedSeats <= 0
+                ? "Slutsåld"
+                : !price || isNaN(price) || price == Infinity
                 ? ""
                 : "fr. " + price + " kr"}
             </p>
           </Col>
         </Row>
-        <Row className='p-2'>
+        <Row className='pt-2'>
+          <Col className='col-6'>
+            <p className='custom-text'>
+              Restid {Math.floor((arrivalOffsetB - departureOffsetA) / 60)}:
+              {(arrivalOffsetB - departureOffsetA) % 60} timmar
+            </p>
+          </Col>
+          <Col className='pt-2 col-6 d-flex justify-content-end'>
+            <p className={availableSecondClass > 0 ? "" : "lineThrough"}>
+              2 klass,
+            </p>
+            <p className={availableFirstClass > 0 ? "" : "lineThrough"}>
+              1 klass
+            </p>
+          </Col>
+        </Row>
+        <Row className='pt-2'>
           <Col className='col-1' id='wifi'>
             <img alt='wifi' className='custom-icon' src='../images/wifi.svg' />
           </Col>
@@ -168,9 +191,9 @@ function Journey(props) {
             </Col>
           )}
         </Row>
-        <Row className='p-2 mt-1'>
+        <Row className='pt-2 mt-1'>
           <Col className='content-justify-start'>
-            <p className='custom-text'>Tågnummer</p>
+            <p className='custom-text'>Tågmästarna Tåg {trainNumber}</p>
           </Col>
         </Row>
       </div>
