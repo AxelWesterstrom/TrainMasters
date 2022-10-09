@@ -76,6 +76,8 @@ function AutoSuggest({
 
     if (suggestArrival.length === 0) {
       setNoTrain(true);
+    } else {
+      setNoTrain(false);
     }
   };
 
