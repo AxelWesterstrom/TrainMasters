@@ -1,0 +1,40 @@
+.login-body{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background-image: url("/public/images/bg-home.jpg");
+  background-repeat: no-repeat !important;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+.loginform-body{
+  
+  margin-top: 40px;
+}
+
+.form-row {
+  display: flex;
+  width: 100%;
+  max-width: 60%;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.login-form-col {
+background-color: white;
+border-radius: 20px;
+border-style: solid;
+border-width: 3px;
+border-color: #62256A;
+padding-top: 40px;
+padding-bottom: 50px;
+padding-left: 40px;
+padding-right: 40px;
+}
+

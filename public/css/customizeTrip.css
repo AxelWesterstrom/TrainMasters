@@ -1,8 +1,8 @@
-
 .train-info-container,
-.class-selector-container
+.class-selector-container,
+.seat-selector-container
 {
-  max-width: 30rem;
+  max-width: 45rem !important;
   border: solid #7AAC71;
   border-radius: 10px;
 }
@@ -10,3 +10,85 @@
 .custom-button{
   background-color: rgba(0,0,0,0);
 }
+
+#custom-radio-button{
+  margin-top: 12px;
+}
+
+input[type="radio"]:checked{
+  background-color: #62256A;
+}
+
+.custom-label{
+  cursor: pointer;
+}
+
+.custom-icon{
+  width: 28px !important;
+  margin-right: 10px;
+}
+
+.slider{
+  max-height: 400px;
+  overflow: auto;
+  white-space: nowrap;
+  width: 100%;
+  margin-right: 0px !important;
+}
+
+.carriage-container{
+  display: inline-block;
+  width: 150%;
+  white-space: nowrap;
+  margin-right: 20px;
+}
+
+.seat-row-container{
+  display: flex;
+  flex-direction: column;
+  margin: 60px;
+  height: 240px;
+}
+
+@media screen and (max-width: 992px) {
+
+  .custom-icon{
+    width:10px !important;
+  }
+
+  .carriage-container{
+    display: inline-block;
+    width: 350%;
+    white-space: nowrap;
+    margin-right: 10px;
+  }
+
+  .seat-row-container{
+    display: flex;
+    flex-direction: column;
+    height: 240px;
+  }
+
+}
+
+@media screen and (max-width: 600px) {
+
+  .custom-icon{
+    width:10px !important;
+  }
+
+  .carriage-container{
+    display: inline-block;
+    width: 550%;
+    white-space: nowrap;
+    margin-right: 10px;
+  }
+
+  .seat-row-container{
+    display: flex;
+    flex-direction: column;
+    height: 240px;
+  }
+
+}
+

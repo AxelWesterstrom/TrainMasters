@@ -1,11 +1,17 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Container, Navbar, Nav } from "react-bootstrap";
+import { Container, Navbar, Nav, Modal, Dropdown } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import style from "../../public/css/header.css";
 
-function Header({ isMyTicketPage }) {
+function Header({}) {
+
+  const { click, setClick } = useState(false);
+  const { dropdown, setDropdown } = useState(false);
+
+  const handleClick = () => setClick(!click);
+
   return (
     <>
       <Navbar style={{ background: "#4C2C50" }} expand="lg" className="body">
@@ -19,20 +25,23 @@ function Header({ isMyTicketPage }) {
             </Navbar.Brand>
           </Container>
           <Container className="col-2 d-flex justify-content-end p-0">
-            {!isMyTicketPage && (
-              <Nav>
-                <Nav.Link
-                  as={Link}
-                  to="/mina-biljetter"
-                  className="ticket-button text-center"
+            <Nav>
+              <Dropdown className="dropdown-custom">
+                <Dropdown.Toggle>Meny</Dropdown.Toggle>
+                <Dropdown.Menu
+                  className="dropdown-menu"
+                  style={{ left: "-76px" }}
                 >
-                  <div className="mt-2">
-                    <img src="../images/ticket-icon.svg" className="ticket-img" />
-                  </div>
-                  <p className="ticket-button-text">Biljetter</p>
-                </Nav.Link>
-              </Nav>
-            )}
+                  <Dropdown.Item href="/mina-biljetter">
+                    Mina Biljetter
+                  </Dropdown.Item>
+                  <Dropdown.Item href="/logga-in">Logga in</Dropdown.Item>
+                  <Dropdown.Item href="/kontakta-oss">
+                    Kontakta oss
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Nav>
           </Container>
         </Container>
       </Navbar>

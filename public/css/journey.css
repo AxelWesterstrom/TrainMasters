@@ -1,11 +1,18 @@
-
 .journeyItem {
   border: solid #7aac71;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .journeyItem:hover {
   background-color: rgba(122, 172, 113, 0.1);
+}
+.journeyItem:active {
+  background-color: rgba(122, 172, 113, 0.1);
+}
+
+.custom-text {
+  pointer-events: none;
 }
 
 .journeyList {
@@ -14,35 +21,54 @@
   border-radius: 10px;
 }
 
-.back-button{
+.back-button {
   cursor: pointer;
   width: 40px;
 }
 
 .info,
-.custom-container{
+.custom-container {
   max-width: 45rem !important;
 }
 
-.custom-icon{
+.custom-icon {
   width: 35px;
 }
 
 .date-arrow-right,
-.date-arrow-left{
-  width: 95px;
+.date-arrow-left {
+  width: 50px;
   cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {
-  .custom-icon{  
-    width: 23px !important;
+  .custom-icon {
+    width: 20px !important;
   }
   .date-arrow-right,
-  .date-arrow-left{
-    width: 75px;
+  .date-arrow-left {
+    width: 35px;
   }
-  .journeyList{
+  .journeyList {
     padding: 15px;
   }
+}
+
+.blurry {
+  filter: blur(7px);
+}
+
+.journeyItem > div {
+  transition: 1s filter;
+}
+
+.lineThrough {
+  text-decoration: line-through;
+}
+
+.activeJourney {
+  background-color: #7aac71;
+  border: solid #4b7c4b;
+  border-radius: 10px;
+  pointer-events: none;
 }
