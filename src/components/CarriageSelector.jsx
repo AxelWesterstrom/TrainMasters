@@ -8,6 +8,8 @@ function CarriageSelector({ chosenJourney, seatsToBook, date }) {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [trainSetAndCarriages, setTrainSetAndCarriages] = useState([]);
   const [bookedSeats, setBookedSeats] = useState([]);
+  const [route, setRoute] = useState([]);
+  const [petsCarriage, setPetsCarriage] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +30,6 @@ function CarriageSelector({ chosenJourney, seatsToBook, date }) {
         .then((res) => res.json())
         .then((jsonData) => setBookedSeats(jsonData));
     };
-
     fetchBookdSeats();
   }, [chosenJourney, date]);
 
@@ -38,10 +39,22 @@ function CarriageSelector({ chosenJourney, seatsToBook, date }) {
       if (!carriages.includes(x.carriageNumber)) {
         carriages.push(x.carriageNumber);
       }
+      if (x.seatNumber === 42 && x.petsAllowed) {
+        setPetsCarriage(x.carriageNumber);
+      }
     });
 
     setCarriagesLayout(carriages);
   }, [trainSetAndCarriages]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetch(`/api/routes/?id=${chosenJourney.routeId}`)
+        .then((res) => res.json())
+        .then((jsonData) => setRoute(jsonData[0]));
+    };
+    fetchData();
+  }, [chosenJourney]);
 
   const handleSelectSeat = (e) => {
     let seatId = +e.target.id;
@@ -68,13 +81,46 @@ function CarriageSelector({ chosenJourney, seatsToBook, date }) {
       return (
         <div className="carriage-container" key={x}>
           <p className="ms-5 custom-text">Vagn: {x}</p>
-          <SeatsSelector
-            trainSetAndCarriages={trainSetAndCarriages}
-            carriageNumber={x}
-            bookedSeats={bookedSeats}
-            handleSelectSeat={handleSelectSeat}
-            selectedSeats={selectedSeats}
-          />
+          {route["isDirectionLeft"] === 0 && (
+            <p className="ms-5 custom-text">
+              Planerad färdriktning
+              <img
+                src="../images/arrow-right-date.svg"
+                style={{ width: "35px", height: "35px" }}
+              />
+            </p>
+          )}
+          {route["isDirectionLeft"] === 1 && (
+            <p className="ms-5 custom-text">
+              <img
+                src="../images/arrow-left-date.svg"
+                style={{ width: "35px", height: "35px" }}
+              />
+              Planerad färdriktning
+            </p>
+          )}
+          <div
+            style={
+              x === petsCarriage
+                ? {
+                    border: "solid",
+                    backgroundImage: `url("../images/dog.svg")`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundSize: "50px",
+                  }
+                : { border: "solid" }
+            }
+          >
+            <SeatsSelector
+              trainSetAndCarriages={trainSetAndCarriages}
+              carriageNumber={x}
+              bookedSeats={bookedSeats}
+              handleSelectSeat={handleSelectSeat}
+              selectedSeats={selectedSeats}
+              chosenJourney={chosenJourney}
+            />
+          </div>
         </div>
       );
     });

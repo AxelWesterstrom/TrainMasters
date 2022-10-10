@@ -9,9 +9,7 @@ function ClassSelector({
   setFirstClass,
   secondClass,
   setSecondClass,
-  wheechairSeatsFullBooked,
   setWheelChairSeatsFullBooked,
-  petsCarraigeFullBooked,
   setPetsCarriageFullBooked,
 }) {
   const [firstClassFullBooked, setFirstClassFullBooked] = useState(false);
