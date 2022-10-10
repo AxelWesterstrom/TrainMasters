@@ -5,8 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Container, Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import CarriageSelector from "../components/CarriageSelector";
-
+import ChooseSeatsModal from "../components/ChooseSeatsModal";
 
 function CustomizeTrip() {
   const navigate = useNavigate();
@@ -122,7 +121,7 @@ function CustomizeTrip() {
             <Modal.Title>Välj plats</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <CarriageSelector
+            <ChooseSeatsModal
               seatsToBook={seatsToBook}
               date={date}
               journeyId={journeyId}
