@@ -226,7 +226,9 @@ function CarriageSelector({ chosenJourney, seatsToBook, date }) {
             Planerad färdriktning
           </p>
         )}
-        <div className="slider-train ms-4">{renderTrainLayout()}</div>
+        <div className="col col-11">
+          <div className="slider-train ms-4">{renderTrainLayout()}</div>
+        </div>
       </div>
       <div className="d-flex">
         <div className="col col-1 d-flex align-items-center">
