@@ -89,5 +89,19 @@ input[type="radio"]:checked{
 
 }
 
+.slider-train{
+  overflow: auto;
+  white-space: nowrap;
+  width: 100%;
+  -ms-overflow-style: none; 
+  scrollbar-width: none !important;
+  display: flex;
+  align-items: baseline;
+}
+
+.carriage-indicator{
+  cursor: pointer;
+}
+
 
 

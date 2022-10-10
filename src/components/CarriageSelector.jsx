@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useMountEffect } from "react";
 import { useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import SeatsSelector from "./SeatsSelector";
@@ -10,6 +10,7 @@ function CarriageSelector({ chosenJourney, seatsToBook, date }) {
   const [bookedSeats, setBookedSeats] = useState([]);
   const [route, setRoute] = useState([]);
   const [petsCarriage, setPetsCarriage] = useState(0);
+  const [bistroCarriage, setBistroCarriage] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,8 +40,11 @@ function CarriageSelector({ chosenJourney, seatsToBook, date }) {
       if (!carriages.includes(x.carriageNumber)) {
         carriages.push(x.carriageNumber);
       }
-      if (x.seatNumber === 42 && x.petsAllowed) {
+      if (x.seatNumber === 42 && x.petsAllowed === 1) {
         setPetsCarriage(x.carriageNumber);
+      }
+      if (x.seatNumber === 28 && x.bistro === 1) {
+        setBistroCarriage(x.carriageNumber);
       }
     });
 
@@ -55,6 +59,13 @@ function CarriageSelector({ chosenJourney, seatsToBook, date }) {
     };
     fetchData();
   }, [chosenJourney]);
+
+  const carriageRefs = useRef([]);
+
+  const handleSelectCarriage = (idx) => () => {
+    const next = carriageRefs.current[idx];
+    next.scrollIntoView();
+  };
 
   const handleSelectSeat = (e) => {
     let seatId = +e.target.id;
@@ -76,29 +87,78 @@ function CarriageSelector({ chosenJourney, seatsToBook, date }) {
     }
   };
 
+  const renderTrainLayout = () => {
+    return carriagesLayout.map((x, index) => {
+      return (
+        <>
+          {index === 0 && (
+            <div
+              style={{ display: "inline-block" }}
+              onClick={handleSelectCarriage(index)}
+              className="carriage-indicator"
+            >
+              <p className="ms-5 custom-text text-center">Vagn: {x}</p>
+              <img
+                src="../images/locomotive.svg"
+                style={{ width: "400px", height: "51px" }}
+              />
+            </div>
+          )}
+          {index !== carriagesLayout.length - 1 && index !== 0 && (
+            <div
+              style={{ display: "inline-block" }}
+              onClick={handleSelectCarriage(index)}
+              className="carriage-indicator"
+            >
+              <p className="ms-5 custom-text">Vagn: {x}</p>
+              <img
+                src="../images/carriage.svg"
+                style={{ width: "190px", height: "51px" }}
+              />
+            </div>
+          )}
+          {index !== carriagesLayout.length - 1 &&
+            index !== 0 &&
+            x === bistroCarriage && (
+              <div
+                style={{ display: "inline-block" }}
+                onClick={handleSelectCarriage(index)}
+                className="carriage-indicator"
+              >
+                <p className="ms-5 custom-text">Vagn: {x}</p>
+                <img
+                  src="../images/bistro.svg"
+                  style={{ width: "190px", height: "51px" }}
+                />
+              </div>
+            )}
+          {index === carriagesLayout.length - 1 && (
+            <div
+              style={{ display: "inline-block" }}
+              onClick={handleSelectCarriage(index)}
+              className="carriage-indicator"
+            >
+              <p className="ms-5 custom-text">Vagn: {x}</p>
+              <img
+                src="../images/maneuvering.svg"
+                style={{ width: "215px", height: "51px" }}
+              />
+            </div>
+          )}
+        </>
+      );
+    });
+  };
+
   const renderAllCarriages = () => {
     return carriagesLayout.map((x, index) => {
       return (
-        <div className="carriage-container" key={x}>
-          <p className="ms-5 custom-text">Vagn: {x}</p>
-          {route["isDirectionLeft"] === 0 && (
-            <p className="ms-5 custom-text">
-              Planerad färdriktning
-              <img
-                src="../images/arrow-right-date.svg"
-                style={{ width: "35px", height: "35px" }}
-              />
-            </p>
-          )}
-          {route["isDirectionLeft"] === 1 && (
-            <p className="ms-5 custom-text">
-              <img
-                src="../images/arrow-left-date.svg"
-                style={{ width: "35px", height: "35px" }}
-              />
-              Planerad färdriktning
-            </p>
-          )}
+        <div
+          className="carriage-container"
+          ref={(el) => {
+            carriageRefs.current[index] = el;
+          }}
+        >
           <div
             style={
               x === petsCarriage
@@ -146,9 +206,27 @@ function CarriageSelector({ chosenJourney, seatsToBook, date }) {
             <option value="2">Djur tillåtet</option>
           </Form.Select>
         </div>
-        <div className="col col-4 ms-4">
-          <div></div>
-        </div>
+      </div>
+      <div className="ms-2">
+        {route["isDirectionLeft"] === 0 && (
+          <p className="ms-5 custom-text">
+            Planerad färdriktning
+            <img
+              src="../images/arrow-right-date.svg"
+              style={{ width: "35px", height: "35px" }}
+            />
+          </p>
+        )}
+        {route["isDirectionLeft"] === 1 && (
+          <p className="ms-5 custom-text">
+            <img
+              src="../images/arrow-left-date.svg"
+              style={{ width: "35px", height: "35px" }}
+            />
+            Planerad färdriktning
+          </p>
+        )}
+        <div className="slider-train ms-4">{renderTrainLayout()}</div>
       </div>
       <div className="d-flex">
         <div className="col col-1 d-flex align-items-center">
