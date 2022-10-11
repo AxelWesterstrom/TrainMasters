@@ -40,6 +40,20 @@ function PickJourney() {
     return [year, month, day].join("-");
   }
 
+  async function handleMail(e) {
+    e.preventDefault;
+    console.log("HandleMail");
+    await fetch("/api/mailer", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: "anne.perstav@hotmail.com",
+        date: date,
+        chosenJourney: chosenJourney
+      })
+    });
+  }
+
   return (
     <div className='pickJourney'>
       <Header />
@@ -90,7 +104,6 @@ function PickJourney() {
           </Container>
         </Container>
 
-
         <Container className='d-flex justify-content-end p-5 info'>
           <Button className='custom-button mt-3 mb-5' onClick={goToNextPage}>
             Fortsätt
@@ -109,6 +122,12 @@ function PickJourney() {
             </Button>
           </Modal.Footer>
         </Modal>
+
+        <Container className='d-flex justify-content-end p-5 info'>
+          <Button className='custom-button mt-3 mb-5' onClick={handleMail}>
+            Maila
+          </Button>
+        </Container>
       </Container>
     </div>
   );
