@@ -11,10 +11,6 @@
   background-color: rgba(0,0,0,0);
 }
 
-#custom-radio-button{
-  margin-top: 12px;
-}
-
 input[type="radio"]:checked{
   background-color: #62256A;
 }
@@ -46,7 +42,8 @@ input[type="radio"]:checked{
 .seat-row-container{
   display: flex;
   flex-direction: column;
-  margin: 60px;
+  margin-right: 60px;
+  margin-left:60px;
   height: 240px;
 }
 
@@ -91,4 +88,20 @@ input[type="radio"]:checked{
   }
 
 }
+
+.slider-train{
+  overflow: auto;
+  white-space: nowrap;
+  width: 100%;
+  -ms-overflow-style: none; 
+  scrollbar-width: none !important;
+  display: flex;
+  align-items: baseline;
+}
+
+.carriage-indicator{
+  cursor: pointer;
+}
+
+
 
