@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Container, Form } from "react-bootstrap";
+import { Row, Col, Container, Form, Button } from "react-bootstrap";
 
 function PaymentMethod() {
   return (
@@ -20,21 +20,23 @@ function PaymentMethod() {
                     label="Swish"
                     name="group1"
                     type={type}
-                    onChange={(e) => setFirstClass(e.target.value)}
+                    onChange={(e) => setSwishPayment(e.target.value)}
                     id={`${type}-swish`}
                   />
                   <Form.Check
                     label="Kort"
                     name="group1"
                     type={type}
-                    onChange={(e) => setSecondClass(e.target.value)}
+                    onChange={(e) => setCardPayment(e.target.value)}
                     id={`${type}-kort`}
                   />
                 </div>
               ))}
-                
             </Row>
           </Col>
+            <Button className="custom-button paymentButton" type="submit">
+              Fortsätt
+            </Button>
         </Form>
       </Container>
     </>
