@@ -2,14 +2,13 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Journey from "./Journey";
 import "../../public/css/journey.css";
+import { useStates } from "../assets/helpers/states";
 
 function JourneyList(props) {
+
+  let s = useStates("booking")
+
   let {
-    date,
-    departure,
-    arrival,
-    chosenJourney,
-    setChosenJourney,
     formatDate
   } = props;
   const [journeys, setJourneys] = useState([]);
@@ -19,7 +18,7 @@ function JourneyList(props) {
   useEffect(() => {
     async function fetchData() {
       let data = await fetch(
-        `/api/connectStationsWithTimesOnJourneyId?stationNameA=${departure}&stationNameB=${arrival}`
+        `/api/connectStationsWithTimesOnJourneyId?stationNameA=${s.ticket.departure}&stationNameB=${s.ticket.arrival}`
       );
 
       setJourneys(await data.json());
@@ -31,12 +30,12 @@ function JourneyList(props) {
 
   useEffect(() => {
     function weekdayCheck() {
-      let day = new Date(date).getDay();
+      let day = new Date(s.ticket.date).getDay();
       let isHoliday = false;
       for (let i = 0; i < holidays.length; i++) {
         let holidayDate = new Date(holidays[i].date);
         let holidayDateString = formatDate(holidayDate);
-        if (holidayDateString === date) {
+        if (holidayDateString === s.ticket.date) {
           isHoliday = true;
           break;
         } else {
@@ -50,8 +49,8 @@ function JourneyList(props) {
         setWeekday(true);
       }
     }
-    weekdayCheck(date);
-  }, [date]);
+    weekdayCheck(s.ticket.date);
+  }, [s.ticket.date]);
 
   return (
     <>
@@ -60,10 +59,7 @@ function JourneyList(props) {
           <Journey
             key={index}
             {...{
-              date,
               journey,
-              chosenJourney,
-              setChosenJourney
             }}
           />
         ))}
@@ -74,10 +70,7 @@ function JourneyList(props) {
             <Journey
               key={index}
               {...{
-                date,
                 journey,
-                chosenJourney,
-                setChosenJourney
               }}
             />
           ))}

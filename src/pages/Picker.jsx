@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import TravelerAdder from "../components/TravelerAdder";
 import { useNavigate } from "react-router-dom";
 import { Stack } from "react-bootstrap";
+import { useStates } from "../assets/helpers/states";
 
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "../../public/css/commonStyles.css";
@@ -15,40 +16,34 @@ import styles from "../../public/css/commonStyles.css";
 const travelerTypes = ["Vuxen", "Barn/ungdom(0-25 år)", "Student", "Pensionär"];
 
 function Picker() {
-  const [startDate, setStartDate] = useState(new Date());
+
+  let s = useStates("booking")
+
   const [buttonPopup, setButtonPopup] = useState(false);
-  const { state } = useLocation();
-  const { departure, arrival } = state;
-  const [travelers, setTravelers] = useState(
-    travelerTypes.map((type) => {
-      return { travelerType: type, count: 0 };
-    })
-  );
+
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   const modifyTravelerCount = (type, addAmount) => {
-    const index = travelers.findIndex((t) => {
+    const index = s.ticket.passengers.findIndex((t) => {
       return type == t.travelerType;
     });
-    const count = travelers[index].count + addAmount;
-    setTravelers([
-      ...travelers.slice(0, index),
-      Object.assign({}, travelers[index], { count }),
-      ...travelers.slice(index + 1),
+    const count = s.ticket.passengers[index].count + addAmount;
+    s.ticket.passengers = ([
+      ...s.ticket.passengers.slice(0, index),
+      Object.assign({}, s.ticket.passengers[index], { count }),
+      ...s.ticket.passengers.slice(index + 1),
     ]);
   };
 
   const onSearchClick = () => {
-    const addedTravelers = travelers.filter((t) => t.count > 0);
+    const addedTravelers = s.ticket.passengers.filter((t) => t.count > 0);
     if (addedTravelers.length == 0) {
       setShowModal(true);
       return;
     }
 
-    navigate("/valj-tag", {
-      state: { travelers, departure, arrival, startDate },
-    });
+    navigate("/valj-tag");
   };
 
   return (
@@ -66,7 +61,7 @@ function Picker() {
       </div>
       <Container>
         <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-          {travelers.map((t, i) => {
+          {s.ticket.passengers.map((t, i) => {
             return (
               <TravelerAdder
                 key={i}
@@ -80,28 +75,28 @@ function Picker() {
         <Row className="justify-content-between">
           <Col md="auto">
             <p>
-              Resa från: <br></br> {departure}
+              Resa från: <br></br> {s.ticket.departure}
             </p>
           </Col>
           <Col md="auto">
-            Resa Till: <br></br> {arrival}
+            Resa Till: <br></br> {s.ticket.arrival}
           </Col>
         </Row>
         <Row className="justify-content-center">
           <Col md="auto">
             {!buttonPopup && (
               <ReactDatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
+                selected={new Date(s.ticket.date)}
+                onChange={(date) => s.ticket.date = date.getTime()}
                 minDate={new Date()}
               ></ReactDatePicker>
             )}
           </Col>
         </Row>
         <Row className="justify-content-center">
-          {travelers.filter((t) => t.count > 0).length > 0 ? (
+          {s.ticket.passengers.filter((t) => t.count > 0).length > 0 ? (
             <Col md="auto" className="traveler-overview">
-              {travelers.map((t, i) => {
+              {s.ticket.passengers.map((t, i) => {
                 return t.count > 0 ? (
                   <Stack key={i} direction="horizontal">
                     <div>{t.travelerType}</div>

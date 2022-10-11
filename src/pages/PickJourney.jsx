@@ -6,23 +6,20 @@ import DateSlider from "../components/DateSlider";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import "../../public/css/journey.css";
 import { useNavigate } from "react-router-dom";
+import { useStates } from "../assets/helpers/states";
 
 function PickJourney() {
-  const [date, setDate] = useState("2022-10-01");
-  const [departure, setDeparture] = useState("Helsingborg C");
-  const [arrival, setArrival] = useState("Burlöv");
-  const [chosenJourney, setChosenJourney] = useState();
+
+  let s = useStates("booking")
+
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
 
   const goToNextPage = () => {
-    if (chosenJourney !== undefined) {
-      console.log(chosenJourney);
-      navigate("/anpassa-resa", {
-        state: { chosenJourney, date, departure, arrival }
-      });
+    if (s.ticket.chosenJourney !== undefined) {
+      navigate("/anpassa-resa");
     } else {
       setShowModal(true);
     }
@@ -48,8 +45,8 @@ function PickJourney() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: "anne.perstav@hotmail.com",
-        date: date,
-        chosenJourney: chosenJourney
+        date: new Date(s.ticket.date),
+        chosenJourney: s.ticket.chosenJourney
       })
     });
   }
@@ -78,25 +75,20 @@ function PickJourney() {
           </Row>
           <Row className='d-flex justify-content-between'>
             <Col className='d-flex justify-content-start'>
-              <p className='custom-label'>{departure}</p>
+              <p className='custom-label'>{s.ticket.departure}</p>
             </Col>
             <Col className='d-flex justify-content-end'>
-              <p className='custom-label'>{arrival}</p>
+              <p className='custom-label'>{s.ticket.arrival}</p>
             </Col>
           </Row>
         </Container>
-        <DateSlider {...{ date, setDate, formatDate }} />
+        <DateSlider {...{ formatDate }} />
 
         <Container className='pe-2 ps-2'>
           <Container className='info'>
             <Row className='journeyList'>
               <JourneyList
                 {...{
-                  date,
-                  departure,
-                  arrival,
-                  chosenJourney,
-                  setChosenJourney,
                   formatDate
                 }}
               />
