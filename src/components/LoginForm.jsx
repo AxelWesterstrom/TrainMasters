@@ -14,31 +14,24 @@ function LoginForm() {
 
   function login(event) {
     event.preventDefault();
-    console.log("Send via API", l.email, l.password);
-
   }
+
 
   return (LoginForm = (
     <>
       <Container className="loginform-body">
         <Row className="form-row">
-          <Col className="col-2"></Col>
-          <Col className="col-10 login-form-col">
+          <Col className=" login-form-col">
             <Form.Group className="login-form">
               <Form onSubmit={login} autoComplete="off">
                 <FormLabel className="loginform">Email </FormLabel>
                 <FormControl type="email" {...l.bind("email")} />
-
-
                 <FormLabel>Lösenord </FormLabel>
                 <FormControl type="password" {...l.bind("password")} />
-
-
-                <Button type="submit" className="custom-button">Logga in</Button>
+                <Button type="submit" className="custom-button" style={{ marginTop: 20 }}>Logga in</Button>
               </Form>
             </Form.Group>
           </Col>
-          <Col className="col-2"></Col>
         </Row>
       </Container>
     </>
