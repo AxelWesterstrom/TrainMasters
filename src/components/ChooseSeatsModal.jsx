@@ -4,7 +4,15 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import CarriageSelector from "./CarriageSelector";
 import SeatsSelector from "./SeatsSelector";
 
-function ChooseSeatsModal({ chosenJourney, seatsToBook, date }) {
+function ChooseSeatsModal({
+  chosenJourney,
+  seatsToBook,
+  date,
+  wheechairSeatsFullBooked,
+  petsCarraigeFullBooked,
+  firstClass,
+  secondClass,
+}) {
   const [carriagesLayout, setCarriagesLayout] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [trainSetAndCarriages, setTrainSetAndCarriages] = useState([]);
@@ -154,9 +162,13 @@ function ChooseSeatsModal({ chosenJourney, seatsToBook, date }) {
       <div className="ms-4 mt-1 mb-3 d-flex">
         <div className="col col-lg-4 col-xs-10">
           <Form.Select>
-            <option>Ospecificerad plats</option>
-            <option value="1">Handikapplats rullstol</option>
-            <option value="2">Djur tillåtet</option>
+            <option value="0">Ospecificerad plats</option>
+            {!wheechairSeatsFullBooked && (
+              <option value="1">Handikapplats(rullstol)</option>
+            )}
+            {!petsCarraigeFullBooked && (
+              <option value="2">Djur tillåtet</option>
+            )}
           </Form.Select>
         </div>
       </div>

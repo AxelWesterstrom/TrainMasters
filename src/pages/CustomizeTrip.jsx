@@ -124,8 +124,11 @@ function CustomizeTrip() {
             <ChooseSeatsModal
               seatsToBook={seatsToBook}
               date={date}
-              journeyId={journeyId}
               chosenJourney={chosenJourney}
+              petsCarraigeFullBooked={petsCarraigeFullBooked}
+              wheechairSeatsFullBooked={wheechairSeatsFullBooked}
+              firstClass={firstClass}
+              secondClass={secondClass}
             />
           </Modal.Body>
           <Modal.Footer>

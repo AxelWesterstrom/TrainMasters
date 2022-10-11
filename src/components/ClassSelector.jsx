@@ -47,17 +47,17 @@ function ClassSelector({
     }
   }, [totalOccupiedSeats]);
 
-  const handleSelectClass = (e) => {
-    let className = e.target.id;
-    if (firstClassFullBooked && className === "firstClass") {
-      setErrorMessage("Tyvärr! 1 Klassen är fullbokad!");
-      setShow(true);
-    }
-    if (secondClassFullBooked && className === "secondClass") {
-      setErrorMessage("Tyvärr! 2 Klassen är fullbokad!");
-      setShow(true);
-    }
-  };
+  // const handleSelectClass = (e) => {
+  //   let className = e.target.id;
+  //   if (firstClassFullBooked && className === "firstClass") {
+  //     setErrorMessage("Tyvärr! 1 Klassen är fullbokad!");
+  //     setShow(true);
+  //   }
+  //   if (secondClassFullBooked && className === "secondClass") {
+  //     setErrorMessage("Tyvärr! 2 Klassen är fullbokad!");
+  //     setShow(true);
+  //   }
+  // };
 
   const handleClose = () => setShow(false);
 
@@ -70,30 +70,32 @@ function ClassSelector({
               <Form>
                 {["radio"].map((type) => (
                   <div key={`${type}`} className="mb-3 custom-label">
-                    <Form.Check
-                      label="1 Klass"
-                      name="group1"
-                      type={type}
-                      value={firstClass}
-                      checked={
-                        firstClass === true ||
-                        (firstClass === false && secondClass === false)
-                      }
-                      onChange={(e) => handleSelectClass(e)}
-                      id="firstClass"
-                    />
-                    <Form.Check
-                      label="2 Klass"
-                      name="group1"
-                      type={type}
-                      value={secondClass}
-                      checked={
-                        secondClass === true ||
-                        (firstClass === false && secondClass === false)
-                      }
-                      onChange={(e) => handleSelectClass(e)}
-                      id="secondClass"
-                    />
+                    {!firstClassFullBooked && (
+                      <Form.Check
+                        label="1 Klass"
+                        name="group1"
+                        type={type}
+                        value={firstClass}
+                        checked={
+                          firstClass === true ||
+                          (firstClass === false && secondClass === false)
+                        }
+                        id="firstClass"
+                      />
+                    )}
+                    {!secondClassFullBooked && (
+                      <Form.Check
+                        label="2 Klass"
+                        name="group1"
+                        type={type}
+                        value={secondClass}
+                        checked={
+                          secondClass === true ||
+                          (firstClass === false && secondClass === false)
+                        }
+                        id="secondClass"
+                      />
+                    )}
                   </div>
                 ))}
               </Form>
