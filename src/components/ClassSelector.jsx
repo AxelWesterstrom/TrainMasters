@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Container, Form, Modal, Button } from "react-bootstrap";
+import { Container, Form } from "react-bootstrap";
 
 function ClassSelector({
   totalOccupiedSeats,
@@ -14,8 +14,6 @@ function ClassSelector({
 }) {
   const [firstClassFullBooked, setFirstClassFullBooked] = useState(false);
   const [secondClassFullBooked, setSecondClassFullBooked] = useState(false);
-  const [show, setShow] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (
@@ -47,19 +45,17 @@ function ClassSelector({
     }
   }, [totalOccupiedSeats]);
 
-  // const handleSelectClass = (e) => {
-  //   let className = e.target.id;
-  //   if (firstClassFullBooked && className === "firstClass") {
-  //     setErrorMessage("Tyvärr! 1 Klassen är fullbokad!");
-  //     setShow(true);
-  //   }
-  //   if (secondClassFullBooked && className === "secondClass") {
-  //     setErrorMessage("Tyvärr! 2 Klassen är fullbokad!");
-  //     setShow(true);
-  //   }
-  // };
-
-  const handleClose = () => setShow(false);
+  const handleSelectClass = (e) => {
+    let className = e.target.id;
+    if (className === "firstClass") {
+      setFirstClass(true);
+      setSecondClass(false);
+    }
+    if (className === "secondClass") {
+      setSecondClass(true);
+      setFirstClass(false);
+    }
+  };
 
   return (
     <>
@@ -75,11 +71,7 @@ function ClassSelector({
                         label="1 Klass"
                         name="group1"
                         type={type}
-                        value={firstClass}
-                        checked={
-                          firstClass === true ||
-                          (firstClass === false && secondClass === false)
-                        }
+                        onChange={(e) => handleSelectClass(e)}
                         id="firstClass"
                       />
                     )}
@@ -88,11 +80,7 @@ function ClassSelector({
                         label="2 Klass"
                         name="group1"
                         type={type}
-                        value={secondClass}
-                        checked={
-                          secondClass === true ||
-                          (firstClass === false && secondClass === false)
-                        }
+                        onChange={(e) => handleSelectClass(e)}
                         id="secondClass"
                       />
                     )}
@@ -103,17 +91,6 @@ function ClassSelector({
           </Container>
         </Container>
       </div>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton></Modal.Header>
-        <Modal.Body>
-          <p className="custom-label">{errorMessage}</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button className="custom-button" onClick={handleClose}>
-            Stäng
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </>
   );
 }

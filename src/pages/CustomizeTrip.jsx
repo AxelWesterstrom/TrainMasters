@@ -104,7 +104,17 @@ function CustomizeTrip() {
           />
           <Container className="p-2">
             <Container className="seat-selector-container p-5">
-              <p className="custom-label m-4" onClick={showSeatsSelectorModal}>
+              <p
+                className="custom-label m-4"
+                onClick={showSeatsSelectorModal}
+                style={
+                  firstClass
+                    ? {}
+                    : secondClass
+                    ? {}
+                    : { opacity: "0.38", pointerEvents: "none" }
+                }
+              >
                 Välj plats
               </p>
             </Container>
