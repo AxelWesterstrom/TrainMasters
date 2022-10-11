@@ -1,48 +1,59 @@
 import ClassSelector from "../components/ClassSelector";
 import Header from "../components/Header";
-import SeatsSelector from "../components/SeatsSelector";
 import styles from "../../public/css/customizeTrip.css";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Container, Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import CarriageSelector from "../components/CarriageSelector";
+import ChooseSeatsModal from "../components/ChooseSeatsModal";
 
 function CustomizeTrip() {
   const navigate = useNavigate();
-  // const { state } = useLocation();
-  // const { train } = state;
+  const { state } = useLocation();
+  const { chosenJourney, date } = state;
+  const {
+    journeyId,
+    trainSetId,
+    stationNameA,
+    stationNameB,
+    departureTimeA,
+    departureOffsetA,
+    arrivalOffsetB,
+  } = chosenJourney;
+
   const [showModal, setShowModal] = useState(false);
-  const handleClose = () => setShowModal(false);
-
-  let train = {
-    //This should be fetch from the former page - "valj-tag"
-    stationNameA: "Ängelholm",
-
-    stationNameB: "Halmstad C",
-
-    trainSetId: 2,
-
-    journeyId: 8,
-
-    departureStationDeparture: 85,
-
-    arrivalStationArrival: 115,
-  };
-
-  let date = "2022-09-23";
-  const [trainSetAndCarriages, setTrainSetAndCarriages] = useState();
+  const [seatsToBook, setSeatsToBook] = useState(2); //should be send from the former route
+  const [totalSeatsInTrain, setTotalSeatsInTrain] = useState("");
+  const [totalOccupiedSeats, setTotolOccupiedSeats] = useState("");
+  const [wheechairSeatsFullBooked, setWheelChairSeatsFullBooked] =
+    useState(false);
+  const [petsCarraigeFullBooked, setPetsCarriageFullBooked] = useState(false);
+  const [firstClass, setFirstClass] = useState(false);
+  const [secondClass, setSecondClass] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetch(`/api/carriagesWithSeats/?trainsetId=${train.trainSetId}}`)
+      await fetch(`/api/seatsInTrainSetWithSeatInfo?trainSetId=${trainSetId}`)
         .then((res) => res.json())
-        .then((jsonData) => setTrainSetAndCarriages(jsonData));
+        .then((jsonData) => setTotalSeatsInTrain(jsonData[0]));
     };
     fetchData();
-  }, []);
+  }, [trainSetId]);
 
-  const handleClick = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      let data = await fetch(
+        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${date}&journeyId=${journeyId}&trainSetId=${trainSetId}`
+      );
+      let jsonData = await data.json();
+      setTotolOccupiedSeats(jsonData[0]);
+    };
+    fetchData();
+  }, [totalSeatsInTrain]);
+
+  const handleModalClose = () => setShowModal(false);
+
+  const goToFormerPage = () => {
     navigate("/valj-tag");
   };
 
@@ -50,15 +61,15 @@ function CustomizeTrip() {
     navigate("/kassan");
   };
 
-  const goToChooseSeats = () => {
+  const showSeatsSelectorModal = () => {
     setShowModal(true);
   };
 
   return (
     <>
       <Header />
-      <div className="body">
-        <div onClick={handleClick}>
+      <div className="body pb-5">
+        <div onClick={goToFormerPage}>
           <img
             src="../images/arrow-left.svg"
             className="mt-2 ms-3 back-button"
@@ -69,53 +80,83 @@ function CustomizeTrip() {
             <Container className="train-info-container p-5">
               <Container className="m-3">
                 <p className="custom-label">
-                  {train.stationNameA} - {train.stationNameB}
+                  {stationNameA} - {stationNameB}
                 </p>
                 <p className="custom-label">{date}</p>
-                <p className="custom-label">{train.departureTimeA}</p>
-                <Button className="custom-button" onClick={handleClick}>
+                <p className="custom-label">{departureTimeA}</p>
+                <Button className="custom-button" onClick={goToFormerPage}>
                   Ändra
                 </Button>
               </Container>
             </Container>
           </Container>
-          <ClassSelector />
+          <ClassSelector
+            totalOccupiedSeats={totalOccupiedSeats}
+            totalSeatsInTrain={totalSeatsInTrain}
+            secondClass={secondClass}
+            setSecondClass={setSecondClass}
+            firstClass={firstClass}
+            setFirstClass={setFirstClass}
+            wheechairSeatsFullBooked={wheechairSeatsFullBooked}
+            setWheelChairSeatsFullBooked={setWheelChairSeatsFullBooked}
+            petsCarraigeFullBooked={petsCarraigeFullBooked}
+            setPetsCarriageFullBooked={setPetsCarriageFullBooked}
+          />
           <Container className="p-2">
             <Container className="seat-selector-container p-5">
-              <p className="custom-label m-4" onClick={goToChooseSeats}>
-                <img src="../images/plus-icon.svg" className="custom-icon" />
+              <p
+                className="custom-label m-4"
+                onClick={showSeatsSelectorModal}
+                style={
+                  firstClass
+                    ? {}
+                    : secondClass
+                    ? {}
+                    : { opacity: "0.38", pointerEvents: "none" }
+                }
+              >
                 Välj plats
               </p>
             </Container>
           </Container>
+          {/* if there is seat selected is should be here */}
         </Container>
 
-        <Modal show={showModal} onHide={handleClose} className="modal-xl">
+        <Modal
+          show={showModal}
+          onHide={handleModalClose}
+          className="seat-picker-modal modal-xl sm-modal-sm"
+        >
           <Modal.Header closeButton>
             <Modal.Title>Välj plats</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <CarriageSelector
-              trainSetAndCarriages={trainSetAndCarriages}
-              train={train}
+            <ChooseSeatsModal
+              seatsToBook={seatsToBook}
+              date={date}
+              chosenJourney={chosenJourney}
+              petsCarraigeFullBooked={petsCarraigeFullBooked}
+              wheechairSeatsFullBooked={wheechairSeatsFullBooked}
+              firstClass={firstClass}
+              secondClass={secondClass}
             />
           </Modal.Body>
           <Modal.Footer>
             <Button
               variant="primary"
               className="custom-button"
-              onClick={handleClose}
+              onClick={handleModalClose}
             >
               Fortsätt
             </Button>
           </Modal.Footer>
         </Modal>
-        <Container className="d-flex justify-content-end  info">
-          <Button className="custom-button mt-3 mb-5" onClick={goToNextPage}>
-            Fortsätt
-          </Button>
-        </Container>
       </div>
+      <Container className="d-flex justify-content-end info pb-5 mb-5">
+        <Button className="custom-button mt-1 mb-5 me-2" onClick={goToNextPage}>
+          Fortsätt
+        </Button>
+      </Container>
     </>
   );
 }
