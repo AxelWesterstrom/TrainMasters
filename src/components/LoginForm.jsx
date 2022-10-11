@@ -14,25 +14,13 @@ function LoginForm() {
 
   function login(event) {
     event.preventDefault();
-    console.log("Send via API", l.email, l.password);
   }
 
-  async function fetchData() {
-    let occupiedSeatsData;
-    try {
-      occupiedSeatsData = await fetch(
-        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(s.ticket.date).toLocaleDateString()}&journeyId=${journeyId}&trainSetId=${trainSetId}`
-      );
-    } catch (e) {
-      console.error("error");
-    }
-  }
 
   return (LoginForm = (
     <>
       <Container className="loginform-body">
         <Row className="form-row">
-
           <Col className=" login-form-col">
             <Form.Group className="login-form">
               <Form onSubmit={login} autoComplete="off">
@@ -44,7 +32,6 @@ function LoginForm() {
               </Form>
             </Form.Group>
           </Col>
-
         </Row>
       </Container>
     </>
