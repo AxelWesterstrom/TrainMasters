@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import Home from "./pages/Home.jsx";
+import Picker from "./pages/Picker.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CustomizeTrip from "./pages/CustomizeTrip";
 import PickJourney from "./pages/PickJourney";
@@ -16,7 +17,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/valj-resa" />
+          <Route path="/valj-resa" element={<Picker />} />
           <Route path="/valj-tag" element={<PickJourney />} />
           <Route path="/anpassa-resa" element={<CustomizeTrip />} />
           <Route path="/kassan" element = {<Payment />} />

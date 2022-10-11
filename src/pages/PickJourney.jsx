@@ -55,7 +55,7 @@ function PickJourney() {
   }
 
   return (
-    <div className='pickJourney'>
+    <div className='pickJourney pb-5'>
       <Header />
       <div>
         <img
@@ -104,7 +104,7 @@ function PickJourney() {
           </Container>
         </Container>
 
-        <Container className='d-flex justify-content-end p-5 info'>
+        <Container className='d-flex justify-content-end mb-5 pb-5'>
           <Button className='custom-button mt-3 mb-5' onClick={goToNextPage}>
             Fortsätt
           </Button>
@@ -118,7 +118,7 @@ function PickJourney() {
 
           <Modal.Footer>
             <Button className='custom-button' onClick={handleClose}>
-              Close
+              Stäng
             </Button>
           </Modal.Footer>
         </Modal>

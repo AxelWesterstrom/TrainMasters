@@ -6,37 +6,30 @@ import styles from "../../public/css/login.css";
 function LoginForm() {
 
 
-  return LoginForm = (
+  return (LoginForm = (
     <>
       <Container className="loginform-body">
         <Row className="form-row">
           <Col className="col-2"></Col>
-          <Col className="col-10">
+          <Col className="col-10 login-form-col">
             <Form.Group className="login-form">
-
-              <Form
-                autoComplete="off"
-              >
+              <Form autoComplete="off">
                 <FormLabel className="loginform">Användarnamn </FormLabel>
                 <FormControl type="text" />
-
               </Form>
               <Form style={{ paddingBottom: "20px" }}>
-                <FormLabel >Lösenord </FormLabel>
+                <FormLabel>Lösenord </FormLabel>
                 <FormControl type="password" />
               </Form>
 
-              <Button className="custom-button" >
-                Logga in
-              </Button>
+              <Button className="custom-button">Logga in</Button>
             </Form.Group>
           </Col>
-          <Col className="col-2">
-          </Col>
+          <Col className="col-2"></Col>
         </Row>
       </Container>
     </>
-  );
+  ));
 
 }
 

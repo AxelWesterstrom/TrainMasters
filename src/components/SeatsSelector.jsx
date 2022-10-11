@@ -3,28 +3,29 @@ import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Seat from "./Seat";
 
-function SeatsSelector({ trainSetAndCarriages, carriageNumber, bookedSeats }) {
+function SeatsSelector({
+  trainSetAndCarriages,
+  carriageNumber,
+  bookedSeats,
+  handleSelectSeat,
+  selectedSeats,
+}) {
   const [carriage, setCarriage] = useState(carriageNumber);
   const [occupiedSeats, setOccupiedSeats] = useState([]);
-  const [availableSeats, setAvailableSeats] = useState([]);
   const [handicapSeats, setHandicapSeats] = useState([]);
   const [rightFacingSeats, setRightFacingSeats] = useState([]);
-  const [seatsToBook, setSeatsToBook] = useState(0); //should be send from the former route
+  const [availableSeats, setAvailableSeats] = useState([]);
 
   useEffect(() => {
+    let handicapSeatsList = [];
+    let rightFacingSeatsList = [];
     let idList = [];
+    let availableSeatsList = [];
     bookedSeats.map((seat) => {
       idList.push(seat.seatId);
     });
     setOccupiedSeats(idList);
-    //should get the total travller
-    setSeatsToBook(2);
-  }, [bookedSeats]);
 
-  useEffect(() => {
-    let handicapSeatsList = [];
-    let availableSeatsList = [];
-    let rightFacingSeatsList = [];
     trainSetAndCarriages.map((seat) => {
       if (seat.isHandicapSeat === 1) {
         handicapSeatsList.push(seat.seatId);
@@ -37,28 +38,28 @@ function SeatsSelector({ trainSetAndCarriages, carriageNumber, bookedSeats }) {
       }
     });
 
-    setAvailableSeats(availableSeatsList);
     setHandicapSeats(handicapSeatsList);
-    setOccupiedSeats(handicapSeatsList);
+    setAvailableSeats(availableSeatsList);
     setRightFacingSeats(rightFacingSeatsList);
-  }, [trainSetAndCarriages]);
+  }, [bookedSeats]);
 
-  const allCarriages = () => {
+  const renderAllSeats = () => {
     return (
       <Seat
         key={"carriage"}
         carriage={carriage}
         occupiedSeats={occupiedSeats}
-        availableSeats={availableSeats}
         handicapSeats={handicapSeats}
         rightFacingSeats={rightFacingSeats}
-        seatsToBook={seatsToBook}
         trainSetAndCarriages={trainSetAndCarriages}
+        availableSeats={availableSeats}
+        selectedSeats={selectedSeats}
+        handleSelectSeat={handleSelectSeat}
       />
     );
   };
 
-  return <>{allCarriages()}</>;
+  return <>{renderAllSeats()}</>;
 }
 
 export default SeatsSelector;

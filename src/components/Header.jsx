@@ -16,8 +16,7 @@ function Header({}) {
     <>
       <Navbar style={{ background: "#4C2C50" }} expand="lg" className="body">
         <Container fluid className="row">
-          <Container className="col-2 custom-column">
-          </Container>
+          <Container className="col-2 custom-column"></Container>
           <Container className="col-8 logo">
             <Navbar.Brand>
               <Nav.Link as={Link} to="/">
@@ -27,14 +26,19 @@ function Header({}) {
           </Container>
           <Container className="col-2 d-flex justify-content-end p-0">
             <Nav>
-              <Dropdown className="dropdown-custom" >
-                <Dropdown.Toggle>
-                  Meny
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="dropdown-menu" style={{ left: "-76px" }}>
-                  <Dropdown.Item href="/mina-biljetter">Mina Biljetter</Dropdown.Item>
+              <Dropdown className="dropdown-custom">
+                <Dropdown.Toggle>Meny</Dropdown.Toggle>
+                <Dropdown.Menu
+                  className="dropdown-menu"
+                  style={{ left: "-76px" }}
+                >
+                  <Dropdown.Item href="/mina-biljetter">
+                    Mina Biljetter
+                  </Dropdown.Item>
                   <Dropdown.Item href="/logga-in">Logga in</Dropdown.Item>
-                  <Dropdown.Item href="/kontakta-oss">Kontakta oss</Dropdown.Item>
+                  <Dropdown.Item href="/kontakta-oss">
+                    Kontakta oss
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Nav>

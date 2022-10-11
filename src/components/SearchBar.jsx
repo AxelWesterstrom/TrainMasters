@@ -1,7 +1,7 @@
 import { Row, Col, Button, Form, Container, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AutoSuggest from "./AutoSuggest";
+import AutoSuggest from "./AutoSuggest.jsx";
 
 function SearchBar({ stations }) {
   const [departure, setDeparture] = useState("");

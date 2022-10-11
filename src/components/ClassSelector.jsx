@@ -1,9 +1,61 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { Container, Form } from "react-bootstrap";
 
-function ClassSelector() {
-  const [firstClass, setFirstClass] = useState("");
-  const [secondClass, setSecondClass] = useState("");
+function ClassSelector({
+  totalOccupiedSeats,
+  totalSeatsInTrain,
+  firstClass,
+  setFirstClass,
+  secondClass,
+  setSecondClass,
+  setWheelChairSeatsFullBooked,
+  setPetsCarriageFullBooked,
+}) {
+  const [firstClassFullBooked, setFirstClassFullBooked] = useState(false);
+  const [secondClassFullBooked, setSecondClassFullBooked] = useState(false);
+
+  useEffect(() => {
+    if (
+      +totalOccupiedSeats["occupiedFirstClass"] ===
+      +totalSeatsInTrain["firstClass"]
+    ) {
+      setFirstClassFullBooked(true);
+      setSecondClass(true);
+    }
+    if (
+      +totalOccupiedSeats["occupiedSeats"] -
+        +totalOccupiedSeats["occupiedFirstClass"] ===
+      +totalSeatsInTrain["secondClass"]
+    ) {
+      setSecondClassFullBooked(true);
+      setFirstClass(true);
+    }
+    if (
+      +totalOccupiedSeats["occupiedPetsAllowed"] ===
+      +totalSeatsInTrain["petsAllowed"]
+    ) {
+      setPetsCarriageFullBooked(true);
+    }
+    if (
+      +totalOccupiedSeats["occupiedIsHandicapSeat"] ===
+      +totalSeatsInTrain["hasHandicapSeats"]
+    ) {
+      setWheelChairSeatsFullBooked(true);
+    }
+  }, [totalOccupiedSeats]);
+
+  const handleSelectClass = (e) => {
+    let className = e.target.id;
+    if (className === "firstClass") {
+      setFirstClass(true);
+      setSecondClass(false);
+    }
+    if (className === "secondClass") {
+      setSecondClass(true);
+      setFirstClass(false);
+    }
+  };
 
   return (
     <>
@@ -14,20 +66,24 @@ function ClassSelector() {
               <Form>
                 {["radio"].map((type) => (
                   <div key={`${type}`} className="mb-3 custom-label">
-                    <Form.Check
-                      label="1 Klass"
-                      name="group1"
-                      type={type}
-                      onChange={(e) => setFirstClass(e.target.value)}
-                      id={`${type}-firstClass`}
-                    />
-                    <Form.Check
-                      label="2 Klass"
-                      name="group1"
-                      type={type}
-                      onChange={(e) => setSecondClass(e.target.value)}
-                      id={`${type}-secondClass`}
-                    />
+                    {!firstClassFullBooked && (
+                      <Form.Check
+                        label="1 Klass"
+                        name="group1"
+                        type={type}
+                        onChange={(e) => handleSelectClass(e)}
+                        id="firstClass"
+                      />
+                    )}
+                    {!secondClassFullBooked && (
+                      <Form.Check
+                        label="2 Klass"
+                        name="group1"
+                        type={type}
+                        onChange={(e) => handleSelectClass(e)}
+                        id="secondClass"
+                      />
+                    )}
                   </div>
                 ))}
               </Form>

@@ -37,7 +37,7 @@
 
 .date-arrow-right,
 .date-arrow-left {
-  width: 95px;
+  width: 50px;
   cursor: pointer;
 }
 
@@ -47,10 +47,15 @@
   }
   .date-arrow-right,
   .date-arrow-left {
-    width: 75px;
+    width: 35px;
   }
   .journeyList {
     padding: 15px;
+  }
+}
+@media screen and (max-width: 900px) {
+  .custom-icon {
+    width: 20px !important;
   }
 }
 
