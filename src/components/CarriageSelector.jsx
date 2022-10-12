@@ -36,27 +36,29 @@ function CarriageSelector({
               />
             </div>
           )}
-          {index !== carriagesLayout.length - 1 && index !== 0 && (
-            <div
-              style={{ display: "inline-block" }}
-              onClick={handleSelectCarriage(index)}
-              className="carriage-indicator"
-            >
-              <p className="ms-5 custom-text">Vagn: {x}</p>
-              <img
-                src="../images/carriage.svg"
-                style={
-                  activeCarriage === index
-                    ? {
-                        width: "190px",
-                        height: "51px",
-                        filter: "saturate(7)",
-                      }
-                    : { width: "190px", height: "51px" }
-                }
-              />
-            </div>
-          )}
+          {index !== carriagesLayout.length - 1 &&
+            index !== 0 &&
+            x !== bistroCarriage && (
+              <div
+                style={{ display: "inline-block" }}
+                onClick={handleSelectCarriage(index)}
+                className="carriage-indicator"
+              >
+                <p className="ms-5 custom-text">Vagn: {x}</p>
+                <img
+                  src="../images/carriage.svg"
+                  style={
+                    activeCarriage === index
+                      ? {
+                          width: "190px",
+                          height: "51px",
+                          filter: "saturate(7)",
+                        }
+                      : { width: "190px", height: "51px" }
+                  }
+                />
+              </div>
+            )}
           {index !== carriagesLayout.length - 1 &&
             index !== 0 &&
             x === bistroCarriage && (

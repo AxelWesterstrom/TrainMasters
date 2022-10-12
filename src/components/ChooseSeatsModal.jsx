@@ -33,24 +33,30 @@ function ChooseSeatsModal({
         .then((jsonData) => setTrainSetAndCarriages(jsonData));
     };
     fetchData();
-  }, [s.ticket.chosenJourney]);
+  }, []);
 
   useEffect(() => {
     const fetchBookdSeats = async () => {
       await fetch(
-        `/api/bookingPartsWithDepartureAndArrivalStationInfo/?date=${new Date(
-          s.ticket.date
-        )}&departureStationDeparture>=${
+        `/api/bookingPartsWithDepartureAndArrivalStationInfo/?date=${
+          new Date(s.ticket.date).toISOString().split("T")[0]
+        }&departureStationDeparture>=${
           s.ticket.chosenJourney.departureOffsetA
         }&arrivalStationArrival<=${
           s.ticket.chosenJourney.arrivalOffsetB
         }&journeyId=${s.ticket.chosenJourney.journeyId}`
       )
         .then((res) => res.json())
-        .then((jsonData) => setBookedSeats(jsonData));
+        .then((jsonData) => {
+          if (jsonData[0] !== undefined) {
+            setBookedSeats(jsonData[0]);
+          } else {
+            setBookedSeats(0);
+          }
+        });
     };
     fetchBookdSeats();
-  }, [s.ticket.chosenJourney, s.ticket.date]);
+  }, []);
 
   useEffect(() => {
     let carriages = [];
@@ -71,14 +77,12 @@ function ChooseSeatsModal({
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetch(
-        `/api/routes/?id=${s.ticket.chosenJourney.chosenJourney.routeId}`
-      )
+      await fetch(`/api/routes/?id=${s.ticket.chosenJourney.routeId}`)
         .then((res) => res.json())
         .then((jsonData) => setRoute(jsonData[0]));
     };
     fetchData();
-  }, [s.ticket.chosenJourney.chosenJourney]);
+  }, []);
 
   const handleSelectSeat = (e) => {
     let seatId = +e.target.id;

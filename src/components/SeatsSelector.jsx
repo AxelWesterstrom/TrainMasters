@@ -21,10 +21,14 @@ function SeatsSelector({
     let rightFacingSeatsList = [];
     let idList = [];
     let availableSeatsList = [];
-    bookedSeats.map((seat) => {
-      idList.push(seat.seatId);
-    });
-    setOccupiedSeats(idList);
+    if (bookedSeats !== 0) {
+      bookedSeats.map((seat) => {
+        idList.push(seat.seatId);
+      });
+      setOccupiedSeats(idList);
+    } else {
+      setOccupiedSeats(0);
+    }
 
     trainSetAndCarriages.map((seat) => {
       if (seat.isHandicapSeat === 1) {

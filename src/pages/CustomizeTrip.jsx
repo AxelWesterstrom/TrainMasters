@@ -12,8 +12,8 @@ function CustomizeTrip() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [seatsToBook, setSeatsToBook] = useState(2); //should be send from the former route
-  const [totalSeatsInTrain, setTotalSeatsInTrain] = useState("");
-  const [totalOccupiedSeats, setTotolOccupiedSeats] = useState("");
+  const [totalSeatsInTrain, setTotalSeatsInTrain] = useState([]);
+  const [totalOccupiedSeats, setTotolOccupiedSeats] = useState([]);
   const [wheechairSeatsFullBooked, setWheelChairSeatsFullBooked] =
     useState(false);
   const [petsCarraigeFullBooked, setPetsCarriageFullBooked] = useState(false);
@@ -30,19 +30,25 @@ function CustomizeTrip() {
         .then((jsonData) => setTotalSeatsInTrain(jsonData[0]));
     };
     fetchData();
-  }, [s.ticket.chosenJourney]);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      let data = await fetch(
-        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(
-          s.ticket.date
-        )}&journeyId=${s.ticket.chosenJourney.journeyId}&trainSetId=${
+      await fetch(
+        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${
+          new Date(s.ticket.date).toISOString().split("T")[0]
+        }&journeyId=${s.ticket.chosenJourney.journeyId}&trainSetId=${
           s.ticket.chosenJourney.trainSetId
         }`
-      );
-      let jsonData = await data.json();
-      setTotolOccupiedSeats(jsonData[0]);
+      )
+        .then((res) => res.json())
+        .then((jsonData) => {
+          if (jsonData[0] !== undefined) {
+            setTotolOccupiedSeats(jsonData[0]);
+          } else {
+            setTotolOccupiedSeats(0);
+          }
+        });
     };
     fetchData();
   }, [totalSeatsInTrain]);
@@ -79,7 +85,9 @@ function CustomizeTrip() {
                   {s.ticket.chosenJourney.stationNameA} -{" "}
                   {s.ticket.chosenJourney.stationNameB}
                 </p>
-                <p className="custom-label">{s.ticket.date}</p>
+                <p className="custom-label">
+                  {new Date(s.ticket.date).toLocaleDateString()}
+                </p>
                 <p className="custom-label">
                   {s.ticket.chosenJourney.departureTimeA}
                 </p>
