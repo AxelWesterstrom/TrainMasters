@@ -1,26 +1,30 @@
 import { Row, Col, Button, Form, Container, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AutoSuggest from "./AutoSuggest";
+import AutoSuggest from "./AutoSuggest.jsx";
+import { useStates } from "../assets/helpers/states";
+
+
 
 function SearchBar({ stations }) {
-  const [departure, setDeparture] = useState("");
-  const [arrival, setArrival] = useState("");
   const [foundTrain, setFoundTrain] = useState(false);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
+  let s = useStates("booking")
+
+
 
   //should check if departure and arrival is in same route, should fetch routesWithStations view
   const goToNextPage = () => {
-    if (departure.length !== 0 && arrival.length !== 0 && foundTrain) {
-      navigate("/valj-resa", { state: { departure, arrival } });
-    } else if (!foundTrain && arrival.length !== 0) {
-      setErrorMessage("Tyvärr! Vi har inget direkt tåg till " + arrival + "!");
+    if (s.ticket.departure.length !== 0 && s.ticket.arrival.length !== 0 && foundTrain) {
+      navigate("/valj-resa");
+    } else if (!foundTrain && s.ticket.arrival.length !== 0) {
+      setErrorMessage("Tyvärr! Vi har inget direkt tåg till " + s.ticket.arrival + "!");
       setShow(true);
-    } else if (departure.length === 0 || arrival.length === 0) {
+    } else if (s.ticket.departure.length === 0 || s.ticket.arrival.length === 0) {
       setErrorMessage("Fyll i destination och avreseort!");
       setShow(true);
     }
@@ -33,10 +37,6 @@ function SearchBar({ stations }) {
           <Form className='customContainer'>
             <AutoSuggest
               stations={stations}
-              departure={departure}
-              arrival={arrival}
-              setDeparture={setDeparture}
-              setArrival={setArrival}
               setFoundTrain={setFoundTrain}
             />
             <div className='d-flex justify-content-end'>
