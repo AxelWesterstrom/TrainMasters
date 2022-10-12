@@ -1,7 +1,6 @@
 import ClassSelector from "../components/ClassSelector";
 import Header from "../components/Header";
 import styles from "../../public/css/customizeTrip.css";
-import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Container, Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -11,15 +10,19 @@ import { useStates } from "../assets/helpers/states";
 function CustomizeTrip() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const [seatsToBook, setSeatsToBook] = useState(2); //should be send from the former route
   const [totalSeatsInTrain, setTotalSeatsInTrain] = useState([]);
   const [totalOccupiedSeats, setTotolOccupiedSeats] = useState([]);
   const [wheechairSeatsFullBooked, setWheelChairSeatsFullBooked] =
     useState(false);
   const [petsCarraigeFullBooked, setPetsCarriageFullBooked] = useState(false);
-  const [firstClass, setFirstClass] = useState(false);
-  const [secondClass, setSecondClass] = useState(false);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+
   let s = useStates("booking");
+  let count = 0;
+  s.ticket.passengers.map((x) => {
+    count += x.count;
+  });
+  const [seatsToBook, setSeatsToBook] = useState(count);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,10 +56,14 @@ function CustomizeTrip() {
     fetchData();
   }, [totalSeatsInTrain]);
 
-  const handleModalClose = () => setShowModal(false);
+  const handleModalClose = () => {
+    setShowModal(false);
+    s.ticket.seat = [...selectedSeats];
+  };
 
   const goToFormerPage = () => {
     navigate("/valj-tag");
+    s.ticket.carriageClass = 0;
   };
 
   const goToNextPage = () => {
@@ -65,6 +72,10 @@ function CustomizeTrip() {
 
   const showSeatsSelectorModal = () => {
     setShowModal(true);
+  };
+
+  const deleteSelectedSeats = () => {
+    setSelectedSeats([]);
   };
 
   return (
@@ -100,33 +111,56 @@ function CustomizeTrip() {
           <ClassSelector
             totalOccupiedSeats={totalOccupiedSeats}
             totalSeatsInTrain={totalSeatsInTrain}
-            secondClass={secondClass}
-            setSecondClass={setSecondClass}
-            firstClass={firstClass}
-            setFirstClass={setFirstClass}
-            wheechairSeatsFullBooked={wheechairSeatsFullBooked}
             setWheelChairSeatsFullBooked={setWheelChairSeatsFullBooked}
-            petsCarraigeFullBooked={petsCarraigeFullBooked}
             setPetsCarriageFullBooked={setPetsCarriageFullBooked}
+            setSeatsToBook={seatsToBook}
           />
           <Container className="p-2">
             <Container className="seat-selector-container p-5">
-              <p
-                className="custom-label m-4"
-                onClick={showSeatsSelectorModal}
-                style={
-                  firstClass
-                    ? {}
-                    : secondClass
-                    ? {}
-                    : { opacity: "0.38", pointerEvents: "none" }
-                }
-              >
-                Välj plats
-              </p>
+              {selectedSeats.length === 0 && (
+                <p
+                  className="custom-label m-4"
+                  onClick={showSeatsSelectorModal}
+                  style={
+                    s.ticket.carriageClass === 1
+                      ? {}
+                      : s.ticket.carriageClass === 2
+                      ? {}
+                      : { opacity: "0.38", pointerEvents: "none" }
+                  }
+                >
+                  Välj plats
+                </p>
+              )}
+
+              {selectedSeats.length !== 0 &&
+                selectedSeats.map((seat, index) => {
+                  return (
+                    <div>
+                      <div className="d-flex">
+                        <p className="custom-text me-4">
+                          Seat: {seat.seatNumber}
+                        </p>
+                        <p className="custom-text">Carriage: {seat.carriage}</p>
+                      </div>
+                      {index === selectedSeats.length - 1 && (
+                        <div className="d-flex justify-content-end">
+                          <img
+                            src="../images/delete.svg"
+                            style={{
+                              width: "30px",
+                              height: "30px",
+                              cursor: "pointer",
+                            }}
+                            onClick={deleteSelectedSeats}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
             </Container>
           </Container>
-          {/* if there is seat selected is should be here */}
         </Container>
 
         <Modal
@@ -142,8 +176,10 @@ function CustomizeTrip() {
               seatsToBook={seatsToBook}
               petsCarraigeFullBooked={petsCarraigeFullBooked}
               wheechairSeatsFullBooked={wheechairSeatsFullBooked}
-              firstClass={firstClass}
-              secondClass={secondClass}
+              setWheelChairSeatsFullBooked={setWheelChairSeatsFullBooked}
+              setPetsCarriageFullBooked={setPetsCarriageFullBooked}
+              selectedSeats={selectedSeats}
+              setSelectedSeats={setSelectedSeats}
             />
           </Modal.Body>
           <Modal.Footer>

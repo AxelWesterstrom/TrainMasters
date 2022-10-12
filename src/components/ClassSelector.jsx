@@ -1,20 +1,19 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Container, Form } from "react-bootstrap";
+import { useStates } from "../assets/helpers/states";
 
 function ClassSelector({
   totalOccupiedSeats,
   totalSeatsInTrain,
-  firstClass,
-  setFirstClass,
-  secondClass,
-  setSecondClass,
   setWheelChairSeatsFullBooked,
   setPetsCarriageFullBooked,
+  seatsToBook,
 }) {
   const [firstClassFullBooked, setFirstClassFullBooked] = useState(false);
   const [secondClassFullBooked, setSecondClassFullBooked] = useState(false);
 
+  let s = useStates("booking");
   useEffect(() => {
     if (totalOccupiedSeats !== 0) {
       if (
@@ -42,6 +41,20 @@ function ClassSelector({
       ) {
         setWheelChairSeatsFullBooked(true);
       }
+      if (
+        +totalOccupiedSeats["occupiedFirstClass"] + seatsToBook >
+        +totalSeatsInTrain["firstClass"]
+      ) {
+        setFirstClassFullBooked(true);
+      }
+      if (
+        +totalOccupiedSeats["occupiedSeats"] -
+          +totalOccupiedSeats["occupiedFirstClass"] +
+          seatsToBook >
+        +totalSeatsInTrain["firstClass"]
+      ) {
+        setSecondClassFullBooked(true);
+      }
     } else {
       setFirstClassFullBooked(false);
       setSecondClassFullBooked(false);
@@ -51,14 +64,12 @@ function ClassSelector({
   }, []);
 
   const handleSelectClass = (e) => {
-    let className = e.target.id;
-    if (className === "firstClass") {
-      setFirstClass(true);
-      setSecondClass(false);
+    let value = e.target.id;
+    if (value === "firstClass") {
+      s.ticket.carriageClass = 1;
     }
-    if (className === "secondClass") {
-      setSecondClass(true);
-      setFirstClass(false);
+    if (value === "secondClass") {
+      s.ticket.carriageClass = 2;
     }
   };
 
@@ -73,6 +84,7 @@ function ClassSelector({
                   <div key={`${type}`} className="mb-3 custom-label">
                     {!firstClassFullBooked && (
                       <Form.Check
+                        key={"1"}
                         label="1 Klass"
                         name="group1"
                         type={type}
@@ -82,6 +94,7 @@ function ClassSelector({
                     )}
                     {!secondClassFullBooked && (
                       <Form.Check
+                        key={"2"}
                         label="2 Klass"
                         name="group1"
                         type={type}

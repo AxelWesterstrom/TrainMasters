@@ -20,9 +20,13 @@ function CarriageSelector({
               style={{ display: "inline-block" }}
               onClick={handleSelectCarriage(index)}
               className="carriage-indicator"
+              key={index}
             >
-              <p className="ms-5 custom-text text-center">Vagn: {x}</p>
+              <p className="ms-5 custom-text text-center" key={index + "text"}>
+                Vagn: {x}
+              </p>
               <img
+                key={index + "img"}
                 src="../images/locomotive.svg"
                 style={
                   activeCarriage === index
@@ -40,12 +44,16 @@ function CarriageSelector({
             index !== 0 &&
             x !== bistroCarriage && (
               <div
+                key={index}
                 style={{ display: "inline-block" }}
                 onClick={handleSelectCarriage(index)}
                 className="carriage-indicator"
               >
-                <p className="ms-5 custom-text">Vagn: {x}</p>
+                <p className="ms-5 custom-text" key={index + "text"}>
+                  Vagn: {x}
+                </p>
                 <img
+                  key={index + "img"}
                   src="../images/carriage.svg"
                   style={
                     activeCarriage === index
@@ -63,12 +71,16 @@ function CarriageSelector({
             index !== 0 &&
             x === bistroCarriage && (
               <div
+                key={index}
                 style={{ display: "inline-block" }}
                 onClick={handleSelectCarriage(index)}
                 className="carriage-indicator"
               >
-                <p className="ms-5 custom-text">Vagn: {x}</p>
+                <p className="ms-5 custom-text" key={index + "text"}>
+                  Vagn: {x}
+                </p>
                 <img
+                  key={index + "img"}
                   src="../images/bistro.svg"
                   style={
                     activeCarriage === index
@@ -84,12 +96,16 @@ function CarriageSelector({
             )}
           {index === carriagesLayout.length - 1 && (
             <div
+              key={index}
               style={{ display: "inline-block" }}
               onClick={handleSelectCarriage(index)}
               className="carriage-indicator"
             >
-              <p className="ms-5 custom-text">Vagn: {x}</p>
+              <p className="ms-5 custom-text" key={index + "text"}>
+                Vagn: {x}
+              </p>
               <img
+                key={index + "img"}
                 src="../images/maneuvering.svg"
                 style={
                   activeCarriage === index

@@ -44,14 +44,14 @@ function AutoSuggest({
     let routes = [];
 
     for (let station of stations) {
-      if (station.name.toLowerCase() === departure.toLowerCase()) {
+      if (station.name.toLowerCase() === s.ticket.departure.toLowerCase()) {
         routes.push(station.routeId);
       }
     }
 
     for (let station of stations) {
       for (let route of routes) {
-        if (station.routeId === route && station.name !== departure) {
+        if (station.routeId === route && station.name !== s.ticket.departure) {
           suggestions.push(station.name);
         }
       }
