@@ -6,6 +6,7 @@ import { Container, Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import ChooseSeatsModal from "../components/ChooseSeatsModal";
 import { useStates } from "../assets/helpers/states";
+import CancelableSelector from "../components/CancelableSelector";
 
 function CustomizeTrip() {
   const navigate = useNavigate();
@@ -64,6 +65,7 @@ function CustomizeTrip() {
   const goToFormerPage = () => {
     navigate("/valj-tag");
     s.ticket.carriageClass = 0;
+    s.ticket.type = "";
   };
 
   const goToNextPage = () => {
@@ -115,6 +117,7 @@ function CustomizeTrip() {
             setPetsCarriageFullBooked={setPetsCarriageFullBooked}
             setSeatsToBook={seatsToBook}
           />
+          <CancelableSelector />
           <Container className="p-2">
             <Container className="seat-selector-container p-5">
               {selectedSeats.length === 0 && (
@@ -122,11 +125,9 @@ function CustomizeTrip() {
                   className="custom-label m-4"
                   onClick={showSeatsSelectorModal}
                   style={
-                    s.ticket.carriageClass === 1
+                    s.ticket.type !== ""
                       ? {}
-                      : s.ticket.carriageClass === 2
-                      ? {}
-                      : { opacity: "0.38", pointerEvents: "none" }
+                      : { opacity: "0.68", pointerEvents: "none" }
                   }
                 >
                   Välj plats

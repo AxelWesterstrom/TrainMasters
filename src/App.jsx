@@ -27,9 +27,9 @@ function App() {
         return { travelerType: type, count: 0 };
       }),
       chosenJourney: {},
-      carriageClass: "",
+      carriageClass: 0,
       seats: [],
-      cancelable: "",
+      type: "",
     },
   });
 
