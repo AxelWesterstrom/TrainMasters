@@ -6,21 +6,10 @@ import { useState, useEffect } from "react";
 import { Container, Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import ChooseSeatsModal from "../components/ChooseSeatsModal";
+import { useStates } from "../assets/helpers/states";
 
 function CustomizeTrip() {
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const { chosenJourney, date } = state;
-  const {
-    journeyId,
-    trainSetId,
-    stationNameA,
-    stationNameB,
-    departureTimeA,
-    departureOffsetA,
-    arrivalOffsetB,
-  } = chosenJourney;
-
   const [showModal, setShowModal] = useState(false);
   const [seatsToBook, setSeatsToBook] = useState(2); //should be send from the former route
   const [totalSeatsInTrain, setTotalSeatsInTrain] = useState("");
@@ -30,20 +19,27 @@ function CustomizeTrip() {
   const [petsCarraigeFullBooked, setPetsCarriageFullBooked] = useState(false);
   const [firstClass, setFirstClass] = useState(false);
   const [secondClass, setSecondClass] = useState(false);
+  let s = useStates("booking");
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetch(`/api/seatsInTrainSetWithSeatInfo?trainSetId=${trainSetId}`)
+      await fetch(
+        `/api/seatsInTrainSetWithSeatInfo?trainSetId=${s.ticket.chosenJourney.trainSetId}`
+      )
         .then((res) => res.json())
         .then((jsonData) => setTotalSeatsInTrain(jsonData[0]));
     };
     fetchData();
-  }, [trainSetId]);
+  }, [s.ticket.chosenJourney]);
 
   useEffect(() => {
     const fetchData = async () => {
       let data = await fetch(
-        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${date}&journeyId=${journeyId}&trainSetId=${trainSetId}`
+        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(
+          s.ticket.date
+        )}&journeyId=${s.ticket.chosenJourney.journeyId}&trainSetId=${
+          s.ticket.chosenJourney.trainSetId
+        }`
       );
       let jsonData = await data.json();
       setTotolOccupiedSeats(jsonData[0]);
@@ -80,10 +76,13 @@ function CustomizeTrip() {
             <Container className="train-info-container p-5">
               <Container className="m-3">
                 <p className="custom-label">
-                  {stationNameA} - {stationNameB}
+                  {s.ticket.chosenJourney.stationNameA} -{" "}
+                  {s.ticket.chosenJourney.stationNameB}
                 </p>
-                <p className="custom-label">{date}</p>
-                <p className="custom-label">{departureTimeA}</p>
+                <p className="custom-label">{s.ticket.date}</p>
+                <p className="custom-label">
+                  {s.ticket.chosenJourney.departureTimeA}
+                </p>
                 <Button className="custom-button" onClick={goToFormerPage}>
                   Ändra
                 </Button>
@@ -133,8 +132,6 @@ function CustomizeTrip() {
           <Modal.Body>
             <ChooseSeatsModal
               seatsToBook={seatsToBook}
-              date={date}
-              chosenJourney={chosenJourney}
               petsCarraigeFullBooked={petsCarraigeFullBooked}
               wheechairSeatsFullBooked={wheechairSeatsFullBooked}
               firstClass={firstClass}
