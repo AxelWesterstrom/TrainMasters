@@ -73,7 +73,9 @@ function Journey(props) {
       let occupiedSeatsData;
       try {
         occupiedSeatsData = await fetch(
-          `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(s.ticket.date).toLocaleDateString()}&journeyId=${journeyId}&trainSetId=${trainSetId}`
+          `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${
+            new Date(s.ticket.date).toISOString().split("T")[0]
+          }&journeyId=${journeyId}&trainSetId=${trainSetId}`
         );
       } catch (e) {
         console.error("error");
@@ -101,7 +103,6 @@ function Journey(props) {
       setOccupancy(calculateOccupancy(numberOfSeats, occupiedSeats));
     }
     fetchData();
-    console.log(journey.journeyId);
   }, [s.ticket.date, numberOfSeats]);
 
   useEffect(() => {

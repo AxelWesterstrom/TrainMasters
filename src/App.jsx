@@ -26,10 +26,11 @@ function App() {
       passengers: travelerTypes.map((type) => {
         return { travelerType: type, count: 0 };
       }),
-      chosenJourney: {
-
-      }
-    }
+      chosenJourney: {},
+      carriageClass: 0,
+      seats: [],
+      type: "",
+    },
   });
 
   // useEffect(() => {
