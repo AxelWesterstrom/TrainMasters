@@ -73,9 +73,11 @@ function Journey(props) {
       let occupiedSeatsData;
       try {
         occupiedSeatsData = await fetch(
-          `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${
-            new Date(s.ticket.date).toISOString().split("T")[0]
-          }&journeyId=${journeyId}&trainSetId=${trainSetId}`
+          `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(
+            s.ticket.date
+          ).toLocaleDateString(
+            "sv-SE"
+          )}&journeyId=${journeyId}&trainSetId=${trainSetId}`
         );
       } catch (e) {
         console.error("error");
