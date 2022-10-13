@@ -1,13 +1,10 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
+import { useStates } from "../assets/helpers/states";
 
 function AutoSuggest({
   stations,
-  arrival,
-  departure,
-  setDeparture,
-  setArrival,
   setFoundTrain,
 }) {
   const [isDepartureFocus, setDepartureFocus] = useState(false);
@@ -15,6 +12,8 @@ function AutoSuggest({
   const [suggestDepature, setSuggestDepature] = useState([]);
   const [suggestArrival, setSuggestArrival] = useState([]);
   let allStations = [];
+
+  let s = useStates("booking")
 
   const handleDepature = (e) => {
     let searchValue = e.target.value;
@@ -34,7 +33,7 @@ function AutoSuggest({
         );
     }
     setSuggestDepature(suggestion);
-    setDeparture(searchValue);
+    s.ticket.departure = searchValue;
   };
 
   const handleArrival = (e) => {
@@ -45,19 +44,18 @@ function AutoSuggest({
     let routes = [];
 
     for (let station of stations) {
-      if (station.name.toLowerCase() === departure.toLowerCase()) {
+      if (station.name.toLowerCase() === s.ticket.departure.toLowerCase()) {
         routes.push(station.routeId);
       }
     }
 
     for (let station of stations) {
       for (let route of routes) {
-        if (station.routeId === route && station.name !== departure) {
+        if (station.routeId === route && station.name !== s.ticket.departure) {
           suggestions.push(station.name);
         }
       }
     }
-    console.log(searchValue);
 
     suggestions = suggestions.filter((value, index) => {
       return suggestions.indexOf(value) === index;
@@ -72,7 +70,7 @@ function AutoSuggest({
         );
     }
     setSuggestArrival(suggestions);
-    setArrival(searchValue);
+    s.ticket.arrival = searchValue;
 
     for (let suggestion of suggestions) {
       if (suggestion.toLowerCase() === searchValue.toLowerCase()) {
@@ -88,14 +86,14 @@ function AutoSuggest({
     let routes = [];
 
     for (let station of stations) {
-      if (station.name.toLowerCase() === departure.toLowerCase()) {
+      if (station.name.toLowerCase() === s.ticket.departure.toLowerCase()) {
         routes.push(station.routeId);
       }
     }
 
     for (let station of stations) {
       for (let route of routes) {
-        if (station.routeId === route && station.name !== departure) {
+        if (station.routeId === route && station.name !== s.ticket.departure) {
           suggestion.push(station.name);
         }
       }
@@ -119,12 +117,12 @@ function AutoSuggest({
               autoComplete="off"
               type="text"
               className="customInput"
-              value={departure}
+              value={s.ticket.departure}
               onChange={handleDepature}
               onFocus={() => setDepartureFocus(true)}
               onBlur={() => setDepartureFocus(false)}
             />
-            {isDepartureFocus && departure.length !== 0 && (
+            {isDepartureFocus && s.ticket.departure.length !== 0 && (
               <div
                 className="customSuggestContainer mt-1"
                 style={{ overflowY: "scroll" }}
@@ -136,7 +134,7 @@ function AutoSuggest({
                       className="autoSuggest-text m-1"
                       key={index}
                       onMouseDown={() => {
-                        setDeparture(item);
+                        s.ticket.departure = item;
                       }}
                     >
                       {item}
@@ -156,13 +154,13 @@ function AutoSuggest({
               data-togg
               type="text"
               className="customInput"
-              value={arrival}
+              value={s.ticket.arrival}
               onFocus={handleArrivalOnFocus}
               onBlur={() => setArrivalFocus(false)}
               onChange={handleArrival}
             />
 
-            {isArrivalFocus && departure.length !== 0 && (
+            {isArrivalFocus && s.ticket.departure.length !== 0 && (
               <div
                 className="customSuggestContainer mt-1"
                 style={{ overflowY: "scroll" }}
@@ -174,7 +172,7 @@ function AutoSuggest({
                       className="autoSuggest-text m-1"
                       key={index}
                       onMouseDown={() => {
-                        setArrival(item);
+                        s.ticket.arrival = item;
                         setFoundTrain(true);
                       }}
                     >

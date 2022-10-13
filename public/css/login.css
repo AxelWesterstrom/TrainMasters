@@ -12,19 +12,18 @@
 }
 
 .loginform-body{
-  
   margin-top: 40px;
 }
 
 .form-row {
   display: flex;
   width: 100%;
-  max-width: 60%;
   margin: 0 auto;
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
 }
+
 
 .login-form-col {
 background-color: white;
@@ -38,3 +37,10 @@ padding-left: 40px;
 padding-right: 40px;
 }
 
+@media screen and (min-width: 800px) {
+  .form-row {
+    max-width: 75%;
+  }
+}
+
+/* @media screen and (max-width: 600px){} */

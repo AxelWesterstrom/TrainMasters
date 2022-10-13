@@ -2,9 +2,13 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import calculateTicketPrice from "../assets/helpers/calculateTicketPrice";
 import calculateOccupancy from "../assets/helpers/calculateOccupancy";
+import { useStates } from "../assets/helpers/states";
 
 function Journey(props) {
-  let { date, journey, chosenJourney, setChosenJourney } = props;
+
+  let s = useStates("booking");
+
+  let { journey } = props;
   let {
     startTime,
     trainSetId,
@@ -69,7 +73,9 @@ function Journey(props) {
       let occupiedSeatsData;
       try {
         occupiedSeatsData = await fetch(
-          `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${date}&journeyId=${journeyId}&trainSetId=${trainSetId}`
+          `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${
+            new Date(s.ticket.date).toISOString().split("T")[0]
+          }&journeyId=${journeyId}&trainSetId=${trainSetId}`
         );
       } catch (e) {
         console.error("error");
@@ -97,8 +103,7 @@ function Journey(props) {
       setOccupancy(calculateOccupancy(numberOfSeats, occupiedSeats));
     }
     fetchData();
-    console.log(journey.journeyId);
-  }, [date, numberOfSeats]);
+  }, [s.ticket.date, numberOfSeats]);
 
   useEffect(() => {
     setPrice(
@@ -114,20 +119,20 @@ function Journey(props) {
   }, [occupancy]);
 
   useEffect(() => {
-    setChosenJourney({});
-  }, [date]);
+    s.ticket.chosenJourney = {};
+  }, [s.ticket.date]);
 
   function handleClickedJourney(journey) {
-    setChosenJourney({ ...journey });
+    s.ticket.chosenJourney = ({ ...journey });
+    console.log(s.ticket.chosenJourney);
   }
 
   return (
     <Container
-      className={`mb-3  ${
-        !chosenJourney || journeyId !== chosenJourney.journeyId
-          ? "journeyItem"
-          : "activeJourney"
-      }`}
+      className={`mb-3  ${!s.ticket.chosenJourney || journeyId !== s.ticket.chosenJourney.journeyId
+        ? "journeyItem"
+        : "activeJourney"
+        }`}
       onClick={() => {
         handleClickedJourney(journey);
       }}
@@ -150,8 +155,8 @@ function Journey(props) {
               {!price || isNaN(price) || price == Infinity
                 ? ""
                 : numberOfSeats - occupiedSeats > 0
-                ? "fr. " + price + " kr"
-                : "Slutsåld"}
+                  ? "fr. " + price + " kr"
+                  : "Slutsåld"}
             </p>
           </Col>
         </Row>

@@ -12,7 +12,6 @@ function Seat(props) {
   let availableSeats = props.availableSeats;
   let customClassName = "";
   let selectedSeats = props.selectedSeats;
-  const [activeCarriage, setActiveCarriage] = useState(0);
 
   return (
     <>
@@ -21,10 +20,13 @@ function Seat(props) {
           let firstClass = (seat.seatNumber - 1) % 3 === 0;
           let secondClass = (seat.seatNumber - 2) % 4 === 0;
           let isAvaliable = availableSeats.includes(seat.seatId);
-          let isBooked = occupiedSeats.includes(seat.seatId);
+          let isBooked = false;
+          if (occupiedSeats !== 0) {
+            isBooked = occupiedSeats.includes(seat.seatId);
+          }
           let isForWheelChair = wheelChairSeats.includes(seat.seatId);
           let isFacingRight = rightFacingSeats.includes(seat.seatId);
-          let isSelected = selectedSeats.includes(seat.seatId);
+          let isSelected = selectedSeats.some((x) => x.id === seat.seatId);
 
           if (isSelected && isFacingRight) {
             customClassName = "seat-selected-right";
@@ -66,7 +68,9 @@ function Seat(props) {
                   key={index}
                   id={seat.seatId}
                   style={firstClass ? { marginBottom: "90px" } : {}}
-                  onClick={(e) => props.handleSelectSeat(e)}
+                  onClick={(e) =>
+                    props.handleSelectSeat(e, carriageNumber, seat.seatNumber)
+                  }
                 >
                   {seat.seatNumber}
                 </div>
@@ -79,7 +83,9 @@ function Seat(props) {
                     key={index}
                     id={seat.seatId}
                     style={secondClass ? { marginBottom: "40px" } : {}}
-                    onClick={(e) => props.handleSelectSeat(e)}
+                    onClick={(e) =>
+                      props.handleSelectSeat(e, carriageNumber, seat.seatNumber)
+                    }
                   >
                     {seat.seatNumber}
                   </div>
