@@ -16,6 +16,12 @@ function LoginForm() {
     event.preventDefault();
   }
 
+  // async function login() {
+  //   let email = await (await fetch(`/api/customers?email=${l.email}`)).json();
+  //   console.log(email);
+  // }
+
+  // login();
 
   return (LoginForm = (
     <>
