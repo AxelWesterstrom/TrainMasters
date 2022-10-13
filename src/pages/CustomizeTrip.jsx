@@ -44,6 +44,7 @@ function CustomizeTrip() {
         ).toLocaleDateString("sv-SE")}&journeyId=${
           s.ticket.chosenJourney.journeyId
         }&trainSetId=${s.ticket.chosenJourney.trainSetId}`
+
       )
         .then((res) => res.json())
         .then((jsonData) => {

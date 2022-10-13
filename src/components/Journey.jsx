@@ -78,6 +78,7 @@ function Journey(props) {
           ).toLocaleDateString(
             "sv-SE"
           )}&journeyId=${journeyId}&trainSetId=${trainSetId}`
+
         );
       } catch (e) {
         console.error("error");

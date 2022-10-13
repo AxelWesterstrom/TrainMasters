@@ -16,7 +16,9 @@ function TravelerAdder({ travelerType, count, setTraveler }) {
     <Container>
       <Row className="justify-content-between">
         <Col className="md-auto">
-          <p style={{ display: "inline-flex" }}>{travelerType}</p>
+          <p style={{ display: "inline-flex" }} className="custom-text">
+            {travelerType}
+          </p>
         </Col>
         <Col>
           <Row className="justify-content-end">
@@ -28,7 +30,7 @@ function TravelerAdder({ travelerType, count, setTraveler }) {
                 onClick={decrementCount}
               />
             </div>
-            <div className="count-container">{count}</div>
+            <div className="count-container custom-text">{count}</div>
             <div className="icon-container">
               <img
                 alt=""
