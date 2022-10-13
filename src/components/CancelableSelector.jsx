@@ -40,7 +40,7 @@ function CancelableSelector() {
 
                     <Form.Check
                       key={"2"}
-                      label="Kan ej återbetalas & ombokas"
+                      label="Kan ej återbetalas / ombokas"
                       name="group1"
                       type={type}
                       onChange={(e) => handleSelectFlexible(e)}

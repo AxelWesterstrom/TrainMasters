@@ -39,11 +39,12 @@ function CustomizeTrip() {
   useEffect(() => {
     const fetchData = async () => {
       await fetch(
-        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${
-          new Date(s.ticket.date).toISOString().split("T")[0]
-        }&journeyId=${s.ticket.chosenJourney.journeyId}&trainSetId=${
-          s.ticket.chosenJourney.trainSetId
-        }`
+        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(
+          s.ticket.date
+        ).toLocaleDateString("sv-SE")}&journeyId=${
+          s.ticket.chosenJourney.journeyId
+        }&trainSetId=${s.ticket.chosenJourney.trainSetId}`
+
       )
         .then((res) => res.json())
         .then((jsonData) => {
