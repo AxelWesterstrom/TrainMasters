@@ -6,30 +6,35 @@ import { useStates } from "../assets/helpers/states";
 
 function JourneyList() {
   let s = useStates("booking");
-
-  const [journeys, setJourneys] = useState([]);
-  const [weekday, setWeekday] = useState(true);
-  const [holidays, setHolidays] = useState([]);
+  let l = useStates({
+    journeys: [],
+    weekday: true,
+    holidays: []
+  });
 
   useEffect(() => {
-    async function fetchData() {
-      let data = await fetch(
-        `/api/connectStationsWithTimesOnJourneyId?stationNameA=${s.ticket.departure}&stationNameB=${s.ticket.arrival}`
-      );
+    (async () => {
+      console.log("Fetching l.journeys in journeyList");
+      l.journeys = await (
+        await fetch(
+          `/api/connectStationsWithTimesOnJourneyId?stationNameA=${s.ticket.departure}&stationNameB=${s.ticket.arrival}`
+        )
+      ).json();
+    })();
+  }, []);
 
-      setJourneys(await data.json());
-      let holidayData = await fetch("/api/holidays");
-      setHolidays(await holidayData.json());
-    }
-    fetchData();
+  useEffect(() => {
+    (async () => {
+      l.holidays = await (await fetch("/api/holidays")).json();
+    })();
   }, []);
 
   useEffect(() => {
     function weekdayCheck() {
       let day = new Date(s.ticket.date).getDay();
       let isHoliday = false;
-      for (let i = 0; i < holidays.length; i++) {
-        let holidayDate = new Date(holidays[i].date).toLocaleDateString(
+      for (let i = 0; i < l.holidays.length; i++) {
+        let holidayDate = new Date(l.holidays[i].date).toLocaleDateString(
           "sv-SE"
         );
         if (
@@ -43,9 +48,9 @@ function JourneyList() {
       }
 
       if (isHoliday || day === 6 || day === 0) {
-        setWeekday(false);
+        l.weekday = false;
       } else {
-        setWeekday(true);
+        l.weekday = true;
       }
     }
     weekdayCheck(s.ticket.date);
@@ -53,8 +58,8 @@ function JourneyList() {
 
   return (
     <>
-      {!!weekday &&
-        journeys.map((journey, index) => (
+      {!!l.weekday &&
+        l.journeys.map((journey, index) => (
           <Journey
             key={index}
             {...{
@@ -62,8 +67,8 @@ function JourneyList() {
             }}
           />
         ))}
-      {!weekday &&
-        journeys
+      {!l.weekday &&
+        l.journeys
           .filter(journey => journey.justOnWeekdays === 0)
           .map((journey, index) => (
             <Journey
