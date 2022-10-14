@@ -33,18 +33,6 @@ function PickJourney() {
     }
   };
 
-  function formatDate(date) {
-    let d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    return [year, month, day].join("-");
-  }
-
   async function handleMail(e) {
     e.preventDefault;
     console.log("HandleMail");
@@ -90,16 +78,12 @@ function PickJourney() {
             </Col>
           </Row>
         </Container>
-        <DateSlider {...{ formatDate }} />
+        <DateSlider />
 
         <Container className='pe-2 ps-2'>
           <Container className='info'>
             <Row className='journeyList'>
-              <JourneyList
-                {...{
-                  formatDate
-                }}
-              />
+              <JourneyList />
             </Row>
           </Container>
         </Container>

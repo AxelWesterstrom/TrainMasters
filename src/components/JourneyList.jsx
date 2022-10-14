@@ -4,13 +4,9 @@ import Journey from "./Journey";
 import "../../public/css/journey.css";
 import { useStates } from "../assets/helpers/states";
 
-function JourneyList(props) {
+function JourneyList() {
+  let s = useStates("booking");
 
-  let s = useStates("booking")
-
-  let {
-    formatDate
-  } = props;
   const [journeys, setJourneys] = useState([]);
   const [weekday, setWeekday] = useState(true);
   const [holidays, setHolidays] = useState([]);
@@ -33,9 +29,12 @@ function JourneyList(props) {
       let day = new Date(s.ticket.date).getDay();
       let isHoliday = false;
       for (let i = 0; i < holidays.length; i++) {
-        let holidayDate = new Date(holidays[i].date);
-        let holidayDateString = formatDate(holidayDate);
-        if (holidayDateString === s.ticket.date) {
+        let holidayDate = new Date(holidays[i].date).toLocaleDateString(
+          "sv-SE"
+        );
+        if (
+          holidayDate === new Date(s.ticket.date).toLocaleDateString("sv-SE")
+        ) {
           isHoliday = true;
           break;
         } else {
@@ -59,7 +58,7 @@ function JourneyList(props) {
           <Journey
             key={index}
             {...{
-              journey,
+              journey
             }}
           />
         ))}
@@ -70,7 +69,7 @@ function JourneyList(props) {
             <Journey
               key={index}
               {...{
-                journey,
+                journey
               }}
             />
           ))}
