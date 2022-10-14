@@ -28,16 +28,18 @@ function App() {
       departure: "",
       arrival: "",
       date: newDate.getTime(),
-      passengers: travelerTypes.map(type => {
+      passengers: travelerTypes.map((type) => {
         return { travelerType: type, count: 0 };
       }),
       chosenJourney: {},
       carriageClass: 0,
       seats: [],
-      type: "",
+      type: "", // type is for cancelable or notCancelable
       secondClassPrice: 0,
-      firstClassPrice: 0
-    }
+      firstClassPrice: 0,
+      totalPrice: 0,
+    },
+    autoSuggestStations: [],
   });
 
   // useEffect(() => {
