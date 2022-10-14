@@ -5,8 +5,24 @@ import calculateOccupancy from "../assets/helpers/calculateOccupancy";
 import { useStates } from "../assets/helpers/states";
 
 function Journey(props) {
-
   let s = useStates("booking");
+
+  const [hasBistro, setHasBistro] = useState(false);
+  const [hasHandicapSeats, setHasHandicapSeats] = useState(true);
+  const [isPetsAllowed, setIsPetsAllowed] = useState(true);
+  const [occupancy, setOccupancy] = useState(0);
+  const [numberOfSeats, setNumberOfSeats] = useState(0);
+  const [occupiedSeats, setOccupiedSeats] = useState(0);
+  const [petsAllowed, setPetsAllowed] = useState(0);
+  const [isHandicapSeat, setIsHandicapSeat] = useState(0);
+  const [firstClassSeats, setFirstClassSeats] = useState(0);
+  const [secondClassSeats, setSecondClassSeats] = useState(0);
+  const [availableIsHandicapSeat, setAvailableIsHandicapSeat] = useState(0);
+  const [availablePetsAllowed, setAvailablePetsAllowed] = useState(0);
+  const [availableFirstClass, setAvailableFirstClass] = useState(0);
+  const [availableSecondClass, setAvailableSecondClass] = useState(0);
+  const [secondClassPrice, setSecondClassPrice] = useState(0);
+  const [firstClassPrice, setFirstClassPrice] = useState(0);
 
   let { journey } = props;
   let {
@@ -20,38 +36,15 @@ function Journey(props) {
     trainNumber
   } = journey;
 
-  const [price, setPrice] = useState();
-  const [hasBistro, setHasBistro] = useState(false);
-  const [hasHandicapSeats, setHasHandicapSeats] = useState(true);
-  const [isPetsAllowed, setIsPetsAllowed] = useState(true);
-  const [occupancy, setOccupancy] = useState(0);
-  const [numberOfSeats, setNumberOfSeats] = useState(0);
-  const [occupiedSeats, setOccupiedSeats] = useState(0);
-  const [petsAllowed, setPetsAllowed] = useState(0);
-  const [isHandicapSeat, setIsHandicapSeat] = useState(0);
-  const [firstClass, setFirstClass] = useState(0);
-  const [secondClass, setSecondClass] = useState(0);
-  const [availableIsHandicapSeat, setAvailableIsHandicapSeat] = useState(0);
-  const [availablePetsAllowed, setAvailablePetsAllowed] = useState(0);
-  const [availableFirstClass, setAvailableFirstClass] = useState(0);
-  const [availableSecondClass, setAvailableSecondClass] = useState(0);
-
   useEffect(() => {
-    async function fetchData() {
-      let fetchedData;
-      try {
-        fetchedData = await fetch(
-          `/api/seatsInTrainSetWithSeatInfo?trainSetId=${trainSetId}`
-        );
-      } catch (e) {
-        console.error("error ");
-      }
-
-      let data = await fetchedData.json();
+    (async () => {
+      let data = await (
+        await fetch(`/api/seatsInTrainSetWithSeatInfo?trainSetId=${trainSetId}`)
+      ).json();
       data = data[0];
       setNumberOfSeats(data.numberOfSeats);
-      setFirstClass(+data.firstClass);
-      setSecondClass(+data.secondClass);
+      setFirstClassSeats(+data.firstClass);
+      setSecondClassSeats(+data.secondClass);
 
       let bistro = +data.hasBistro;
       setHasBistro(bistro === 0 || bistro === undefined ? false : true);
@@ -63,58 +56,78 @@ function Journey(props) {
       setIsPetsAllowed(
         petsAllowed === 0 || petsAllowed === undefined ? false : true
       );
-    }
-    fetchData();
+    })();
   }, []);
 
   useEffect(() => {
-    let occupiedIsHandicapSeats, occupiedPetsAllowed, occupiedFirstClass;
-    async function fetchData() {
-      let occupiedSeatsData;
-      try {
-        occupiedSeatsData = await fetch(
-          `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(s.ticket.date).toLocaleDateString()}&journeyId=${journeyId}&trainSetId=${trainSetId}`
-        );
-      } catch (e) {
-        console.error("error");
-      }
-      let occupiedSeatsDataJson = await occupiedSeatsData.json();
-      if (!occupiedSeatsDataJson[0] || occupiedSeatsDataJson[0] === undefined) {
-        setOccupiedSeats(0);
+    (async () => {
+      let occupiedIsHandicapSeats, occupiedPetsAllowed, occupiedFirstClass;
+      let occupiedSeatsData = await (
+        await fetch(
+          `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(
+            s.ticket.date
+          ).toLocaleDateString(
+            "sv-SE"
+          )}&journeyId=${journeyId}&trainSetId=${trainSetId}`
+        )
+      ).json();
+      console.log("osd", occupiedSeatsData[0]);
+      if (!occupiedSeatsData[0] || occupiedSeatsData[0] === undefined) {
+        //setOccupiedSeats(0);
         occupiedIsHandicapSeats = 0;
         occupiedPetsAllowed = 0;
         occupiedFirstClass = 0;
       } else {
-        setOccupiedSeats(+occupiedSeatsDataJson[0].occupiedSeats);
-        occupiedIsHandicapSeats =
-          +occupiedSeatsDataJson[0].occupiedIsHandicapSeat;
-        occupiedPetsAllowed = +occupiedSeatsDataJson[0].occupiedPetsAllowed;
-        occupiedFirstClass = +occupiedSeatsDataJson[0].occupiedFirstClass;
+        setOccupiedSeats(+occupiedSeatsData[0].occupiedSeats);
+        occupiedIsHandicapSeats = +occupiedSeatsData[0].occupiedIsHandicapSeat;
+        occupiedPetsAllowed = +occupiedSeatsData[0].occupiedPetsAllowed;
+        occupiedFirstClass = +occupiedSeatsData[0].occupiedFirstClass;
       }
 
       setAvailableIsHandicapSeat(isHandicapSeat - occupiedIsHandicapSeats);
       setAvailablePetsAllowed(petsAllowed - occupiedPetsAllowed);
-      setAvailableFirstClass(firstClass - occupiedFirstClass);
+      setAvailableFirstClass(firstClassSeats - occupiedFirstClass);
       setAvailableSecondClass(
-        secondClass - (occupiedSeats - occupiedFirstClass)
+        secondClassSeats - (occupiedSeats - occupiedFirstClass)
       );
       setOccupancy(calculateOccupancy(numberOfSeats, occupiedSeats));
-    }
-    fetchData();
-    console.log(journey.journeyId);
+    })();
   }, [s.ticket.date, numberOfSeats]);
 
   useEffect(() => {
-    setPrice(
-      calculateTicketPrice(
-        arrivalOffsetB,
-        departureOffsetA,
-        false,
-        occupancy,
-        "regular",
-        false
-      )
-    );
+    let totPriceFirstClass = 0;
+    let totPriceSecondClass = 0;
+
+    s.ticket.passengers.map(type => {
+      if (type.count !== 0) {
+        totPriceSecondClass +=
+          type.count *
+          calculateTicketPrice(
+            arrivalOffsetB,
+            departureOffsetA,
+            false,
+            occupancy,
+            type.travelerType
+          );
+      }
+    });
+    setSecondClassPrice(totPriceSecondClass);
+
+    s.ticket.passengers.map(type => {
+      if (type.count !== 0) {
+        console.log(type.travelerType, type.count);
+        totPriceFirstClass +=
+          type.count *
+          calculateTicketPrice(
+            arrivalOffsetB,
+            departureOffsetA,
+            true,
+            occupancy,
+            type.travelerType
+          );
+      }
+    });
+    setFirstClassPrice(totPriceFirstClass);
   }, [occupancy]);
 
   useEffect(() => {
@@ -122,23 +135,30 @@ function Journey(props) {
   }, [s.ticket.date]);
 
   function handleClickedJourney(journey) {
-    s.ticket.chosenJourney = ({ ...journey });
-    console.log(s.ticket.chosenJourney);
+    s.ticket.chosenJourney = { ...journey };
+    s.ticket.secondClassPrice = secondClassPrice;
+    s.ticket.firstClassPrice = firstClassPrice;
+    console.log("hcj1", s.ticket.firstClassPrice);
+    console.log("hcj2", s.ticket.secondClassPrice);
   }
 
   return (
     <Container
-      className={`mb-3  ${!s.ticket.chosenJourney || journeyId !== s.ticket.chosenJourney.journeyId
-        ? "journeyItem"
-        : "activeJourney"
-        }`}
+      className={`mb-3  ${
+        !s.ticket.chosenJourney ||
+        journeyId !== s.ticket.chosenJourney.journeyId
+          ? "journeyItem"
+          : "activeJourney"
+      }`}
       onClick={() => {
         handleClickedJourney(journey);
       }}
     >
       <div
         className={
-          !price || isNaN(price) || !(numberOfSeats - occupiedSeats)
+          !secondClassPrice ||
+          isNaN(secondClassPrice) ||
+          !(numberOfSeats - occupiedSeats)
             ? "blurry"
             : ""
         }
@@ -151,11 +171,13 @@ function Journey(props) {
           </Col>
           <Col className='col-6 d-flex justify-content-end'>
             <p className='custom-text'>
-              {!price || isNaN(price) || price == Infinity
+              {!secondClassPrice ||
+              isNaN(secondClassPrice) ||
+              secondClassPrice == Infinity
                 ? ""
                 : numberOfSeats - occupiedSeats > 0
-                  ? "fr. " + price + " kr"
-                  : "Slutsåld"}
+                ? "fr. " + secondClassPrice + " kr"
+                : "Slutsåld"}
             </p>
           </Col>
         </Row>
@@ -163,7 +185,10 @@ function Journey(props) {
           <Col className='col-6'>
             <p className='custom-text'>
               Restid {Math.floor((arrivalOffsetB - departureOffsetA) / 60)}:
-              {(arrivalOffsetB - departureOffsetA) % 60} timmar
+              {(arrivalOffsetB - departureOffsetA) % 60 < 10
+                ? "0" + ((arrivalOffsetB - departureOffsetA) % 60)
+                : (arrivalOffsetB - departureOffsetA) % 60}
+              timmar
             </p>
           </Col>
           <Col className='pt-2 col-6 d-flex justify-content-end'>
