@@ -29,7 +29,7 @@ function calculateTicketPrice(
       typeFactor = 0.5;
       break;
     default:
-      typeFactor = 1.0;
+      break;
   }
   price = price * typeFactor;
   //price = cancelable ? price * 1.2 : price;

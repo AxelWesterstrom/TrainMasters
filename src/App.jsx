@@ -13,7 +13,13 @@ import Contact from "./pages/Contact";
 import { useStates } from "./assets/helpers/states";
 import { useEffect } from "react";
 
-const travelerTypes = ["Vuxen", "Barn/ungdom(0-25 år)", "Student", "Pensionär"];
+const travelerTypes = [
+  "Vuxen",
+  "Ungdom(16-25 år)",
+  "Barn(0-15 år)",
+  "Student",
+  "Pensionär"
+];
 
 function App() {
   let newDate = new Date();
