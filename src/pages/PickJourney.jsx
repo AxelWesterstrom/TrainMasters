@@ -9,33 +9,29 @@ import { useNavigate } from "react-router-dom";
 import { useStates } from "../assets/helpers/states";
 
 function PickJourney() {
-
-  let s = useStates("booking")
+  let s = useStates("booking");
 
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
 
+  useEffect(() => {
+    if (!s.ticket.departure || !s.ticket.arrival) {
+      navigate("/");
+    }
+    if (!s.ticket.passengers || !s.ticket.date) {
+      navigate("/valj-resa");
+    }
+  }, []);
+
   const goToNextPage = () => {
-    if (s.ticket.chosenJourney !== undefined) {
+    if (Object.keys(s.ticket.chosenJourney).length !== 0) {
       navigate("/anpassa-resa");
     } else {
       setShowModal(true);
     }
   };
-
-  function formatDate(date) {
-    let d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    return [year, month, day].join("-");
-  }
 
   async function handleMail(e) {
     e.preventDefault;
@@ -45,7 +41,7 @@ function PickJourney() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: "anne.perstav@hotmail.com",
-        date: new Date(s.ticket.date),
+        date: new Date(s.ticket.date).toLocaleDateString("sv-SE"),
         chosenJourney: s.ticket.chosenJourney
       })
     });
@@ -82,16 +78,12 @@ function PickJourney() {
             </Col>
           </Row>
         </Container>
-        <DateSlider {...{ formatDate }} />
+        <DateSlider />
 
         <Container className='pe-2 ps-2'>
           <Container className='info'>
             <Row className='journeyList'>
-              <JourneyList
-                {...{
-                  formatDate
-                }}
-              />
+              <JourneyList />
             </Row>
           </Container>
         </Container>
