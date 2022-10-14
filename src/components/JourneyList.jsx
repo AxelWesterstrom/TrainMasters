@@ -13,16 +13,20 @@ function JourneyList() {
   });
 
   useEffect(() => {
-    async function fetchData() {
-      let data = await fetch(
-        `/api/connectStationsWithTimesOnJourneyId?stationNameA=${s.ticket.departure}&stationNameB=${s.ticket.arrival}`
-      );
+    (async () => {
+      console.log("Fetching l.journeys in journeyList");
+      l.journeys = await (
+        await fetch(
+          `/api/connectStationsWithTimesOnJourneyId?stationNameA=${s.ticket.departure}&stationNameB=${s.ticket.arrival}`
+        )
+      ).json();
+    })();
+  }, []);
 
-      l.journeys = await data.json();
-      let holidayData = await fetch("/api/holidays");
-      l.holidays = await holidayData.json();
-    }
-    fetchData();
+  useEffect(() => {
+    (async () => {
+      l.holidays = await (await fetch("/api/holidays")).json();
+    })();
   }, []);
 
   useEffect(() => {
