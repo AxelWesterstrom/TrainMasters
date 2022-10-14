@@ -32,6 +32,7 @@ function PickJourney() {
       setShowModal(true);
     }
   };
+  console.log(s.ticket.chosenJourney);
 
   async function handleMail(e) {
     e.preventDefault;

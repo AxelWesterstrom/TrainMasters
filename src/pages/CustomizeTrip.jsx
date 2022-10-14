@@ -26,6 +26,18 @@ function CustomizeTrip() {
   const [seatsToBook, setSeatsToBook] = useState(count);
 
   useEffect(() => {
+    if (!s.ticket.departure || !s.ticket.arrival) {
+      navigate("/");
+    }
+    if (!s.ticket.chosenJourney) {
+      navigate("/valj-tag");
+    }
+    if (!s.ticket.date || !s.ticket.passengers) {
+      navigate("/valj-resa");
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       await fetch(
         `/api/seatsInTrainSetWithSeatInfo?trainSetId=${s.ticket.chosenJourney.trainSetId}`
