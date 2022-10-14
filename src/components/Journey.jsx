@@ -184,11 +184,12 @@ function Journey(props) {
         <Row className='pt-2'>
           <Col className='col-6'>
             <p className='custom-text'>
-              Restid {Math.floor((arrivalOffsetB - departureOffsetA) / 60)}:
-              {(arrivalOffsetB - departureOffsetA) % 60 < 10
-                ? "0" + ((arrivalOffsetB - departureOffsetA) % 60)
-                : (arrivalOffsetB - departureOffsetA) % 60}
-              timmar
+              {`Restid
+                ${Math.floor((arrivalOffsetB - departureOffsetA) / 60)}:${
+                (arrivalOffsetB - departureOffsetA) % 60 < 10
+                  ? "0" + ((arrivalOffsetB - departureOffsetA) % 60)
+                  : (arrivalOffsetB - departureOffsetA) % 60
+              } timmar`}
             </p>
           </Col>
           <Col className='pt-2 col-6 d-flex justify-content-end'>

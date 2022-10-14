@@ -56,10 +56,22 @@ function JourneyList() {
     weekdayCheck(s.ticket.date);
   }, [s.ticket.date]);
 
+  function sortTime(a, b) {
+    let timeA = a.departureTimeA;
+    let timeB = b.departureTimeB;
+    if (timeA < timeB) {
+      return -1;
+    }
+    if (timeA > timeB) {
+      return 1;
+    }
+    return 0;
+  }
+
   return (
     <>
       {!!l.weekday &&
-        l.journeys.map((journey, index) => (
+        [...l.journeys].sort(sortTime).map((journey, index) => (
           <Journey
             key={index}
             {...{
@@ -70,6 +82,7 @@ function JourneyList() {
       {!l.weekday &&
         l.journeys
           .filter(journey => journey.justOnWeekdays === 0)
+          .sort(sortTime)
           .map((journey, index) => (
             <Journey
               key={index}
