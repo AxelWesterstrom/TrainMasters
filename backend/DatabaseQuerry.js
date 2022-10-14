@@ -14,7 +14,8 @@ module.exports = class DatabaseQueryer {
         this.dbConnection || this.connect();
         return new Promise((resolve, reject) => {
             this.verbose && this.log(sql, params);
-            let driverMethod = params.length ? 'execute' : 'query';
+            // let driverMethod = params.length ? 'execute' : 'query';
+            let driverMethod = 'query'; // execute not adhering to parameters incorrect selects/search when method execute
             this.dbConnection[driverMethod](sql, params, (error, results) => {
                 return error ? reject(error) : resolve(results);
             });
