@@ -26,7 +26,7 @@ function PickJourney() {
   }, []);
 
   const goToNextPage = () => {
-    if (s.ticket.chosenJourney !== undefined) {
+    if (Object.keys(s.ticket.chosenJourney).length !== 0) {
       navigate("/anpassa-resa");
     } else {
       setShowModal(true);
