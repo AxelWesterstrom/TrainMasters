@@ -9,13 +9,21 @@ import { useNavigate } from "react-router-dom";
 import { useStates } from "../assets/helpers/states";
 
 function PickJourney() {
-
-  let s = useStates("booking")
+  let s = useStates("booking");
 
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
+
+  useEffect(() => {
+    if (!s.ticket.departure || !s.ticket.arrival) {
+      navigate("/");
+    }
+    if (!s.ticket.passengers || !s.ticket.date) {
+      navigate("/valj-resa");
+    }
+  }, []);
 
   const goToNextPage = () => {
     if (s.ticket.chosenJourney !== undefined) {
@@ -45,7 +53,7 @@ function PickJourney() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: "anne.perstav@hotmail.com",
-        date: new Date(s.ticket.date),
+        date: new Date(s.ticket.date).toLocaleDateString("sv-SE"),
         chosenJourney: s.ticket.chosenJourney
       })
     });
