@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useStates } from "../assets/helpers/states";
 import { useEffect } from "react";
 import { Container, Navbar, Nav, Modal, Dropdown } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
@@ -11,6 +12,8 @@ function Header({ }) {
   const { dropdown, setDropdown } = useState(false);
 
   const handleClick = () => setClick(!click);
+
+  let log = useStates("login");
 
 
   return (
@@ -54,3 +57,9 @@ function Header({ }) {
 }
 
 export default Header;
+
+// {unreadMessages.length > 0 &&
+//   <h2>
+//     You have {unreadMessages.length} unread messages.
+//   </h2>
+// }

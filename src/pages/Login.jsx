@@ -6,9 +6,12 @@ import styles from "../../public/css/login.css";
 
 import { Row, Col, Button, Container } from "react-bootstrap";
 import LoginForm from "../components/LoginForm";
+import { useStates } from "../assets/helpers/states";
+import RegisterForm from "../components/RegisterForm";
 
 
 function Login() {
+
   return (
     <>
       <div className="login-body">
@@ -21,5 +24,7 @@ function Login() {
       </div>
     </>
   );
+
 }
+
 export default Login;

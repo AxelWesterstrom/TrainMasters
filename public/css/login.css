@@ -24,22 +24,27 @@
   flex-wrap: nowrap;
 }
 
+.login-label {
+  font-size: 20px;
+}
+
 
 .login-form-col {
-background-color: white;
+background-color: rgba(255, 255, 255, 0.7);
 border-radius: 20px;
-border-style: solid;
-border-width: 3px;
-border-color: #62256A;
 padding-top: 40px;
 padding-bottom: 50px;
 padding-left: 40px;
 padding-right: 40px;
 }
 
+.login-form .custom-button:nth-of-type(2n){
+float: right;
+}
+
 @media screen and (min-width: 800px) {
   .form-row {
-    max-width: 75%;
+    max-width: 55%;
   }
 }
 
