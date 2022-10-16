@@ -29,7 +29,6 @@ function RegisterForm() {
 
   async function registerAttempt() {
     let email = await (await fetch(`/api/customers?email=${l.email}`)).json();
-    console.log(email);
     if (l.email.length == 0 || l.password.length == 0 || l.passwordCheck.length == 0) {
       setErrorMessage("Alla fält måste fyllas i");
       setShow(true);
