@@ -11,7 +11,7 @@ function RegisterForm() {
   const navigate = useNavigate();
   let log = useStates("login");
   let u = useStates("user");
-  
+
   let l = useStates({
     email: "",
     password: "",
@@ -19,9 +19,9 @@ function RegisterForm() {
   });
   const handleClose = () => setShow(false);
   const [show, setShow] = useState();
-  
+
   const [errorMessage, setErrorMessage] = useState("");
-  
+
   function register(event) {
     event.preventDefault();
     registerAttempt()
@@ -52,7 +52,7 @@ function RegisterForm() {
     u.email = l.email;
     navigate("/");
   }
-  
+
 
   return (RegisterForm = (
     <>

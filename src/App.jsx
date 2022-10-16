@@ -36,12 +36,10 @@ function App() {
   let log = useStates("login", {
     login: false
   });
-  console.log(log.login);
 
   let u = useStates("user", {
     email: ""
   });
-  console.log("" + u.email);
 
   // useEffect(() => {
   //   (async () => {

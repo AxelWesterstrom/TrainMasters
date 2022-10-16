@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Row, Col, Container, Button } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import QRCode from "react-qr-code"
 
 function TicketTemplate() {
@@ -76,8 +75,6 @@ function TicketTemplate() {
               /></Col>
           </Row>
         </Container>
-      </Container>
-      <Container className="d-flex justify-content-end p-4">
       </Container>
     </>
   );

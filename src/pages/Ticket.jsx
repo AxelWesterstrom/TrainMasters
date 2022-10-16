@@ -3,7 +3,7 @@ import TicketTemplate from "../components/TicketTemplate";
 import React from "react";
 import styles from "../../public/css/ticket.css";
 import { useStates } from "../assets/helpers/states";
-import { Row, Col, Button, Container, Form, FormLabel, FormControl } from "react-bootstrap"; 4
+import { Row, Form, FormLabel, FormControl } from "react-bootstrap"; 4
 
 function Ticket() {
   let log = useStates("login");

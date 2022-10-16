@@ -1,12 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { useStates } from "../assets/helpers/states";
-import { useEffect } from "react";
-import { Container, Navbar, Nav, Modal, Dropdown, DropdownButton, Button } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Container, Navbar, Nav, Modal, Dropdown, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import style from "../../public/css/header.css";
-import DropdownItem from "react-bootstrap/esm/DropdownItem";
 
 function Header({ }) {
 
@@ -14,21 +12,21 @@ function Header({ }) {
 
   const navigate = useNavigate();
 
-  const handleClick = () => setClick(!click);
-
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleClose = () => setShow(false);
   const [show, setShow] = useState();
 
+  let log = useStates("login");
+  let u = useStates("user");
+
   const logOut = () => {
     setErrorMessage("Du är nu utloggad");
     setShow(true);
-    log.login = false
-    console.log("Körs");
+    log.login = false;
+    u.email = "";
   };
 
-  let log = useStates("login");
 
 
   return (
