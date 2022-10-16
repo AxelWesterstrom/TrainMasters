@@ -1,60 +1,84 @@
 import ClassSelector from "../components/ClassSelector";
 import Header from "../components/Header";
 import styles from "../../public/css/customizeTrip.css";
-import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Container, Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import ChooseSeatsModal from "../components/ChooseSeatsModal";
+import { useStates } from "../assets/helpers/states";
+import CancelableSelector from "../components/CancelableSelector";
 
 function CustomizeTrip() {
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const { chosenJourney, date } = state;
-  const {
-    journeyId,
-    trainSetId,
-    stationNameA,
-    stationNameB,
-    departureTimeA,
-    departureOffsetA,
-    arrivalOffsetB,
-  } = chosenJourney;
-
   const [showModal, setShowModal] = useState(false);
-  const [seatsToBook, setSeatsToBook] = useState(2); //should be send from the former route
-  const [totalSeatsInTrain, setTotalSeatsInTrain] = useState("");
-  const [totalOccupiedSeats, setTotolOccupiedSeats] = useState("");
+  const [totalSeatsInTrain, setTotalSeatsInTrain] = useState([]);
+  const [totalOccupiedSeats, setTotolOccupiedSeats] = useState([]);
   const [wheechairSeatsFullBooked, setWheelChairSeatsFullBooked] =
     useState(false);
   const [petsCarraigeFullBooked, setPetsCarriageFullBooked] = useState(false);
-  const [firstClass, setFirstClass] = useState(false);
-  const [secondClass, setSecondClass] = useState(false);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+
+  let s = useStates("booking");
+  let count = 0;
+  s.ticket.passengers.map((x) => {
+    count += x.count;
+  });
+  const [seatsToBook, setSeatsToBook] = useState(count);
+
+  useEffect(() => {
+    if (!s.ticket.departure || !s.ticket.arrival) {
+      navigate("/");
+    }
+    if (!s.ticket.chosenJourney) {
+      navigate("/valj-tag");
+    }
+    if (!s.ticket.date || !s.ticket.passengers) {
+      navigate("/valj-resa");
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetch(`/api/seatsInTrainSetWithSeatInfo?trainSetId=${trainSetId}`)
+      await fetch(
+        `/api/seatsInTrainSetWithSeatInfo?trainSetId=${s.ticket.chosenJourney.trainSetId}`
+      )
         .then((res) => res.json())
         .then((jsonData) => setTotalSeatsInTrain(jsonData[0]));
     };
     fetchData();
-  }, [trainSetId]);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      let data = await fetch(
-        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${date}&journeyId=${journeyId}&trainSetId=${trainSetId}`
-      );
-      let jsonData = await data.json();
-      setTotolOccupiedSeats(jsonData[0]);
+      await fetch(
+        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(
+          s.ticket.date
+        ).toLocaleDateString("sv-SE")}&journeyId=${
+          s.ticket.chosenJourney.journeyId
+        }&trainSetId=${s.ticket.chosenJourney.trainSetId}`
+
+      )
+        .then((res) => res.json())
+        .then((jsonData) => {
+          if (jsonData[0] !== undefined) {
+            setTotolOccupiedSeats(jsonData[0]);
+          } else {
+            setTotolOccupiedSeats(0);
+          }
+        });
     };
     fetchData();
   }, [totalSeatsInTrain]);
 
-  const handleModalClose = () => setShowModal(false);
+  const handleModalClose = () => {
+    setShowModal(false);
+    s.ticket.seat = [...selectedSeats];
+  };
 
   const goToFormerPage = () => {
     navigate("/valj-tag");
+    s.ticket.carriageClass = 0;
+    s.ticket.type = "";
   };
 
   const goToNextPage = () => {
@@ -63,6 +87,10 @@ function CustomizeTrip() {
 
   const showSeatsSelectorModal = () => {
     setShowModal(true);
+  };
+
+  const deleteSelectedSeats = () => {
+    setSelectedSeats([]);
   };
 
   return (
@@ -80,10 +108,15 @@ function CustomizeTrip() {
             <Container className="train-info-container p-5">
               <Container className="m-3">
                 <p className="custom-label">
-                  {stationNameA} - {stationNameB}
+                  {s.ticket.chosenJourney.stationNameA} -{" "}
+                  {s.ticket.chosenJourney.stationNameB}
                 </p>
-                <p className="custom-label">{date}</p>
-                <p className="custom-label">{departureTimeA}</p>
+                <p className="custom-label">
+                  {new Date(s.ticket.date).toLocaleDateString()}
+                </p>
+                <p className="custom-label">
+                  {s.ticket.chosenJourney.departureTimeA}
+                </p>
                 <Button className="custom-button" onClick={goToFormerPage}>
                   Ändra
                 </Button>
@@ -93,33 +126,55 @@ function CustomizeTrip() {
           <ClassSelector
             totalOccupiedSeats={totalOccupiedSeats}
             totalSeatsInTrain={totalSeatsInTrain}
-            secondClass={secondClass}
-            setSecondClass={setSecondClass}
-            firstClass={firstClass}
-            setFirstClass={setFirstClass}
-            wheechairSeatsFullBooked={wheechairSeatsFullBooked}
             setWheelChairSeatsFullBooked={setWheelChairSeatsFullBooked}
-            petsCarraigeFullBooked={petsCarraigeFullBooked}
             setPetsCarriageFullBooked={setPetsCarriageFullBooked}
+            setSeatsToBook={seatsToBook}
           />
+          <CancelableSelector />
           <Container className="p-2">
             <Container className="seat-selector-container p-5">
-              <p
-                className="custom-label m-4"
-                onClick={showSeatsSelectorModal}
-                style={
-                  firstClass
-                    ? {}
-                    : secondClass
-                    ? {}
-                    : { opacity: "0.38", pointerEvents: "none" }
-                }
-              >
-                Välj plats
-              </p>
+              {selectedSeats.length === 0 && (
+                <p
+                  className="custom-label m-4"
+                  onClick={showSeatsSelectorModal}
+                  style={
+                    s.ticket.type !== ""
+                      ? {}
+                      : { opacity: "0.68", pointerEvents: "none" }
+                  }
+                >
+                  Välj plats
+                </p>
+              )}
+
+              {selectedSeats.length !== 0 &&
+                selectedSeats.map((seat, index) => {
+                  return (
+                    <div>
+                      <div className="d-flex">
+                        <p className="custom-text me-4">
+                          Seat: {seat.seatNumber}
+                        </p>
+                        <p className="custom-text">Carriage: {seat.carriage}</p>
+                      </div>
+                      {index === selectedSeats.length - 1 && (
+                        <div className="d-flex justify-content-end">
+                          <img
+                            src="../images/delete.svg"
+                            style={{
+                              width: "30px",
+                              height: "30px",
+                              cursor: "pointer",
+                            }}
+                            onClick={deleteSelectedSeats}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
             </Container>
           </Container>
-          {/* if there is seat selected is should be here */}
         </Container>
 
         <Modal
@@ -133,12 +188,12 @@ function CustomizeTrip() {
           <Modal.Body>
             <ChooseSeatsModal
               seatsToBook={seatsToBook}
-              date={date}
-              chosenJourney={chosenJourney}
               petsCarraigeFullBooked={petsCarraigeFullBooked}
               wheechairSeatsFullBooked={wheechairSeatsFullBooked}
-              firstClass={firstClass}
-              secondClass={secondClass}
+              setWheelChairSeatsFullBooked={setWheelChairSeatsFullBooked}
+              setPetsCarriageFullBooked={setPetsCarriageFullBooked}
+              selectedSeats={selectedSeats}
+              setSelectedSeats={setSelectedSeats}
             />
           </Modal.Body>
           <Modal.Footer>

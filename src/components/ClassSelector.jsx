@@ -1,59 +1,75 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Container, Form } from "react-bootstrap";
+import { useStates } from "../assets/helpers/states";
 
 function ClassSelector({
   totalOccupiedSeats,
   totalSeatsInTrain,
-  firstClass,
-  setFirstClass,
-  secondClass,
-  setSecondClass,
   setWheelChairSeatsFullBooked,
   setPetsCarriageFullBooked,
+  seatsToBook,
 }) {
   const [firstClassFullBooked, setFirstClassFullBooked] = useState(false);
   const [secondClassFullBooked, setSecondClassFullBooked] = useState(false);
 
+  let s = useStates("booking");
   useEffect(() => {
-    if (
-      +totalOccupiedSeats["occupiedFirstClass"] ===
-      +totalSeatsInTrain["firstClass"]
-    ) {
-      setFirstClassFullBooked(true);
-      setSecondClass(true);
-    }
-    if (
-      +totalOccupiedSeats["occupiedSeats"] -
+    if (totalOccupiedSeats !== 0) {
+      if (
         +totalOccupiedSeats["occupiedFirstClass"] ===
-      +totalSeatsInTrain["secondClass"]
-    ) {
-      setSecondClassFullBooked(true);
-      setFirstClass(true);
+        +totalSeatsInTrain["firstClass"]
+      ) {
+        setFirstClassFullBooked(true);
+      }
+      if (
+        +totalOccupiedSeats["occupiedSeats"] -
+          +totalOccupiedSeats["occupiedFirstClass"] ===
+        +totalSeatsInTrain["secondClass"]
+      ) {
+        setSecondClassFullBooked(true);
+      }
+      if (
+        +totalOccupiedSeats["occupiedPetsAllowed"] ===
+        +totalSeatsInTrain["petsAllowed"]
+      ) {
+        setPetsCarriageFullBooked(true);
+      }
+      if (
+        +totalOccupiedSeats["occupiedIsHandicapSeat"] ===
+        +totalSeatsInTrain["hasHandicapSeats"]
+      ) {
+        setWheelChairSeatsFullBooked(true);
+      }
+      if (
+        +totalOccupiedSeats["occupiedFirstClass"] + seatsToBook >
+        +totalSeatsInTrain["firstClass"]
+      ) {
+        setFirstClassFullBooked(true);
+      }
+      if (
+        +totalOccupiedSeats["occupiedSeats"] -
+          +totalOccupiedSeats["occupiedFirstClass"] +
+          seatsToBook >
+        +totalSeatsInTrain["firstClass"]
+      ) {
+        setSecondClassFullBooked(true);
+      }
+    } else {
+      setFirstClassFullBooked(false);
+      setSecondClassFullBooked(false);
+      setPetsCarriageFullBooked(false);
+      setWheelChairSeatsFullBooked(false);
     }
-    if (
-      +totalOccupiedSeats["occupiedPetsAllowed"] ===
-      +totalSeatsInTrain["petsAllowed"]
-    ) {
-      setPetsCarriageFullBooked(true);
-    }
-    if (
-      +totalOccupiedSeats["occupiedIsHandicapSeat"] ===
-      +totalSeatsInTrain["hasHandicapSeats"]
-    ) {
-      setWheelChairSeatsFullBooked(true);
-    }
-  }, [totalOccupiedSeats]);
+  }, []);
 
   const handleSelectClass = (e) => {
-    let className = e.target.id;
-    if (className === "firstClass") {
-      setFirstClass(true);
-      setSecondClass(false);
+    let value = e.target.id;
+    if (value === "firstClass") {
+      s.ticket.carriageClass = 1;
     }
-    if (className === "secondClass") {
-      setSecondClass(true);
-      setFirstClass(false);
+    if (value === "secondClass") {
+      s.ticket.carriageClass = 2;
     }
   };
 
@@ -68,7 +84,8 @@ function ClassSelector({
                   <div key={`${type}`} className="mb-3 custom-label">
                     {!firstClassFullBooked && (
                       <Form.Check
-                        label="1 Klass"
+                        key={"1"}
+                        label={`1 Klass ${s.ticket.firstClassPrice} kr`}
                         name="group1"
                         type={type}
                         onChange={(e) => handleSelectClass(e)}
@@ -77,7 +94,8 @@ function ClassSelector({
                     )}
                     {!secondClassFullBooked && (
                       <Form.Check
-                        label="2 Klass"
+                        key={"2"}
+                        label={`2 Klass ${s.ticket.secondClassPrice} kr`}
                         name="group1"
                         type={type}
                         onChange={(e) => handleSelectClass(e)}

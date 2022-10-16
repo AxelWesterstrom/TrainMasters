@@ -3,47 +3,40 @@ import { useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import CarriageSelector from "./CarriageSelector";
 import SeatsSelector from "./SeatsSelector";
+import { useStates } from "../assets/helpers/states";
+import FilterForSpecialSeats from "./FilterForSpecialSeats";
 
 function ChooseSeatsModal({
-  chosenJourney,
   seatsToBook,
-  date,
   wheechairSeatsFullBooked,
   petsCarraigeFullBooked,
-  firstClass,
-  secondClass,
+  setWheelChairSeatsFullBooked,
+  selectedSeats,
+  setSelectedSeats,
 }) {
   const [carriagesLayout, setCarriagesLayout] = useState([]);
-  const [selectedSeats, setSelectedSeats] = useState([]);
   const [trainSetAndCarriages, setTrainSetAndCarriages] = useState([]);
-  const [bookedSeats, setBookedSeats] = useState([]);
   const [route, setRoute] = useState([]);
   const [petsCarriage, setPetsCarriage] = useState(0);
   const [bistroCarriage, setBistroCarriage] = useState(0);
   const [activeCarriage, setActiveCarriage] = useState(0);
   const carriageRefs = useRef([]);
+  const [filterOnSeats, setFilterOnSeats] = useState(0);
+  const [bookedSeats, setBookedSeats] = useState([]);
+  const [occupiedSeats, setOccupiedSeats] = useState([]);
+
+  let s = useStates("booking");
 
   useEffect(() => {
     const fetchData = async () => {
       await fetch(
-        `/api/carriagesWithSeats/?trainsetId=${chosenJourney.trainSetId}}`
+        `/api/carriagesWithSeats/?trainsetId=${s.ticket.chosenJourney.trainSetId}}`
       )
         .then((res) => res.json())
         .then((jsonData) => setTrainSetAndCarriages(jsonData));
     };
     fetchData();
-  }, [chosenJourney]);
-
-  useEffect(() => {
-    const fetchBookdSeats = async () => {
-      await fetch(
-        `/api/bookingPartsWithDepartureAndArrivalStationInfo/?date=${date}&departureStationDeparture>=${chosenJourney.departureOffsetA}&arrivalStationArrival<=${chosenJourney.arrivalOffsetB}&journeyId=${chosenJourney.journeyId}`
-      )
-        .then((res) => res.json())
-        .then((jsonData) => setBookedSeats(jsonData));
-    };
-    fetchBookdSeats();
-  }, [chosenJourney, date]);
+  }, []);
 
   useEffect(() => {
     let carriages = [];
@@ -63,29 +56,63 @@ function ChooseSeatsModal({
   }, [trainSetAndCarriages]);
 
   useEffect(() => {
+    const fetchBookdSeats = async () => {
+      await fetch(
+        `/api/bookingPartsWithDepartureAndArrivalStationInfo/?date=${
+          new Date(s.ticket.date).toISOString().split("T")[0]
+        }&departureStationDeparture>=${
+          s.ticket.chosenJourney.departureOffsetA
+        }&arrivalStationArrival<=${
+          s.ticket.chosenJourney.arrivalOffsetB
+        }&journeyId=${s.ticket.chosenJourney.journeyId}`
+      )
+        .then((res) => res.json())
+        .then((jsonData) => {
+          if (jsonData[0] !== undefined) {
+            setBookedSeats(jsonData[0]);
+          } else {
+            setBookedSeats(0);
+          }
+        });
+    };
+    fetchBookdSeats();
+  }, [carriagesLayout]);
+
+  useEffect(() => {
     const fetchData = async () => {
-      await fetch(`/api/routes/?id=${chosenJourney.routeId}`)
+      await fetch(`/api/routes/?id=${s.ticket.chosenJourney.routeId}`)
         .then((res) => res.json())
         .then((jsonData) => setRoute(jsonData[0]));
     };
     fetchData();
-  }, [chosenJourney]);
+  }, [carriagesLayout]);
 
-  const handleSelectSeat = (e) => {
+  const handleSelectSeat = (e, carriageNumber, number) => {
     let seatId = +e.target.id;
     let seatList = [];
     if (selectedSeats.length < seatsToBook) {
       seatList = [...selectedSeats];
-      if (!seatList.includes(seatId)) {
-        seatList.push(seatId);
+      if (!seatList.some((seat) => seat.id === seatId)) {
+        seatList.push({
+          id: seatId,
+          seatNumber: number,
+          carriage: carriageNumber,
+        });
         setSelectedSeats(seatList);
       }
     }
-    if (selectedSeats.length === seatsToBook) {
+    if (selectedSeats.length >= seatsToBook) {
       seatList = [...selectedSeats];
-      seatList.shift();
-      if (!seatList.includes(seatId)) {
-        seatList.push(seatId);
+      seatList = seatList.filter((seat, index) => {
+        return index !== 0;
+      });
+
+      if (!seatList.some((seat) => seat.id === seatId)) {
+        seatList.push({
+          id: seatId,
+          seatNumber: number,
+          carriage: carriageNumber,
+        });
         setSelectedSeats(seatList);
       }
     }
@@ -136,10 +163,12 @@ function ChooseSeatsModal({
             <SeatsSelector
               trainSetAndCarriages={trainSetAndCarriages}
               carriageNumber={x}
-              bookedSeats={bookedSeats}
               handleSelectSeat={handleSelectSeat}
               selectedSeats={selectedSeats}
-              chosenJourney={chosenJourney}
+              occupiedSeats={occupiedSeats}
+              filterOnSeats={filterOnSeats}
+              setOccupiedSeats={setOccupiedSeats}
+              bookedSeats={bookedSeats}
             />
           </div>
         </div>
@@ -161,15 +190,16 @@ function ChooseSeatsModal({
     <>
       <div className="ms-4 mt-1 mb-3 d-flex">
         <div className="col col-lg-4 col-xs-10">
-          <Form.Select>
-            <option value="0">Ospecificerad plats</option>
-            {!wheechairSeatsFullBooked && (
-              <option value="1">Handikapplats(rullstol)</option>
-            )}
-            {!petsCarraigeFullBooked && (
-              <option value="2">Djur tillåtet</option>
-            )}
-          </Form.Select>
+          <FilterForSpecialSeats
+            wheechairSeatsFullBooked={wheechairSeatsFullBooked}
+            petsCarraigeFullBooked={petsCarraigeFullBooked}
+            setWheelChairSeatsFullBooked={setWheelChairSeatsFullBooked}
+            occupiedSeats={occupiedSeats}
+            trainSetAndCarriages={trainSetAndCarriages}
+            filterOnSeats={filterOnSeats}
+            setFilterOnSeats={setFilterOnSeats}
+            setOccupiedSeats={setOccupiedSeats}
+          />
         </div>
       </div>
       <div className="ms-2">

@@ -7,17 +7,22 @@ import CustomizeTrip from "./pages/CustomizeTrip";
 import PickJourney from "./pages/PickJourney";
 import Payment from "./pages/Payment";
 import Ticket from "./pages/Ticket";
-import Login from "./pages/Login"
+import Login from "./pages/Login";
 import styles from "../public/css/commonStyles.css"; // Common styling for all pages
 import Contact from "./pages/Contact";
 import { useStates } from "./assets/helpers/states";
 import { useEffect } from "react";
 import RegisterForm from "./components/RegisterForm";
 
-const travelerTypes = ["Vuxen", "Barn/ungdom(0-25 år)", "Student", "Pensionär"];
+const travelerTypes = [
+  "Vuxen",
+  "Ungdom(16-25 år)",
+  "Barn(0-15 år)",
+  "Student",
+  "Pensionär"
+];
 
 function App() {
-
   let newDate = new Date();
   let s = useStates("booking", {
     ticket: {
@@ -27,10 +32,15 @@ function App() {
       passengers: travelerTypes.map((type) => {
         return { travelerType: type, count: 0 };
       }),
-      chosenJourney: {
-
-      }
-    }
+      chosenJourney: {},
+      carriageClass: 0,
+      seats: [],
+      type: "", // type is for cancelable or notCancelable
+      secondClassPrice: 0,
+      firstClassPrice: 0,
+      totalPrice: 0,
+    },
+    autoSuggestStations: [],
   });
 
   let log = useStates("login", {
@@ -48,18 +58,18 @@ function App() {
   // }, [])
 
   return (
-    <div className="App">
+    <div className='App'>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/valj-resa" element={<Picker />} />
-          <Route path="/valj-tag" element={<PickJourney />} />
-          <Route path="/anpassa-resa" element={<CustomizeTrip />} />
-          <Route path="/kassan" element={<Payment />} />
-          <Route path="/mina-biljetter" element={<Ticket />} />
-          <Route path="/logga-in" element={<Login />} />
-          <Route path="/skapa-konto" element={<RegisterForm />} />
-          <Route path="/kontakta-oss" element={<Contact />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/valj-resa' element={<Picker />} />
+          <Route path='/valj-tag' element={<PickJourney />} />
+          <Route path='/anpassa-resa' element={<CustomizeTrip />} />
+          <Route path='/kassan' element={<Payment />} />
+          <Route path='/mina-biljetter' element={<Ticket />} />
+          <Route path='/logga-in' element={<Login />} />
+          <Route path='/skapa-konto' element={<RegisterForm />} />
+          <Route path='/kontakta-oss' element={<Contact />} />
         </Routes>
       </BrowserRouter>
     </div>

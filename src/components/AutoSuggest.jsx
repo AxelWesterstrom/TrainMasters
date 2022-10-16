@@ -3,17 +3,14 @@ import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { useStates } from "../assets/helpers/states";
 
-function AutoSuggest({
-  stations,
-  setFoundTrain,
-}) {
+function AutoSuggest({ stations }) {
   const [isDepartureFocus, setDepartureFocus] = useState(false);
   const [isArrivalFocus, setArrivalFocus] = useState(false);
   const [suggestDepature, setSuggestDepature] = useState([]);
   const [suggestArrival, setSuggestArrival] = useState([]);
   let allStations = [];
 
-  let s = useStates("booking")
+  let s = useStates("booking");
 
   const handleDepature = (e) => {
     let searchValue = e.target.value;
@@ -44,14 +41,14 @@ function AutoSuggest({
     let routes = [];
 
     for (let station of stations) {
-      if (station.name.toLowerCase() === departure.toLowerCase()) {
+      if (station.name.toLowerCase() === s.ticket.departure.toLowerCase()) {
         routes.push(station.routeId);
       }
     }
 
     for (let station of stations) {
       for (let route of routes) {
-        if (station.routeId === route && station.name !== departure) {
+        if (station.routeId === route && station.name !== s.ticket.departure) {
           suggestions.push(station.name);
         }
       }
@@ -71,12 +68,7 @@ function AutoSuggest({
     }
     setSuggestArrival(suggestions);
     s.ticket.arrival = searchValue;
-
-    for (let suggestion of suggestions) {
-      if (suggestion.toLowerCase() === searchValue.toLowerCase()) {
-        setFoundTrain(true);
-      }
-    }
+    s.autoSuggestStations = suggestions;
   };
 
   const handleArrivalOnFocus = () => {
@@ -104,6 +96,7 @@ function AutoSuggest({
     });
 
     setSuggestArrival(suggestion);
+    s.autoSuggestStations = suggestion;
   };
 
   return (
@@ -173,7 +166,6 @@ function AutoSuggest({
                       key={index}
                       onMouseDown={() => {
                         s.ticket.arrival = item;
-                        setFoundTrain(true);
                       }}
                     >
                       {item}
