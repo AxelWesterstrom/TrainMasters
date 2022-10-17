@@ -34,3 +34,22 @@
   margin-top: 20px;
   min-width: 250px;
 }
+
+.passenger-container{
+  max-width: 45rem;
+  border: solid #4b7c4b;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.stations-container{
+  max-width: 45rem;
+}
+.calendar{
+  border: solid #4b7c4b;
+  border-width: 21px;
+  border-radius: 10px;
+  padding: 2px;
+  background-color: rgba(122, 172, 113, 0.1) !important;
+  font-weight: 300;
+}

@@ -126,18 +126,16 @@ module.exports = class RestApi {
   }
 
   async post(tableName, id, req, res) {
+    let body = req.body;
     if (tableName === "mailer") {
-      console.log("before app.post");
-      let body = await req.body;
-      console.log(body);
-      let email = body.email;
+      // let email = body.email;
       if (!body) {
         return res.status(400).send({ status: "failed" });
       }
       res.status(200).send({ status: "recieved" });
       this.mailer.mail(body);
+      return;
     } else {
-      let body = req.body;
       if (id || body.id) {
         res.status(400);
         res.json({ error: "Do not use id:s with post requests!" });
@@ -215,7 +213,7 @@ module.exports = class RestApi {
       let or = key[0] === "|";
       or && (key = key.slice(1));
       ors[key] = or;
-      val = isNaN(+val) ? val : +val;
+      val = isNaN(+val) || val === "" ? val : +val;
       if (operator !== "=") {
         val = { [operator]: val };
       }

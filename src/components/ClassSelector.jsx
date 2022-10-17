@@ -85,7 +85,7 @@ function ClassSelector({
                     {!firstClassFullBooked && (
                       <Form.Check
                         key={"1"}
-                        label="1 Klass"
+                        label={`1 Klass ${s.ticket.firstClassPrice} kr`}
                         name="group1"
                         type={type}
                         onChange={(e) => handleSelectClass(e)}
@@ -95,7 +95,7 @@ function ClassSelector({
                     {!secondClassFullBooked && (
                       <Form.Check
                         key={"2"}
-                        label="2 Klass"
+                        label={`2 Klass ${s.ticket.secondClassPrice} kr`}
                         name="group1"
                         type={type}
                         onChange={(e) => handleSelectClass(e)}

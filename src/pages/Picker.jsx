@@ -1,39 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../components/Header";
 import { Row, Container, Col, Button, Modal } from "react-bootstrap";
-import ReactDatePicker from "react-datepicker";
+import Calendar from "react-calendar";
 import Popup from "../components/Popup";
 import { useLocation } from "react-router-dom";
 import TravelerAdder from "../components/TravelerAdder";
 import { useNavigate } from "react-router-dom";
 import { Stack } from "react-bootstrap";
 import { useStates } from "../assets/helpers/states";
-
-import "react-datepicker/dist/react-datepicker.css";
+import "react-calendar/dist/Calendar.css";
 import styles from "../../public/css/commonStyles.css";
 
 const travelerTypes = ["Vuxen", "Barn/ungdom(0-25 år)", "Student", "Pensionär"];
 
 function Picker() {
-
-  let s = useStates("booking")
-
-  const [buttonPopup, setButtonPopup] = useState(false);
-
+  let s = useStates("booking");
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!s.ticket.departure || !s.ticket.arrival) {
+      navigate("/");
+    }
+  }, []);
 
   const modifyTravelerCount = (type, addAmount) => {
     const index = s.ticket.passengers.findIndex((t) => {
       return type == t.travelerType;
     });
     const count = s.ticket.passengers[index].count + addAmount;
-    s.ticket.passengers = ([
+    s.ticket.passengers = [
       ...s.ticket.passengers.slice(0, index),
       Object.assign({}, s.ticket.passengers[index], { count }),
       ...s.ticket.passengers.slice(index + 1),
-    ]);
+    ];
   };
 
   const onSearchClick = () => {
@@ -56,41 +57,41 @@ function Picker() {
           alt="arrowBack"
           src="../images/arrow-left.svg"
           className="mt-2 ms-3 mb-2 back-button"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/")}
         />
       </div>
-      <Container>
-        <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-          {s.ticket.passengers.map((t, i) => {
-            return (
-              <TravelerAdder
-                key={i}
-                travelerType={t.travelerType}
-                count={t.count}
-                setTraveler={modifyTravelerCount}
-              ></TravelerAdder>
-            );
-          })}
-        </Popup>
+      <Container className="stations-container">
         <Row className="justify-content-between">
           <Col md="auto">
-            <p>
+            <p className="custom-label">
               Resa från: <br></br> {s.ticket.departure}
             </p>
           </Col>
           <Col md="auto">
-            Resa Till: <br></br> {s.ticket.arrival}
+            <p className="custom-label">
+              Resa Till: <br></br> {s.ticket.arrival}
+            </p>
           </Col>
         </Row>
         <Row className="justify-content-center">
           <Col md="auto">
-            {!buttonPopup && (
+            <Calendar
+              className="calendar"
+              onChange={(date) => (s.ticket.date = date.getTime())}
+              value={new Date(s.ticket.date)}
+              minDate={new Date()}
+              locale="sv"
+              next2Label={null}
+              prev2Label={null}
+              showFixedNumberOfWeeks={true}
+            />
+            {/* {!buttonPopup && (
               <ReactDatePicker
                 selected={new Date(s.ticket.date)}
                 onChange={(date) => s.ticket.date = date.getTime()}
                 minDate={new Date()}
               ></ReactDatePicker>
-            )}
+            )} */}
           </Col>
         </Row>
         <Row className="justify-content-center">
@@ -110,17 +111,20 @@ function Picker() {
           ) : (
             ""
           )}
-          <Col md="auto">
-            <div>
-              <img
-                alt=""
-                src="../images/plus-sign.svg"
-                className="mt-2 ms-3 mb-2 add-button"
-                style={{ width: "20px" }}
-                onClick={() => setButtonPopup(true)}
-              />
-            </div>
-          </Col>
+        </Row>
+        <Row>
+          <Container className="passenger-container m-4">
+            {s.ticket.passengers.map((t, i) => {
+              return (
+                <TravelerAdder
+                  key={i}
+                  travelerType={t.travelerType}
+                  count={t.count}
+                  setTraveler={modifyTravelerCount}
+                ></TravelerAdder>
+              );
+            })}
+          </Container>
         </Row>
         <Row className="justify-content-end">
           <Col md="auto">

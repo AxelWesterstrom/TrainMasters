@@ -26,6 +26,18 @@ function CustomizeTrip() {
   const [seatsToBook, setSeatsToBook] = useState(count);
 
   useEffect(() => {
+    if (!s.ticket.departure || !s.ticket.arrival) {
+      navigate("/");
+    }
+    if (!s.ticket.chosenJourney) {
+      navigate("/valj-tag");
+    }
+    if (!s.ticket.date || !s.ticket.passengers) {
+      navigate("/valj-resa");
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       await fetch(
         `/api/seatsInTrainSetWithSeatInfo?trainSetId=${s.ticket.chosenJourney.trainSetId}`
@@ -39,11 +51,12 @@ function CustomizeTrip() {
   useEffect(() => {
     const fetchData = async () => {
       await fetch(
-        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${
-          new Date(s.ticket.date).toISOString().split("T")[0]
-        }&journeyId=${s.ticket.chosenJourney.journeyId}&trainSetId=${
-          s.ticket.chosenJourney.trainSetId
-        }`
+        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(
+          s.ticket.date
+        ).toLocaleDateString("sv-SE")}&journeyId=${
+          s.ticket.chosenJourney.journeyId
+        }&trainSetId=${s.ticket.chosenJourney.trainSetId}`
+
       )
         .then((res) => res.json())
         .then((jsonData) => {
