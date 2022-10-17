@@ -1,4 +1,4 @@
-.login-body{
+.register {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -9,13 +9,10 @@
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
-}
-
-.loginform-body{
   margin-top: 40px;
 }
 
-.form-row {
+.register-form-row {
   display: flex;
   width: 100%;
   margin: 0 auto;
@@ -24,28 +21,25 @@
   flex-wrap: nowrap;
 }
 
-.login-label {
-  font-size: 20px;
+
+.register-form-col {
+  background-color: white;
+  border-radius: 20px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #62256A;
+  padding-top: 40px;
+  padding-bottom: 50px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
-
-.login-form-col {
-background-color: rgba(255, 255, 255, 0.7);
-border-radius: 20px;
-padding-top: 40px;
-padding-bottom: 50px;
-padding-left: 40px;
-padding-right: 40px;
-}
-
-.login-form .custom-button:nth-of-type(2n){
-float: right;
+.register-form .custom-button:nth-of-type(2n) {
+  float: right;
 }
 
 @media screen and (min-width: 800px) {
-  .form-row {
-    max-width: 55%;
+  .register-form-row {
+    max-width: 75%;
   }
 }
-
-/* @media screen and (max-width: 600px){} */
