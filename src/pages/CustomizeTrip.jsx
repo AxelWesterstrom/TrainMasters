@@ -11,6 +11,7 @@ import CancelableSelector from "../components/CancelableSelector";
 function CustomizeTrip() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const [totalSeatsInTrain, setTotalSeatsInTrain] = useState([]);
   const [totalOccupiedSeats, setTotolOccupiedSeats] = useState([]);
   const [wheechairSeatsFullBooked, setWheelChairSeatsFullBooked] =
@@ -56,7 +57,6 @@ function CustomizeTrip() {
         ).toLocaleDateString("sv-SE")}&journeyId=${
           s.ticket.chosenJourney.journeyId
         }&trainSetId=${s.ticket.chosenJourney.trainSetId}`
-
       )
         .then((res) => res.json())
         .then((jsonData) => {
@@ -71,8 +71,13 @@ function CustomizeTrip() {
   }, [totalSeatsInTrain]);
 
   const handleModalClose = () => {
-    setShowModal(false);
-    s.ticket.seat = [...selectedSeats];
+   
+    if (selectedSeats.length !== seatsToBook) {
+      setShowErrorModal(true);
+    } else {
+      setShowModal(false);
+      s.ticket.seat = [...selectedSeats];
+    }
   };
 
   const goToFormerPage = () => {
@@ -82,7 +87,15 @@ function CustomizeTrip() {
   };
 
   const goToNextPage = () => {
-    navigate("/kassan");
+    if (
+      s.ticket.carriageClass === 0 ||
+      s.ticket.type === "" ||
+      s.ticket.seat === []
+    ) {
+      setShowErrorModal(true);
+    } else {
+      navigate("/kassan");
+    }
   };
 
   const showSeatsSelectorModal = () => {
@@ -91,6 +104,10 @@ function CustomizeTrip() {
 
   const deleteSelectedSeats = () => {
     setSelectedSeats([]);
+  };
+
+  const handleErrorModalClose = () => {
+    setShowErrorModal(false);
   };
 
   return (
@@ -150,7 +167,7 @@ function CustomizeTrip() {
               {selectedSeats.length !== 0 &&
                 selectedSeats.map((seat, index) => {
                   return (
-                    <div>
+                    <div key={"seat" + index}>
                       <div className="d-flex">
                         <p className="custom-text me-4">
                           Seat: {seat.seatNumber}
@@ -212,6 +229,25 @@ function CustomizeTrip() {
           Fortsätt
         </Button>
       </Container>
+      <Modal
+        show={showErrorModal}
+        onHide={handleErrorModalClose}
+        className="seat-picker-modal"
+      >
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          Välj klass, biljett-flexibilitet och sittplats för att fortsätta!
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="primary"
+            className="custom-button"
+            onClick={handleErrorModalClose}
+          >
+            Stäng
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
