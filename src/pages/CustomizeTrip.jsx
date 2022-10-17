@@ -71,8 +71,13 @@ function CustomizeTrip() {
   }, [totalSeatsInTrain]);
 
   const handleModalClose = () => {
-    setShowModal(false);
-    s.ticket.seat = [...selectedSeats];
+   
+    if (selectedSeats.length !== seatsToBook) {
+      setShowErrorModal(true);
+    } else {
+      setShowModal(false);
+      s.ticket.seat = [...selectedSeats];
+    }
   };
 
   const goToFormerPage = () => {
