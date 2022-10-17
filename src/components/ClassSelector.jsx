@@ -1,9 +1,77 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { Container, Form } from "react-bootstrap";
+import { useStates } from "../assets/helpers/states";
 
-function ClassSelector() {
-  const [firstClass, setFirstClass] = useState("");
-  const [secondClass, setSecondClass] = useState("");
+function ClassSelector({
+  totalOccupiedSeats,
+  totalSeatsInTrain,
+  setWheelChairSeatsFullBooked,
+  setPetsCarriageFullBooked,
+  seatsToBook,
+}) {
+  const [firstClassFullBooked, setFirstClassFullBooked] = useState(false);
+  const [secondClassFullBooked, setSecondClassFullBooked] = useState(false);
+
+  let s = useStates("booking");
+  useEffect(() => {
+    if (totalOccupiedSeats !== 0) {
+      if (
+        +totalOccupiedSeats["occupiedFirstClass"] ===
+        +totalSeatsInTrain["firstClass"]
+      ) {
+        setFirstClassFullBooked(true);
+      }
+      if (
+        +totalOccupiedSeats["occupiedSeats"] -
+          +totalOccupiedSeats["occupiedFirstClass"] ===
+        +totalSeatsInTrain["secondClass"]
+      ) {
+        setSecondClassFullBooked(true);
+      }
+      if (
+        +totalOccupiedSeats["occupiedPetsAllowed"] ===
+        +totalSeatsInTrain["petsAllowed"]
+      ) {
+        setPetsCarriageFullBooked(true);
+      }
+      if (
+        +totalOccupiedSeats["occupiedIsHandicapSeat"] ===
+        +totalSeatsInTrain["hasHandicapSeats"]
+      ) {
+        setWheelChairSeatsFullBooked(true);
+      }
+      if (
+        +totalOccupiedSeats["occupiedFirstClass"] + seatsToBook >
+        +totalSeatsInTrain["firstClass"]
+      ) {
+        setFirstClassFullBooked(true);
+      }
+      if (
+        +totalOccupiedSeats["occupiedSeats"] -
+          +totalOccupiedSeats["occupiedFirstClass"] +
+          seatsToBook >
+        +totalSeatsInTrain["secondClass"]
+      ) {
+        setSecondClassFullBooked(true);
+      }
+    } else {
+      setFirstClassFullBooked(false);
+      setSecondClassFullBooked(false);
+      setPetsCarriageFullBooked(false);
+      setWheelChairSeatsFullBooked(false);
+    }
+  }, []);
+
+  const handleSelectClass = (e) => {
+    let value = e.target.id;
+    if (value === "firstClass") {
+      s.ticket.carriageClass = 1;
+    }
+    if (value === "secondClass") {
+      s.ticket.carriageClass = 2;
+    }
+  };
 
   return (
     <>
@@ -14,20 +82,26 @@ function ClassSelector() {
               <Form>
                 {["radio"].map((type) => (
                   <div key={`${type}`} className="mb-3 custom-label">
-                    <Form.Check
-                      label="1 Klass"
-                      name="group1"
-                      type={type}
-                      onChange={(e) => setFirstClass(e.target.value)}
-                      id={`${type}-firstClass`}
-                    />
-                    <Form.Check
-                      label="2 Klass"
-                      name="group1"
-                      type={type}
-                      onChange={(e) => setSecondClass(e.target.value)}
-                      id={`${type}-secondClass`}
-                    />
+                    {!firstClassFullBooked && (
+                      <Form.Check
+                        key={"1"}
+                        label={`1 Klass ${s.ticket.firstClassPrice} kr`}
+                        name="group1"
+                        type={type}
+                        onChange={(e) => handleSelectClass(e)}
+                        id="firstClass"
+                      />
+                    )}
+                    {!secondClassFullBooked && (
+                      <Form.Check
+                        key={"2"}
+                        label={`2 Klass ${s.ticket.secondClassPrice} kr`}
+                        name="group1"
+                        type={type}
+                        onChange={(e) => handleSelectClass(e)}
+                        id="secondClass"
+                      />
+                    )}
                   </div>
                 ))}
               </Form>

@@ -1,63 +1,120 @@
 import ClassSelector from "../components/ClassSelector";
 import Header from "../components/Header";
 import styles from "../../public/css/customizeTrip.css";
-import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Container, Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import CarriageSelector from "../components/CarriageSelector";
+import ChooseSeatsModal from "../components/ChooseSeatsModal";
+import { useStates } from "../assets/helpers/states";
+import CancelableSelector from "../components/CancelableSelector";
 
 function CustomizeTrip() {
   const navigate = useNavigate();
-  // const { state } = useLocation();
-  // const { train } = state;
   const [showModal, setShowModal] = useState(false);
-  const handleClose = () => setShowModal(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [totalSeatsInTrain, setTotalSeatsInTrain] = useState([]);
+  const [totalOccupiedSeats, setTotolOccupiedSeats] = useState([]);
+  const [wheechairSeatsFullBooked, setWheelChairSeatsFullBooked] =
+    useState(false);
+  const [petsCarraigeFullBooked, setPetsCarriageFullBooked] = useState(false);
+  const [selectedSeats, setSelectedSeats] = useState([]);
 
-  let train = {
-    //This should be fetch from the former page - "valj-tag"
-    stationNameA: "Ängelholm",
+  let s = useStates("booking");
+  let count = 0;
+  s.ticket.passengers.map((x) => {
+    count += x.count;
+  });
+  const [seatsToBook, setSeatsToBook] = useState(count);
 
-    stationNameB: "Halmstad C",
-
-    trainSetId: 2,
-
-    journeyId: 8,
-
-    departureStationDeparture: 85,
-
-    arrivalStationArrival: 115,
-  };
-
-  let date = "2022-09-23";
-  const [trainSetAndCarriages, setTrainSetAndCarriages] = useState();
+  useEffect(() => {
+    if (!s.ticket.departure || !s.ticket.arrival) {
+      navigate("/");
+    }
+    if (!s.ticket.chosenJourney) {
+      navigate("/valj-tag");
+    }
+    if (!s.ticket.date || !s.ticket.passengers) {
+      navigate("/valj-resa");
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetch(`/api/carriagesWithSeats/?trainsetId=${train.trainSetId}}`)
+      await fetch(
+        `/api/seatsInTrainSetWithSeatInfo?trainSetId=${s.ticket.chosenJourney.trainSetId}`
+      )
         .then((res) => res.json())
-        .then((jsonData) => setTrainSetAndCarriages(jsonData));
+        .then((jsonData) => setTotalSeatsInTrain(jsonData[0]));
     };
     fetchData();
   }, []);
 
-  const handleClick = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetch(
+        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(
+          s.ticket.date
+        ).toLocaleDateString("sv-SE")}&journeyId=${
+          s.ticket.chosenJourney.journeyId
+        }&trainSetId=${s.ticket.chosenJourney.trainSetId}`
+      )
+        .then((res) => res.json())
+        .then((jsonData) => {
+          if (jsonData[0] !== undefined) {
+            setTotolOccupiedSeats(jsonData[0]);
+          } else {
+            setTotolOccupiedSeats(0);
+          }
+        });
+    };
+    fetchData();
+  }, [totalSeatsInTrain]);
+
+  const handleModalClose = () => {
+   
+    if (selectedSeats.length !== seatsToBook) {
+      setShowErrorModal(true);
+    } else {
+      setShowModal(false);
+      s.ticket.seat = [...selectedSeats];
+    }
+  };
+
+  const goToFormerPage = () => {
     navigate("/valj-tag");
+    s.ticket.carriageClass = 0;
+    s.ticket.type = "";
   };
 
   const goToNextPage = () => {
-    navigate("/kassan");
+    if (
+      s.ticket.carriageClass === 0 ||
+      s.ticket.type === "" ||
+      s.ticket.seat === []
+    ) {
+      setShowErrorModal(true);
+    } else {
+      navigate("/kassan");
+    }
   };
 
-  const goToChooseSeats = () => {
+  const showSeatsSelectorModal = () => {
     setShowModal(true);
+  };
+
+  const deleteSelectedSeats = () => {
+    setSelectedSeats([]);
+  };
+
+  const handleErrorModalClose = () => {
+    setShowErrorModal(false);
   };
 
   return (
     <>
       <Header />
-      <div className="body">
-        <div onClick={handleClick}>
+      <div className="body pb-5">
+        <div onClick={goToFormerPage}>
           <img
             src="../images/arrow-left.svg"
             className="mt-2 ms-3 back-button"
@@ -68,53 +125,129 @@ function CustomizeTrip() {
             <Container className="train-info-container p-5">
               <Container className="m-3">
                 <p className="custom-label">
-                  {train.stationNameA} - {train.stationNameB}
+                  {s.ticket.chosenJourney.stationNameA} -{" "}
+                  {s.ticket.chosenJourney.stationNameB}
                 </p>
-                <p className="custom-label">{date}</p>
-                <p className="custom-label">{train.departureTimeA}</p>
-                <Button className="custom-button" onClick={handleClick}>
+                <p className="custom-label">
+                  {new Date(s.ticket.date).toLocaleDateString()}
+                </p>
+                <p className="custom-label">
+                  {s.ticket.chosenJourney.departureTimeA}
+                </p>
+                <Button className="custom-button" onClick={goToFormerPage}>
                   Ändra
                 </Button>
               </Container>
             </Container>
           </Container>
-          <ClassSelector />
+          <ClassSelector
+            totalOccupiedSeats={totalOccupiedSeats}
+            totalSeatsInTrain={totalSeatsInTrain}
+            setWheelChairSeatsFullBooked={setWheelChairSeatsFullBooked}
+            setPetsCarriageFullBooked={setPetsCarriageFullBooked}
+            setSeatsToBook={seatsToBook}
+          />
+          <CancelableSelector />
           <Container className="p-2">
             <Container className="seat-selector-container p-5">
-              <p className="custom-label m-4" onClick={goToChooseSeats}>
-                <img src="../images/plus-icon.svg" className="custom-icon" />
-                Välj plats
-              </p>
+              {selectedSeats.length === 0 && (
+                <p
+                  className="custom-label m-4"
+                  onClick={showSeatsSelectorModal}
+                  style={
+                    s.ticket.type !== ""
+                      ? {}
+                      : { opacity: "0.68", pointerEvents: "none" }
+                  }
+                >
+                  Välj plats
+                </p>
+              )}
+
+              {selectedSeats.length !== 0 &&
+                selectedSeats.map((seat, index) => {
+                  return (
+                    <div key={"seat" + index}>
+                      <div className="d-flex">
+                        <p className="custom-text me-4">
+                          Seat: {seat.seatNumber}
+                        </p>
+                        <p className="custom-text">Carriage: {seat.carriage}</p>
+                      </div>
+                      {index === selectedSeats.length - 1 && (
+                        <div className="d-flex justify-content-end">
+                          <img
+                            src="../images/delete.svg"
+                            style={{
+                              width: "30px",
+                              height: "30px",
+                              cursor: "pointer",
+                            }}
+                            onClick={deleteSelectedSeats}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
             </Container>
           </Container>
         </Container>
 
-        <Modal show={showModal} onHide={handleClose} className="modal-xl">
+        <Modal
+          show={showModal}
+          onHide={handleModalClose}
+          className="seat-picker-modal modal-xl sm-modal-sm"
+        >
           <Modal.Header closeButton>
             <Modal.Title>Välj plats</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <CarriageSelector
-              trainSetAndCarriages={trainSetAndCarriages}
-              train={train}
+            <ChooseSeatsModal
+              seatsToBook={seatsToBook}
+              petsCarraigeFullBooked={petsCarraigeFullBooked}
+              wheechairSeatsFullBooked={wheechairSeatsFullBooked}
+              setWheelChairSeatsFullBooked={setWheelChairSeatsFullBooked}
+              setPetsCarriageFullBooked={setPetsCarriageFullBooked}
+              selectedSeats={selectedSeats}
+              setSelectedSeats={setSelectedSeats}
             />
           </Modal.Body>
           <Modal.Footer>
             <Button
               variant="primary"
               className="custom-button"
-              onClick={handleClose}
+              onClick={handleModalClose}
             >
               Fortsätt
             </Button>
           </Modal.Footer>
         </Modal>
-        <Container className="d-flex justify-content-end  info">
-          <Button className="custom-button mt-3 mb-5" onClick={goToNextPage}>
-            Fortsätt
-          </Button>
-        </Container>
       </div>
+      <Container className="d-flex justify-content-end info pb-5 mb-5">
+        <Button className="custom-button mt-1 mb-5 me-2" onClick={goToNextPage}>
+          Fortsätt
+        </Button>
+      </Container>
+      <Modal
+        show={showErrorModal}
+        onHide={handleErrorModalClose}
+        className="seat-picker-modal"
+      >
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          Välj klass, biljett-flexibilitet och sittplats för att fortsätta!
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="primary"
+            className="custom-button"
+            onClick={handleErrorModalClose}
+          >
+            Stäng
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

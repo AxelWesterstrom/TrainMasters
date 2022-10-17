@@ -6,41 +6,50 @@ import DateSlider from "../components/DateSlider";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import "../../public/css/journey.css";
 import { useNavigate } from "react-router-dom";
+import { useStates } from "../assets/helpers/states";
 
 function PickJourney() {
-  const [date, setDate] = useState("2022-10-01");
-  const [departure, setDeparture] = useState("Helsingborg C");
-  const [arrival, setArrival] = useState("Burlöv");
-  const [chosenJourney, setChosenJourney] = useState();
+  let s = useStates("booking");
+
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
 
+  useEffect(() => {
+    if (!s.ticket.departure || !s.ticket.arrival) {
+      navigate("/");
+    }
+    if (!s.ticket.passengers || !s.ticket.date) {
+      navigate("/valj-resa");
+    }
+  }, []);
+
   const goToNextPage = () => {
-    if (chosenJourney !== undefined) {
-      navigate("/anpassa-resa", {
-        state: { chosenJourney, date, departure, arrival }
-      });
+    if (Object.keys(s.ticket.chosenJourney).length !== 0) {
+      navigate("/anpassa-resa");
     } else {
       setShowModal(true);
     }
   };
+  console.log(s.ticket.chosenJourney);
 
-  function formatDate(date) {
-    let d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    return [year, month, day].join("-");
+  async function handleMail(e) {
+    e.preventDefault;
+    console.log("HandleMail");
+    await fetch("/api/mailer", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: "anne.perstav@hotmail.com",
+        date: new Date(s.ticket.date).toLocaleDateString("sv-SE"),
+        chosenJourney: s.ticket.chosenJourney
+      })
+    });
   }
 
   return (
-    <div className='pickJourney'>
+    <div className='pickJourney pb-5'>
       <Header />
       <div>
         <img
@@ -63,34 +72,24 @@ function PickJourney() {
           </Row>
           <Row className='d-flex justify-content-between'>
             <Col className='d-flex justify-content-start'>
-              <p className='custom-label'>{departure}</p>
+              <p className='custom-label'>{s.ticket.departure}</p>
             </Col>
             <Col className='d-flex justify-content-end'>
-              <p className='custom-label'>{arrival}</p>
+              <p className='custom-label'>{s.ticket.arrival}</p>
             </Col>
           </Row>
         </Container>
-        <DateSlider {...{ date, setDate, formatDate }} />
+        <DateSlider />
 
         <Container className='pe-2 ps-2'>
           <Container className='info'>
             <Row className='journeyList'>
-              <JourneyList
-                {...{
-                  date,
-                  departure,
-                  arrival,
-                  chosenJourney,
-                  setChosenJourney,
-                  formatDate
-                }}
-              />
+              <JourneyList />
             </Row>
           </Container>
         </Container>
 
-
-        <Container className='d-flex justify-content-end p-5 info'>
+        <Container className='d-flex justify-content-end mb-5 pb-5'>
           <Button className='custom-button mt-3 mb-5' onClick={goToNextPage}>
             Fortsätt
           </Button>
@@ -104,10 +103,16 @@ function PickJourney() {
 
           <Modal.Footer>
             <Button className='custom-button' onClick={handleClose}>
-              Close
+              Stäng
             </Button>
           </Modal.Footer>
         </Modal>
+
+        <Container className='d-flex justify-content-end p-5 info'>
+          <Button className='custom-button mt-3 mb-5' onClick={handleMail}>
+            Maila
+          </Button>
+        </Container>
       </Container>
     </div>
   );

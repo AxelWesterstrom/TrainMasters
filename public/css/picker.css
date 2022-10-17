@@ -1,0 +1,55 @@
+/* traveler-adder */
+.set-count-btn {
+  width: 12px;
+  cursor: pointer;
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  max-width: 10px;
+  padding: 0;
+}
+
+.count-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-grow: 0;
+  max-width: 30px;
+  margin-left: 15px;
+}
+
+/* picker */
+.add-button {
+  cursor: pointer;
+}
+
+.traveler-overview {
+  border: rgba(122, 172, 113, 1);
+  border-style: solid;
+  border-width: 5px;
+  border-radius: 14px;
+  margin-top: 20px;
+}
+
+.passenger-container{
+  max-width: 45rem;
+  border: solid #4b7c4b;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.stations-container{
+  max-width: 45rem;
+}
+
+.calendar{
+  border: solid #4b7c4b;
+  border-width: 21px;
+  border-radius: 10px;
+  padding: 2px;
+  background-color: rgba(122, 172, 113, 0.1) !important;
+  font-weight: 300;
+}

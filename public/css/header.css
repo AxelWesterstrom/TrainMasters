@@ -51,3 +51,18 @@
   color: black;
   border-color: #7AAC71;
 }
+
+@media (max-width: 641px){
+.navbar-nav .dropdown-menu {
+ position: absolute;
+}
+}
+.dropdownLabel:before {
+  content: ""
+}
+
+@media (min-width: 641px) {
+  .dropdownLabel:before {
+    content: "Meny "
+  }
+}
