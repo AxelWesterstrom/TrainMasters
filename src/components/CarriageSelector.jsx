@@ -14,7 +14,7 @@ function CarriageSelector({
   const renderTrainLayout = () => {
     return carriagesLayout.map((x, index) => {
       return (
-        <>
+        <div key={"carriage" + x}>
           {index === 0 && (
             <div
               style={{ display: "inline-block" }}
@@ -119,7 +119,7 @@ function CarriageSelector({
               />
             </div>
           )}
-        </>
+        </div>
       );
     });
   };

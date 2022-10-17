@@ -20,11 +20,14 @@ function CancelableSelector() {
     let value = e.target.id;
     if (value === "cancelable") {
       s.ticket.type = "cancelable";
+      s.ticket.totalPrice = Math.round(price * 1.2);
     }
     if (value === "notCancelable") {
       s.ticket.type = "not-cancelable";
+      s.ticket.totalPrice = price;
     }
   };
+
   return (
     <>
       <div>
@@ -38,7 +41,7 @@ function CancelableSelector() {
                       key={"1"}
                       label={
                         s.ticket.carriageClass !== 0
-                          ? `Kan återbetalas ${price * 1.2} kr`
+                          ? `Kan återbetalas ${Math.round(price * 1.2)} kr`
                           : "Kan återbetalas"
                       }
                       name="group1"
