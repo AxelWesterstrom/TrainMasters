@@ -30,7 +30,7 @@ function LoginForm() {
       setErrorMessage("Fyll i både email och lösenord  ");
       setShow(true);
     } else if (customer == 0) {
-      setErrorMessage("Ingen matchning ");
+      setErrorMessage("Fel e-post eller lösenord ");
       setShow(true);
     }
     else {
@@ -43,7 +43,7 @@ function LoginForm() {
         u.email = l.email;
         navigate("/");
       } else {
-        setErrorMessage("Fel e-post eller lösenord ");
+        setErrorMessage("Fel e-post eller lösenord  ");
         setShow(true);
       }
     }
