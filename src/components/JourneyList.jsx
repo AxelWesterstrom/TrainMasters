@@ -68,20 +68,44 @@ function JourneyList() {
     return 0;
   }
 
+  function filterAvailableJourneys(journey) {
+    let today = new Date();
+    let currentTime = today.getHours() + ":" + today.getMinutes();
+    if (
+      today.toLocaleDateString("sv-SE") ===
+      new Date(s.ticket.date).toLocaleDateString("sv-SE")
+    ) {
+      if (
+        journey.departureTimeA > currentTime ||
+        journey.departureTimeA === "00:00"
+      ) {
+        return journey;
+      } else {
+        return;
+      }
+    } else {
+      return journey;
+    }
+  }
+
   return (
     <>
       {!!l.weekday &&
-        [...l.journeys].sort(sortTime).map((journey, index) => (
-          <Journey
-            key={index}
-            {...{
-              journey
-            }}
-          />
-        ))}
+        l.journeys
+          .filter(journey => filterAvailableJourneys(journey))
+          .sort(sortTime)
+          .map((journey, index) => (
+            <Journey
+              key={index}
+              {...{
+                journey
+              }}
+            />
+          ))}
       {!l.weekday &&
         l.journeys
           .filter(journey => journey.justOnWeekdays === 0)
+          .filter(journey => filterAvailableJourneys(journey))
           .sort(sortTime)
           .map((journey, index) => (
             <Journey

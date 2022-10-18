@@ -135,11 +135,23 @@ function Journey(props) {
   }, [s.ticket.date]);
 
   function handleClickedJourney(journey) {
+    let departureTime = checkTime(journey.departureTimeA);
+    let arrivalTime = checkTime(journey.arrivalTimeB);
     s.ticket.chosenJourney = { ...journey };
+    s.ticket.chosenJourney.departureTimeA = departureTime;
+    s.ticket.chosenJourney.arrivalTimeB = arrivalTime;
     s.ticket.secondClassPrice = secondClassPrice;
     s.ticket.firstClassPrice = firstClassPrice;
-    console.log("hcj1", s.ticket.firstClassPrice);
-    console.log("hcj2", s.ticket.secondClassPrice);
+  }
+
+  function checkTime(time) {
+    let hours = time.substring(0, time.indexOf(":"));
+    let minutes = time.substring(time.indexOf(":") + 1);
+    if (hours > 23) {
+      hours = hours - 24;
+      time = hours + ":" + minutes;
+    }
+    return time;
   }
 
   return (
@@ -166,7 +178,7 @@ function Journey(props) {
         <Row className='pt-2'>
           <Col className='col-6'>
             <p className='custom-text'>
-              {departureTimeA} - {arrivalTimeB}
+              {checkTime(departureTimeA)} - {checkTime(arrivalTimeB)}
             </p>
           </Col>
           <Col className='col-6 d-flex justify-content-end'>
