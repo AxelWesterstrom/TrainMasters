@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import TicketTemplate from "../components/TicketTemplate";
 import React from "react";
+import { useState } from "react";
 import styles from "../../public/css/ticket.css";
 import { useStates } from "../assets/helpers/states";
 import { Row, Form, FormLabel, FormControl, Col, Container } from "react-bootstrap"; 4
@@ -13,11 +14,19 @@ function Ticket() {
 
   }
 
+  let count = 0;
+  s.ticket.passengers.map((x) => {
+    count += x.count;
+  });
+
+  const list = []
+
   function typeOutTickets() {
-    for (let i = 0; i < s.ticket.passenger.length; i++) {
-      return <TicketTemplate /> 
+    for (let i = 0; i < count; i++) {
+      list.push(<TicketTemplate />)
     }
-  }
+    return (<div>{list}</div>)
+  };
 
   return (
     <>
