@@ -9,6 +9,9 @@ function FilterForSpecialSeats({
   occupiedSeats,
   trainSetAndCarriages,
   setFilterOnSeats,
+  carriageRefs,
+  petsCarriage,
+  setActiveCarriage,
 }) {
   useEffect(() => {
     let availableSeats = [];
@@ -27,6 +30,11 @@ function FilterForSpecialSeats({
   const handleSelectFilter = (e) => {
     let value = e.target.value;
     setFilterOnSeats(value);
+    if (value == "2") {
+      const next = carriageRefs.current[petsCarriage - 1];
+      next.scrollIntoView();
+      setActiveCarriage(petsCarriage - 1);
+    }
   };
 
   let s = useStates("booking");
