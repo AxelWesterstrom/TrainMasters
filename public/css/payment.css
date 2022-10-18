@@ -21,17 +21,9 @@
   border-style: solid;
   border-width: 2px;
   border-radius: 30px;
-  margin:1%;
   height:50px;
 }
-.firstNameInput{
-  margin-left: 2.2%;;
-}
 
-
-.nameLabel {
-  margin-left: 12%;
-}
 
 .custom-radio{
   cursor: pointer;
@@ -51,4 +43,8 @@ input[type="radio"]:checked{
 .paymentMethodForm{
   display: grid;
 	place-items: center
+}
+
+.paymentButton{
+  float: right;
 }
