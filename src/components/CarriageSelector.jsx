@@ -103,6 +103,10 @@ function CarriageSelector({
             >
               <p className="ms-5 custom-text" key={index + "text"}>
                 Vagn: {x}
+                <img
+                  src="../images/dog.svg"
+                  style={{ width: "30px", marginLeft: "5px" }}
+                ></img>
               </p>
               <img
                 key={index + "img"}
