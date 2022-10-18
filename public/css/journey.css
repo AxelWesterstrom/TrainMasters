@@ -72,8 +72,8 @@
 }
 
 .activeJourney {
-  background-color: #7aac71;
-  border: solid #4b7c4b;
+  background-color: rgba(122, 172, 113, 0.5);
+  border: solid #7aac71;
   border-radius: 10px;
   pointer-events: none;
 }

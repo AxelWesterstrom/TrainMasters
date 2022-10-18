@@ -12,6 +12,7 @@ import styles from "../public/css/commonStyles.css"; // Common styling for all p
 import Contact from "./pages/Contact";
 import { useStates } from "./assets/helpers/states";
 import { useEffect } from "react";
+import RegisterForm from "./components/RegisterForm";
 
 const travelerTypes = [
   "Vuxen",
@@ -28,16 +29,26 @@ function App() {
       departure: "",
       arrival: "",
       date: newDate.getTime(),
-      passengers: travelerTypes.map(type => {
+      passengers: travelerTypes.map((type) => {
         return { travelerType: type, count: 0 };
       }),
       chosenJourney: {},
       carriageClass: 0,
       seats: [],
-      type: "",
+      type: "", // type is for cancelable or notCancelable
       secondClassPrice: 0,
-      firstClassPrice: 0
-    }
+      firstClassPrice: 0,
+      totalPrice: 0, //final price for all tickets
+    },
+    autoSuggestStations: [],
+  });
+
+  let log = useStates("login", {
+    login: false
+  });
+
+  let u = useStates("user", {
+    email: ""
   });
 
   // useEffect(() => {
@@ -57,6 +68,7 @@ function App() {
           <Route path='/kassan' element={<Payment />} />
           <Route path='/mina-biljetter' element={<Ticket />} />
           <Route path='/logga-in' element={<Login />} />
+          <Route path='/skapa-konto' element={<RegisterForm />} />
           <Route path='/kontakta-oss' element={<Contact />} />
         </Routes>
       </BrowserRouter>

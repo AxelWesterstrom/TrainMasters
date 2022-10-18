@@ -199,9 +199,16 @@ function ChooseSeatsModal({
             filterOnSeats={filterOnSeats}
             setFilterOnSeats={setFilterOnSeats}
             setOccupiedSeats={setOccupiedSeats}
+            carriageRefs={carriageRefs}
+            petsCarriage={petsCarriage}
+            setActiveCarriage={setActiveCarriage}
           />
         </div>
+        <div className="col col-4 ms-4 mt-1 ">
+          Antal sittplats att välja: {seatsToBook}
+        </div>
       </div>
+
       <div className="ms-2">
         {route["isDirectionLeft"] === 0 && (
           <p className="ms-5 custom-text">

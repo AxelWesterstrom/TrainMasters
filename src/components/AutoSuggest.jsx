@@ -3,17 +3,14 @@ import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { useStates } from "../assets/helpers/states";
 
-function AutoSuggest({
-  stations,
-  setFoundTrain,
-}) {
+function AutoSuggest({ stations }) {
   const [isDepartureFocus, setDepartureFocus] = useState(false);
   const [isArrivalFocus, setArrivalFocus] = useState(false);
   const [suggestDepature, setSuggestDepature] = useState([]);
   const [suggestArrival, setSuggestArrival] = useState([]);
   let allStations = [];
 
-  let s = useStates("booking")
+  let s = useStates("booking");
 
   const handleDepature = (e) => {
     let searchValue = e.target.value;
@@ -71,12 +68,7 @@ function AutoSuggest({
     }
     setSuggestArrival(suggestions);
     s.ticket.arrival = searchValue;
-
-    for (let suggestion of suggestions) {
-      if (suggestion.toLowerCase() === searchValue.toLowerCase()) {
-        setFoundTrain(true);
-      }
-    }
+    s.autoSuggestStations = suggestions;
   };
 
   const handleArrivalOnFocus = () => {
@@ -104,6 +96,7 @@ function AutoSuggest({
     });
 
     setSuggestArrival(suggestion);
+    s.autoSuggestStations = suggestion;
   };
 
   return (
@@ -173,7 +166,6 @@ function AutoSuggest({
                       key={index}
                       onMouseDown={() => {
                         s.ticket.arrival = item;
-                        setFoundTrain(true);
                       }}
                     >
                       {item}

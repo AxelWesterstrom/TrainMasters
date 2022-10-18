@@ -14,7 +14,7 @@ function CarriageSelector({
   const renderTrainLayout = () => {
     return carriagesLayout.map((x, index) => {
       return (
-        <>
+        <div key={"carriage" + x}>
           {index === 0 && (
             <div
               style={{ display: "inline-block" }}
@@ -103,6 +103,10 @@ function CarriageSelector({
             >
               <p className="ms-5 custom-text" key={index + "text"}>
                 Vagn: {x}
+                <img
+                  src="../images/dog.svg"
+                  style={{ width: "30px", marginLeft: "5px" }}
+                ></img>
               </p>
               <img
                 key={index + "img"}
@@ -119,7 +123,7 @@ function CarriageSelector({
               />
             </div>
           )}
-        </>
+        </div>
       );
     });
   };
