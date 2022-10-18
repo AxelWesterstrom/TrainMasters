@@ -53,6 +53,8 @@ function CancelableSelector() {
                           ? {}
                           : { opacity: "0.68", pointerEvents: "none" }
                       }
+                      value={"cancelable"}
+                      checked={s.ticket.type === "cancelable"}
                     />
 
                     <Form.Check
@@ -71,6 +73,8 @@ function CancelableSelector() {
                           ? {}
                           : { opacity: "0.68", pointerEvents: "none" }
                       }
+                      value={"notCancelable"}
+                      checked={s.ticket.type === "not-cancelable"}
                     />
                   </div>
                 ))}

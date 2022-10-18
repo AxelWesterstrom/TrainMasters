@@ -39,6 +39,7 @@ function App() {
       secondClassPrice: 0,
       firstClassPrice: 0,
       totalPrice: 0, //final price for all tickets
+      bookingNumber: 0,
     },
     autoSuggestStations: [],
   });
@@ -48,7 +49,8 @@ function App() {
   });
 
   let u = useStates("user", {
-    email: ""
+    email: "",
+    customerId: 0
   });
 
   // useEffect(() => {

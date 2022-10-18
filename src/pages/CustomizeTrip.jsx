@@ -18,6 +18,7 @@ function CustomizeTrip() {
     useState(false);
   const [petsCarraigeFullBooked, setPetsCarriageFullBooked] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   let s = useStates("booking");
   let count = 0;
@@ -71,9 +72,15 @@ function CustomizeTrip() {
   }, [totalSeatsInTrain]);
 
   const handleModalClose = () => {
-   
     if (selectedSeats.length !== seatsToBook) {
       setShowErrorModal(true);
+      setErrorMessage(
+        "Antal sittplats att välja är " +
+          seatsToBook +
+          ", välj " +
+          (seatsToBook - selectedSeats.length) +
+          " till!"
+      );
     } else {
       setShowModal(false);
       s.ticket.seat = [...selectedSeats];
@@ -87,12 +94,17 @@ function CustomizeTrip() {
   };
 
   const goToNextPage = () => {
-    if (
-      s.ticket.carriageClass === 0 ||
-      s.ticket.type === "" ||
-      s.ticket.seat === []
-    ) {
+    if (s.ticket.carriageClass === 0 || s.ticket.type === "") {
       setShowErrorModal(true);
+      setErrorMessage(
+        "Välj klass, biljett-flexibilitet och sittplats för att fortsätta!"
+      );
+    }
+    if (!s.ticket.seat || s.ticket.seat.length === 0) {
+      setShowErrorModal(true);
+      setErrorMessage(
+        "Välj klass, biljett-flexibilitet och sittplats för att fortsätta!"
+      );
     } else {
       navigate("/kassan");
     }
@@ -103,6 +115,7 @@ function CustomizeTrip() {
   };
 
   const deleteSelectedSeats = () => {
+    s.ticket.seat = [];
     setSelectedSeats([]);
   };
 
@@ -170,9 +183,9 @@ function CustomizeTrip() {
                     <div key={"seat" + index}>
                       <div className="d-flex">
                         <p className="custom-text me-4">
-                          Seat: {seat.seatNumber}
+                          Plats: {seat.seatNumber}
                         </p>
-                        <p className="custom-text">Carriage: {seat.carriage}</p>
+                        <p className="custom-text">Vagn: {seat.carriage}</p>
                       </div>
                       {index === selectedSeats.length - 1 && (
                         <div className="d-flex justify-content-end">
@@ -235,9 +248,7 @@ function CustomizeTrip() {
         className="seat-picker-modal"
       >
         <Modal.Header closeButton></Modal.Header>
-        <Modal.Body>
-          Välj klass, biljett-flexibilitet och sittplats för att fortsätta!
-        </Modal.Body>
+        <Modal.Body>{errorMessage}</Modal.Body>
         <Modal.Footer>
           <Button
             variant="primary"
