@@ -115,12 +115,7 @@ function Seat(props) {
                       }}
                       className="d-flex align-items-center"
                     >
-                      <p
-                        className="text-center"
-                        key={"locomotive-text" + index}
-                      >
-                        Manövervagn
-                      </p>
+
                     </div>
                   )}
                 </React.Fragment>
