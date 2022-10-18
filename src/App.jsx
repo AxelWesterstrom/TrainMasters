@@ -38,7 +38,7 @@ function App() {
       type: "", // type is for cancelable or notCancelable
       secondClassPrice: 0,
       firstClassPrice: 0,
-      totalPrice: 0,
+      totalPrice: 0, //final price for all tickets
     },
     autoSuggestStations: [],
   });
