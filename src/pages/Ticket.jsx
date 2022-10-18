@@ -7,14 +7,16 @@ import { Row, Form, FormLabel, FormControl, Col, Container } from "react-bootstr
 
 function Ticket() {
   let log = useStates("login");
+  let s = useStates("booking")
 
   function searchBooking() {
 
   }
 
   function typeOutTickets() {
-    const tickets = ["gh", "gl", "lkf", "sadasd"]
-    return tickets.map((ticket) => <TicketTemplate />)
+    for (let i = 0; i < s.ticket.passenger.length; i++) {
+      return <TicketTemplate /> 
+    }
   }
 
   return (
@@ -26,14 +28,16 @@ function Ticket() {
       <Container overflow="hidden">
         <Row >
           {!log.login
-            ? <Container className="form-body">
-              <Row className="form-booking-number" xs={12} md={10} lg={8}>
-                <Form onSubmit={searchBooking} autoComplete="off">
-                  <FormLabel>
-                    <h1>Skriv in ditt bokningsnummer</h1>
-                  </FormLabel>
-                  <FormControl type="text" />
-                </Form>
+            ? <Container>
+              <Row className="form-booking-number">
+                <Col className="form-body" xs={12} md={10} lg={6}>
+                  <Form className="booking-number-form" onSubmit={searchBooking} autoComplete="off">
+                    <FormLabel>
+                      <h2>Skriv in ditt bokningsnummer</h2>
+                    </FormLabel>
+                    <FormControl type="text" />
+                  </Form>
+                </Col>
               </Row>
             </Container>
             :
@@ -47,6 +51,6 @@ function Ticket() {
         </Row>
       </Container>
     </>
-    );
-  }
-  export default Ticket;
+  );
+}
+export default Ticket;
