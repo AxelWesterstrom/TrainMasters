@@ -51,7 +51,7 @@ function ClassSelector({
         +totalOccupiedSeats["occupiedSeats"] -
           +totalOccupiedSeats["occupiedFirstClass"] +
           seatsToBook >
-        +totalSeatsInTrain["firstClass"]
+        +totalSeatsInTrain["secondClass"]
       ) {
         setSecondClassFullBooked(true);
       }

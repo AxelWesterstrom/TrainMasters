@@ -53,14 +53,14 @@ function Header({ }) {
                   }}
                 >
                   <Dropdown.Item onClick={() => navigate("/mina-biljetter")}>
-                    Mina Biljetter
+                    Mina biljetter
                   </Dropdown.Item>
                   {!log.login
                     ? <Dropdown.Item onClick={() => navigate("/logga-in")}>
-                      Logga In
+                      Logga in
                     </Dropdown.Item>
                     : <Dropdown.Item onClick={logOut} >
-                      Logga Ut
+                      Logga ut
                     </Dropdown.Item>
                   }
                 </Dropdown.Menu>

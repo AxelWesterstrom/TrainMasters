@@ -1,6 +1,6 @@
 /* traveler-adder */
 .set-count-btn {
-  width: 10px;
+  width: 12px;
   cursor: pointer;
 }
 
@@ -32,19 +32,19 @@
   border-width: 5px;
   border-radius: 14px;
   margin-top: 20px;
-  min-width: 250px;
 }
 
 .passenger-container{
   max-width: 45rem;
   border: solid #4b7c4b;
   border-radius: 10px;
-  padding: 20px;
+  padding: 10px;
 }
 
 .stations-container{
   max-width: 45rem;
 }
+
 .calendar{
   border: solid #4b7c4b;
   border-width: 21px;

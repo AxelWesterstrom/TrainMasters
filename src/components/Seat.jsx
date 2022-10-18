@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import style from "../../public/css/seats.css";
@@ -77,7 +77,7 @@ function Seat(props) {
               );
             } else {
               return (
-                <>
+                <React.Fragment key={"seat" + index}>
                   <div
                     className={customClassName}
                     key={index}
@@ -91,7 +91,7 @@ function Seat(props) {
                   </div>
                   {seat.seatNumber === 28 && seat.bistro === 1 && (
                     <div
-                      key={"bistro"}
+                      key={"bistro" + index}
                       style={{
                         height: "240px",
                         width: "800px",
@@ -106,7 +106,7 @@ function Seat(props) {
                   )}
                   {seat.seatNumber === 42 && seat.isHandicapSeat === 1 && (
                     <div
-                      key={"locomotive"}
+                      key={"locomotive" + index}
                       style={{
                         height: "240px",
                         width: "450px",
@@ -115,12 +115,15 @@ function Seat(props) {
                       }}
                       className="d-flex align-items-center"
                     >
-                      <p className="text-center" key={"locomotive"}>
+                      <p
+                        className="text-center"
+                        key={"locomotive-text" + index}
+                      >
                         Manövervagn
                       </p>
                     </div>
                   )}
-                </>
+                </React.Fragment>
               );
             }
           }

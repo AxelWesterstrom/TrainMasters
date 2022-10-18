@@ -72,7 +72,7 @@ function RegisterForm() {
                       <FormControl type="password" {...l.bind("password")} />
                       <FormLabel className="login-label">Bekräfta lösenord </FormLabel>
                       <FormControl type="password" {...l.bind("passwordCheck")} />
-                      <Button type="submit" className="custom-button" style={{ marginTop: 20 }}>Skapa Konto</Button>
+                      <Button type="submit" className="custom-button" style={{ marginTop: 20 }}>Skapa konto</Button>
                     </Form>
                     <Modal show={show} onHide={handleClose}>
                       <Modal.Header closeButton></Modal.Header>

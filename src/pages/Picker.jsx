@@ -62,41 +62,39 @@ function Picker() {
       </div>
       <Container className="stations-container">
         <Row className="justify-content-between">
-          <Col md="auto">
+          <Col className="col">
             <p className="custom-label">
               Resa från: <br></br> {s.ticket.departure}
             </p>
           </Col>
-          <Col md="auto">
+          <Col className="col d-flex justify-content-end">
             <p className="custom-label">
-              Resa Till: <br></br> {s.ticket.arrival}
+              Resa till: <br></br> {s.ticket.arrival}
             </p>
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col md="auto">
-            <Calendar
-              className="calendar"
-              onChange={(date) => (s.ticket.date = date.getTime())}
-              value={new Date(s.ticket.date)}
-              minDate={new Date()}
-              locale="sv"
-              next2Label={null}
-              prev2Label={null}
-              showFixedNumberOfWeeks={true}
-            />
-            {/* {!buttonPopup && (
+          <Calendar
+            className="calendar"
+            onChange={(date) => (s.ticket.date = date.getTime())}
+            value={new Date(s.ticket.date)}
+            minDate={new Date()}
+            locale="sv"
+            next2Label={null}
+            prev2Label={null}
+            showFixedNumberOfWeeks={true}
+          />
+          {/* {!buttonPopup && (
               <ReactDatePicker
                 selected={new Date(s.ticket.date)}
                 onChange={(date) => s.ticket.date = date.getTime()}
                 minDate={new Date()}
               ></ReactDatePicker>
             )} */}
-          </Col>
         </Row>
-        <Row className="justify-content-center">
+        {/* <Row className="justify-content-center">
           {s.ticket.passengers.filter((t) => t.count > 0).length > 0 ? (
-            <Col md="auto" className="traveler-overview">
+            <Col className="col-9 traveler-overview">
               {s.ticket.passengers.map((t, i) => {
                 return t.count > 0 ? (
                   <Stack key={i} direction="horizontal">
@@ -111,23 +109,21 @@ function Picker() {
           ) : (
             ""
           )}
-        </Row>
-        <Row>
-          <Container className="passenger-container m-4">
-            {s.ticket.passengers.map((t, i) => {
-              return (
-                <TravelerAdder
-                  key={i}
-                  travelerType={t.travelerType}
-                  count={t.count}
-                  setTraveler={modifyTravelerCount}
-                ></TravelerAdder>
-              );
-            })}
-          </Container>
-        </Row>
-        <Row className="justify-content-end">
-          <Col md="auto">
+        </Row> */}
+        <Container className="passenger-container mt-4 mb-2">
+          {s.ticket.passengers.map((t, i) => {
+            return (
+              <TravelerAdder
+                key={i}
+                travelerType={t.travelerType}
+                count={t.count}
+                setTraveler={modifyTravelerCount}
+              ></TravelerAdder>
+            );
+          })}
+        </Container>
+        <Row className="m-3">
+          <Col className="d-flex justify-content-end">
             <Button className="custom-button" onClick={() => onSearchClick()}>
               Sök resa
             </Button>
