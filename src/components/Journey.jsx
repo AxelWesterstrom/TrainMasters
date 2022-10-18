@@ -154,6 +154,21 @@ function Journey(props) {
     return time;
   }
 
+  /*  function calcTravelTime() {
+    let hours = Math.floor((arrivalOffsetB - departureOffsetA) / 60);
+    let minutes =
+      (arrivalOffsetB - departureOffsetA) % 60 < 10
+        ? "0" + ((arrivalOffsetB - departureOffsetA) % 60)
+        : (arrivalOffsetB - departureOffsetA) % 60;
+    let timeValue = "";
+    if (hours < 1) {
+      timeValue = "minuter";
+    } else {
+      timeValue = "timmar";
+    }
+    return `${hours}:${minutes} ${timeValue}`;
+  }
+ */
   return (
     <Container
       className={`mb-3  ${
@@ -195,14 +210,7 @@ function Journey(props) {
         </Row>
         <Row className='pt-2'>
           <Col className='col-6'>
-            <p className='custom-text'>
-              {`Restid
-                ${Math.floor((arrivalOffsetB - departureOffsetA) / 60)}:${
-                (arrivalOffsetB - departureOffsetA) % 60 < 10
-                  ? "0" + ((arrivalOffsetB - departureOffsetA) % 60)
-                  : (arrivalOffsetB - departureOffsetA) % 60
-              } timmar`}
-            </p>
+            <p className='custom-text'> Restid </p>
           </Col>
           <Col className='pt-2 col-6 d-flex justify-content-end'>
             <p className={availableSecondClass > 0 ? "" : "lineThrough"}>
