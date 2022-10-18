@@ -32,11 +32,9 @@ function PickJourney() {
       setShowModal(true);
     }
   };
-  console.log(s.ticket.chosenJourney);
 
   async function handleMail(e) {
     e.preventDefault;
-    console.log("HandleMail");
     await fetch("/api/mailer", {
       method: "post",
       headers: { "Content-Type": "application/json" },

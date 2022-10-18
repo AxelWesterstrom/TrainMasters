@@ -71,9 +71,7 @@ function Journey(props) {
           )}&journeyId=${journeyId}&trainSetId=${trainSetId}`
         )
       ).json();
-      console.log("osd", occupiedSeatsData[0]);
       if (!occupiedSeatsData[0] || occupiedSeatsData[0] === undefined) {
-        //setOccupiedSeats(0);
         occupiedIsHandicapSeats = 0;
         occupiedPetsAllowed = 0;
         occupiedFirstClass = 0;
@@ -115,7 +113,6 @@ function Journey(props) {
 
     s.ticket.passengers.map(type => {
       if (type.count !== 0) {
-        console.log(type.travelerType, type.count);
         totPriceFirstClass +=
           type.count *
           calculateTicketPrice(
@@ -135,26 +132,25 @@ function Journey(props) {
   }, [s.ticket.date]);
 
   function handleClickedJourney(journey) {
-    let departureTime = checkTime(journey.departureTimeA);
-    let arrivalTime = checkTime(journey.arrivalTimeB);
     s.ticket.chosenJourney = { ...journey };
-    s.ticket.chosenJourney.departureTimeA = departureTime;
-    s.ticket.chosenJourney.arrivalTimeB = arrivalTime;
     s.ticket.secondClassPrice = secondClassPrice;
     s.ticket.firstClassPrice = firstClassPrice;
   }
 
-  function checkTime(time) {
+  /* function checkTime(time) {
     let hours = time.substring(0, time.indexOf(":"));
     let minutes = time.substring(time.indexOf(":") + 1);
     if (hours > 23) {
       hours = hours - 24;
+      if (hours < 10) {
+        hours = "0" + hours;
+      }
       time = hours + ":" + minutes;
     }
     return time;
   }
-
-  /*  function calcTravelTime() {
+ */
+  function calcTravelTime() {
     let hours = Math.floor((arrivalOffsetB - departureOffsetA) / 60);
     let minutes =
       (arrivalOffsetB - departureOffsetA) % 60 < 10
@@ -168,7 +164,7 @@ function Journey(props) {
     }
     return `${hours}:${minutes} ${timeValue}`;
   }
- */
+
   return (
     <Container
       className={`mb-3  ${
@@ -177,6 +173,15 @@ function Journey(props) {
           ? "journeyItem"
           : "activeJourney"
       }`}
+      style={
+        !secondClassPrice
+          ? { pointerEvents: "none" }
+          : isNaN(secondClassPrice)
+          ? { pointerEvents: "none" }
+          : !(numberOfSeats - occupiedSeats)
+          ? { pointerEvents: "none" }
+          : {}
+      }
       onClick={() => {
         handleClickedJourney(journey);
       }}
@@ -193,7 +198,7 @@ function Journey(props) {
         <Row className='pt-2'>
           <Col className='col-6'>
             <p className='custom-text'>
-              {checkTime(departureTimeA)} - {checkTime(arrivalTimeB)}
+              {/*checkTime*/ departureTimeA} - {/*checkTime(*/ arrivalTimeB}
             </p>
           </Col>
           <Col className='col-6 d-flex justify-content-end'>
@@ -210,7 +215,7 @@ function Journey(props) {
         </Row>
         <Row className='pt-2'>
           <Col className='col-6'>
-            <p className='custom-text'> Restid </p>
+            <p className='custom-text'> Restid {calcTravelTime()}</p>
           </Col>
           <Col className='pt-2 col-6 d-flex justify-content-end'>
             <p className={availableSecondClass > 0 ? "" : "lineThrough"}>

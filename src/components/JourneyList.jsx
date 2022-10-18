@@ -14,7 +14,6 @@ function JourneyList() {
 
   useEffect(() => {
     (async () => {
-      console.log("Fetching l.journeys in journeyList");
       l.journeys = await (
         await fetch(
           `/api/connectStationsWithTimesOnJourneyId?stationNameA=${s.ticket.departure}&stationNameB=${s.ticket.arrival}`
@@ -47,7 +46,7 @@ function JourneyList() {
         }
       }
 
-      if (isHoliday || day === 6 || day === 0) {
+      if (isHoliday || day === 0 || day === 1) {
         l.weekday = false;
       } else {
         l.weekday = true;
@@ -56,9 +55,41 @@ function JourneyList() {
     weekdayCheck(s.ticket.date);
   }, [s.ticket.date]);
 
+  function checkTime(journey) {
+    let departureHours = journey.departureTimeA.substring(
+      0,
+      journey.departureTimeA.indexOf(":")
+    );
+    let departureMinutes = journey.departureTimeA.substring(
+      journey.departureTimeA.indexOf(":") + 1
+    );
+    let arrivalHours = journey.arrivalTimeB.substring(
+      0,
+      journey.arrivalTimeB.indexOf(":")
+    );
+    let arrivalMinutes = journey.arrivalTimeB.substring(
+      journey.arrivalTimeB.indexOf(":") + 1
+    );
+    if (departureHours > 23) {
+      departureHours = departureHours - 24;
+      if (departureHours < 10) {
+        departureHours = "0" + departureHours;
+      }
+      journey.departureTimeA = departureHours + ":" + departureMinutes;
+    }
+    if (arrivalHours > 23) {
+      arrivalHours = arrivalHours - 24;
+      if (arrivalHours < 10) {
+        arrivalHours = "0" + arrivalHours;
+      }
+      journey.arrivalTimeB = arrivalHours + ":" + arrivalMinutes;
+    }
+    return journey;
+  }
+
   function sortTime(a, b) {
     let timeA = a.departureTimeA;
-    let timeB = b.departureTimeB;
+    let timeB = b.departureTimeA;
     if (timeA < timeB) {
       return -1;
     }
@@ -75,10 +106,7 @@ function JourneyList() {
       today.toLocaleDateString("sv-SE") ===
       new Date(s.ticket.date).toLocaleDateString("sv-SE")
     ) {
-      if (
-        journey.departureTimeA > currentTime ||
-        journey.departureTimeA === "00:00"
-      ) {
+      if (journey.departureTimeA > currentTime) {
         return journey;
       } else {
         return;
@@ -92,6 +120,7 @@ function JourneyList() {
     <>
       {!!l.weekday &&
         l.journeys
+          .filter(journey => checkTime(journey))
           .filter(journey => filterAvailableJourneys(journey))
           .sort(sortTime)
           .map((journey, index) => (
@@ -105,6 +134,7 @@ function JourneyList() {
       {!l.weekday &&
         l.journeys
           .filter(journey => journey.justOnWeekdays === 0)
+          .filter(journey => checkTime(journey))
           .filter(journey => filterAvailableJourneys(journey))
           .sort(sortTime)
           .map((journey, index) => (
