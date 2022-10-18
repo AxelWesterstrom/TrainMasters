@@ -54,8 +54,7 @@ function CustomizeTrip() {
       await fetch(
         `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(
           s.ticket.date
-        ).toLocaleDateString("sv-SE")}&journeyId=${
-          s.ticket.chosenJourney.journeyId
+        ).toLocaleDateString("sv-SE")}&journeyId=${s.ticket.chosenJourney.journeyId
         }&trainSetId=${s.ticket.chosenJourney.trainSetId}`
       )
         .then((res) => res.json())
@@ -71,7 +70,7 @@ function CustomizeTrip() {
   }, [totalSeatsInTrain]);
 
   const handleModalClose = () => {
-   
+
     if (selectedSeats.length !== seatsToBook) {
       setShowErrorModal(true);
     } else {
@@ -170,9 +169,9 @@ function CustomizeTrip() {
                     <div key={"seat" + index}>
                       <div className="d-flex">
                         <p className="custom-text me-4">
-                          Seat: {seat.seatNumber}
+                          Plats: {seat.seatNumber}
                         </p>
-                        <p className="custom-text">Carriage: {seat.carriage}</p>
+                        <p className="custom-text">Vagn: {seat.carriage}</p>
                       </div>
                       {index === selectedSeats.length - 1 && (
                         <div className="d-flex justify-content-end">
