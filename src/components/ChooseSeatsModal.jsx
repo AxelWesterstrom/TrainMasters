@@ -175,6 +175,9 @@ function ChooseSeatsModal({
       );
     });
   };
+  const deleteSelectedSeats = () => {
+    setSelectedSeats([]);
+  };
 
   const slideLeft = () => {
     let slider = document.getElementById("slider");
@@ -188,26 +191,39 @@ function ChooseSeatsModal({
 
   return (
     <>
-      <div className="ms-4 mt-1 mb-3 d-flex">
-        <div className="col col-lg-4 col-xs-10">
-          <FilterForSpecialSeats
-            wheechairSeatsFullBooked={wheechairSeatsFullBooked}
-            petsCarraigeFullBooked={petsCarraigeFullBooked}
-            setWheelChairSeatsFullBooked={setWheelChairSeatsFullBooked}
-            occupiedSeats={occupiedSeats}
-            trainSetAndCarriages={trainSetAndCarriages}
-            filterOnSeats={filterOnSeats}
-            setFilterOnSeats={setFilterOnSeats}
-            setOccupiedSeats={setOccupiedSeats}
-            carriageRefs={carriageRefs}
-            petsCarriage={petsCarriage}
-            setActiveCarriage={setActiveCarriage}
-          />
-        </div>
-        <div className="col col-4 ms-4 mt-1 ">
-          Antal sittplats att välja: {seatsToBook}
-        </div>
-      </div>
+      <Container className="mb-3 d-flex justify-content-center">
+        <Row className="row">
+          <Col className="col-md-8 align-items-center">
+            <FilterForSpecialSeats
+              wheechairSeatsFullBooked={wheechairSeatsFullBooked}
+              petsCarraigeFullBooked={petsCarraigeFullBooked}
+              setWheelChairSeatsFullBooked={setWheelChairSeatsFullBooked}
+              occupiedSeats={occupiedSeats}
+              trainSetAndCarriages={trainSetAndCarriages}
+              filterOnSeats={filterOnSeats}
+              setFilterOnSeats={setFilterOnSeats}
+              setOccupiedSeats={setOccupiedSeats}
+              carriageRefs={carriageRefs}
+              petsCarriage={petsCarriage}
+              setActiveCarriage={setActiveCarriage}
+            />
+          </Col>
+          <Col className="col-md-2 ml-auto d-flex align-items-center">
+            Rensa
+            <img
+              src="../images/delete.svg"
+              style={{
+                width: "14px",
+                height: "14px",
+                cursor: "pointer",
+                marginTop: "3px",
+                marginLeft: "5px",
+              }}
+              onClick={deleteSelectedSeats}
+            />
+          </Col>
+        </Row>
+      </Container>
 
       <div className="ms-2">
         {route["isDirectionLeft"] === 0 && (
