@@ -109,7 +109,6 @@ function CustomizeTrip() {
       navigate("/kassan");
     }
   };
-  console.log(s.ticket.seat);
 
   const showSeatsSelectorModal = () => {
     setShowModal(true);
