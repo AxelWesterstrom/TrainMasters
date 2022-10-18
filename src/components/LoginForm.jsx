@@ -53,7 +53,7 @@ function LoginForm() {
     navigate("/skapa-konto");
   }
   const [show, setShow] = useState();
-  
+
 
   return (LoginForm = (
     <>
@@ -68,7 +68,7 @@ function LoginForm() {
                   <FormLabel className="login-label">Lösenord </FormLabel>
                   <FormControl type="password" {...l.bind("password")} />
                   <Button type="submit" className="custom-button" style={{ marginTop: 20 }}>Logga in</Button>
-                  <Button className="custom-button" onClick={goToRegister} style={{ marginTop: 20 }}>Skapa Ett Konto</Button>
+                  <Button className="custom-button" onClick={goToRegister} style={{ marginTop: 20 }}>Skapa ett konto</Button>
                 </Form>
                 <Modal show={show} onHide={handleClose}>
                   <Modal.Header closeButton></Modal.Header>
