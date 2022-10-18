@@ -176,6 +176,7 @@ function ChooseSeatsModal({
     });
   };
   const deleteSelectedSeats = () => {
+    s.ticket.seat = [];
     setSelectedSeats([]);
   };
 

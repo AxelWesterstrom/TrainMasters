@@ -90,6 +90,8 @@ function ClassSelector({
                         type={type}
                         onChange={(e) => handleSelectClass(e)}
                         id="firstClass"
+                        value={"firstClass"}
+                        checked={s.ticket.carriageClass === 1}
                       />
                     )}
                     {!secondClassFullBooked && (
@@ -100,6 +102,8 @@ function ClassSelector({
                         type={type}
                         onChange={(e) => handleSelectClass(e)}
                         id="secondClass"
+                        value={"secondClass"}
+                        checked={s.ticket.carriageClass === 2}
                       />
                     )}
                   </div>

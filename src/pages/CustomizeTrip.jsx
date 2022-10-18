@@ -18,6 +18,7 @@ function CustomizeTrip() {
     useState(false);
   const [petsCarraigeFullBooked, setPetsCarriageFullBooked] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   let s = useStates("booking");
   let count = 0;
@@ -54,7 +55,8 @@ function CustomizeTrip() {
       await fetch(
         `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(
           s.ticket.date
-        ).toLocaleDateString("sv-SE")}&journeyId=${s.ticket.chosenJourney.journeyId
+        ).toLocaleDateString("sv-SE")}&journeyId=${
+          s.ticket.chosenJourney.journeyId
         }&trainSetId=${s.ticket.chosenJourney.trainSetId}`
       )
         .then((res) => res.json())
@@ -70,9 +72,15 @@ function CustomizeTrip() {
   }, [totalSeatsInTrain]);
 
   const handleModalClose = () => {
-
     if (selectedSeats.length !== seatsToBook) {
       setShowErrorModal(true);
+      setErrorMessage(
+        "Antal sittplats att välja är " +
+          seatsToBook +
+          ", välj " +
+          (seatsToBook - selectedSeats.length) +
+          " till!"
+      );
     } else {
       setShowModal(false);
       s.ticket.seat = [...selectedSeats];
@@ -86,22 +94,29 @@ function CustomizeTrip() {
   };
 
   const goToNextPage = () => {
-    if (
-      s.ticket.carriageClass === 0 ||
-      s.ticket.type === "" ||
-      s.ticket.seat === []
-    ) {
+    if (s.ticket.carriageClass === 0 || s.ticket.type === "") {
       setShowErrorModal(true);
+      setErrorMessage(
+        "Välj klass, biljett-flexibilitet och sittplats för att fortsätta!"
+      );
+    }
+    if (!s.ticket.seat || s.ticket.seat.length === 0) {
+      setShowErrorModal(true);
+      setErrorMessage(
+        "Välj klass, biljett-flexibilitet och sittplats för att fortsätta!"
+      );
     } else {
       navigate("/kassan");
     }
   };
+  console.log(s.ticket.seat);
 
   const showSeatsSelectorModal = () => {
     setShowModal(true);
   };
 
   const deleteSelectedSeats = () => {
+    s.ticket.seat = [];
     setSelectedSeats([]);
   };
 
@@ -234,9 +249,7 @@ function CustomizeTrip() {
         className="seat-picker-modal"
       >
         <Modal.Header closeButton></Modal.Header>
-        <Modal.Body>
-          Välj klass, biljett-flexibilitet och sittplats för att fortsätta!
-        </Modal.Body>
+        <Modal.Body>{errorMessage}</Modal.Body>
         <Modal.Footer>
           <Button
             variant="primary"
