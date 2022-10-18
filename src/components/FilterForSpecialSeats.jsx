@@ -20,11 +20,21 @@ function FilterForSpecialSeats({
         availableSeats.push(seat);
       }
     });
-    setWheelChairSeatsFullBooked(
-      availableSeats.some((seat) => {
-        seat.isHandicapSeat === 1;
-      })
-    );
+
+    if (s.ticket.carriageClass === 2) {
+      availableSeats.map((seat) => {
+        if (seat.isHandicapSeat === 1 && seat.firstClass === 0) {
+          setWheelChairSeatsFullBooked(false);
+        }
+      });
+    }
+    if (s.ticket.carriageClass === 1) {
+      availableSeats.map((seat) => {
+        if (seat.isHandicapSeat === 1 && seat.firstClass === 1) {
+          setWheelChairSeatsFullBooked(false);
+        }
+      });
+    }
   }, [trainSetAndCarriages]);
 
   const handleSelectFilter = (e) => {
