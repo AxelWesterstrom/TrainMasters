@@ -199,6 +199,9 @@ function ChooseSeatsModal({
             filterOnSeats={filterOnSeats}
             setFilterOnSeats={setFilterOnSeats}
             setOccupiedSeats={setOccupiedSeats}
+            carriageRefs={carriageRefs}
+            petsCarriage={petsCarriage}
+            setActiveCarriage={setActiveCarriage}
           />
         </div>
         <div className="col col-4 ms-4 mt-1 ">
