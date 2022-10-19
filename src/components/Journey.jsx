@@ -146,12 +146,11 @@ function Journey(props) {
 
   return (
     <Container
-      className={`mb-3  ${
-        !s.ticket.chosenJourney ||
-        journeyId !== s.ticket.chosenJourney.journeyId
+      className={`mb-3  ${!s.ticket.chosenJourney ||
+          journeyId !== s.ticket.chosenJourney.journeyId
           ? "journeyItem"
           : "activeJourney"
-      }`}
+        }`}
       onClick={() => {
         handleClickedJourney(journey);
       }}
@@ -159,8 +158,8 @@ function Journey(props) {
       <div
         className={
           !secondClassPrice ||
-          isNaN(secondClassPrice) ||
-          !(numberOfSeats - occupiedSeats)
+            isNaN(secondClassPrice) ||
+            !(numberOfSeats - occupiedSeats)
             ? "blurry"
             : ""
         }
@@ -174,12 +173,12 @@ function Journey(props) {
           <Col className='col-6 d-flex justify-content-end'>
             <p className='custom-text'>
               {!secondClassPrice ||
-              isNaN(secondClassPrice) ||
-              secondClassPrice == Infinity
+                isNaN(secondClassPrice) ||
+                secondClassPrice == Infinity
                 ? ""
                 : numberOfSeats - occupiedSeats > 0
-                ? "fr. " + secondClassPrice + " kr"
-                : "Slutsåld"}
+                  ? "fr. " + secondClassPrice + " kr"
+                  : "Slutsåld"}
             </p>
           </Col>
         </Row>
