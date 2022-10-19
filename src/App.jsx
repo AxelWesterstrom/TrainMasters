@@ -32,7 +32,7 @@ function App() {
       passengers: travelerTypes.map((type) => {
         return { travelerType: type, count: 0 };
       }),
-      chosenJourney: {},
+      chosenJourney: {}, //
       carriageClass: 0,
       seats: [],
       type: "", // type is for cancelable or notCancelable
@@ -40,6 +40,13 @@ function App() {
       firstClassPrice: 0,
       totalPrice: 0, //final price for all tickets
       bookingNumber: 0,
+      // people: [{ firstName: "Axel", lastName: "West", type: "Vuxen" },
+      // { firstName: "Hlf", lastName: "Sdasgg", type: "Barn(0-15 år)" },
+      // { firstName: "Jldad", lastName: "Kifsifa", type: "Ungdom(16-25 år)" },
+      //   { firstName: "Hskdjas", lastName: "Gsdgsdg", type: "Student" }],
+
+      people: [], // {firstName, lastName, type}
+      email: "",
     },
     autoSuggestStations: [],
   });
@@ -52,6 +59,8 @@ function App() {
     email: "",
     customerId: 0
   });
+
+
 
   // useEffect(() => {
   //   (async () => {

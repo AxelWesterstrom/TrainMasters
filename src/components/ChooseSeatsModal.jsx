@@ -13,6 +13,7 @@ function ChooseSeatsModal({
   setWheelChairSeatsFullBooked,
   selectedSeats,
   setSelectedSeats,
+  bookedSeats,
 }) {
   const [carriagesLayout, setCarriagesLayout] = useState([]);
   const [trainSetAndCarriages, setTrainSetAndCarriages] = useState([]);
@@ -22,12 +23,9 @@ function ChooseSeatsModal({
   const [activeCarriage, setActiveCarriage] = useState(0);
   const carriageRefs = useRef([]);
   const [filterOnSeats, setFilterOnSeats] = useState(0);
-  const [bookedSeats, setBookedSeats] = useState([]);
   const [occupiedSeats, setOccupiedSeats] = useState([]);
 
   let s = useStates("booking");
-
-
   useEffect(() => {
     const fetchData = async () => {
       await fetch(
@@ -55,24 +53,6 @@ function ChooseSeatsModal({
 
     setCarriagesLayout(carriages);
   }, [trainSetAndCarriages]);
-
-  useEffect(() => {
-    const fetchBookdSeats = async () => {
-      await fetch(
-        `/api/bookingPartsWithDepartureAndArrivalStationInfo?date=${new Date(
-          s.ticket.date
-        ).toLocaleDateString("sv-SE")}&arrivalStationArrival>=${
-          s.ticket.chosenJourney.arrivalOffsetB
-        }&journeyId=${s.ticket.chosenJourney.journeyId}`
-      )
-        .then((res) => res.json())
-        .then((jsonData) => {
-          setBookedSeats(jsonData);
-        });
-    };
-    fetchBookdSeats();
-  }, [carriagesLayout, trainSetAndCarriages]);
-  
 
   useEffect(() => {
     const fetchData = async () => {

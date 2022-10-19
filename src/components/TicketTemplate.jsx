@@ -1,15 +1,20 @@
 import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import QRCode from "react-qr-code"
+import { useStates } from "../assets/helpers/states";
 
-function TicketTemplate() {
+function TicketTemplate({ personId }) {
+
+  let s = useStates("booking")
+  console.log(personId);
+
   return (
     <>
       <Container>
         <Container id="ticketBorder">
           <Row>
             <Col id="ticketTitel" >
-              <h1>Göteborg-C  -  Stockholm-C</h1>
+              <h1>{s.ticket.departure}  -  {s.ticket.arrival}</h1>
             </Col>
           </Row>
 
@@ -17,13 +22,13 @@ function TicketTemplate() {
             <Row >
               <Col className="col-lg-3 col-sm-6"> <h4>Namn</h4>
                 <p>
-                  Axel Westerström
+                  {s.ticket.people[personId].firstName}
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Datum</h4>
                 <p>
-                  2022-06-23
+                  {new Date(s.ticket.date).toLocaleDateString('sv-SE')}
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
@@ -48,7 +53,7 @@ function TicketTemplate() {
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
-                <h4>Spår</h4>
+                <h4>Tågnummer</h4>
                 <p>
                   5
                 </p>
@@ -71,7 +76,7 @@ function TicketTemplate() {
             <Col className="qrCode">
               <QRCode
                 size={150}
-                value={"asdasadsadadsssf"}
+                value={"Axel Spår 2"}
               /></Col>
           </Row>
         </Container>
