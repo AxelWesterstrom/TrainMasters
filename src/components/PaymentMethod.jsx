@@ -46,7 +46,7 @@ function PaymentMethod() {
     } else if (value == "kort") {
       setCard(true);
     } else {
-      console.log("selected payment type (bug)");
+      alert("välj betalsätt");
     }
   }
 
@@ -126,15 +126,16 @@ function PaymentMethod() {
                   placeholder="+467xxxxxxxx"
                 />
               </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
+              <Button className="custom-button" type="submit" onClick={handleCloseSwish}>
+            Betala
+          </Button>
+             
             </Form>
           </Container>
         </Modal.Body>
         <Modal.Footer>
           <Button className="custom-button" onClick={handleCloseSwish}>
-            Stäng
+            Betala
           </Button>
         </Modal.Footer>
       </Modal>
