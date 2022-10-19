@@ -43,7 +43,22 @@ function Picker() {
       setShowModal(true);
       return;
     }
+    let peopleList = [];
 
+    s.ticket.passengers.map((x) => {
+      if (x.count > 0) {
+        for (let y = 0; y < x.count; y++) {
+          peopleList.push({
+            firstName: "",
+            lastName: "",
+            type: x.travelerType,
+          });
+        }
+      }
+    });
+
+    s.ticket.people = peopleList;
+    console.log(s.ticket.people);
     navigate("/valj-tag");
   };
 
