@@ -19,6 +19,8 @@ function Journey(props) {
     trainNumber
   } = journey;
 
+
+
   const [hasBistro, setHasBistro] = useState(false);
   const [hasHandicapSeats, setHasHandicapSeats] = useState(true);
   const [isPetsAllowed, setIsPetsAllowed] = useState(true);

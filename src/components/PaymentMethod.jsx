@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import { Row, Col, Container, Form, Button, Modal } from "react-bootstrap";
 import { useStates } from "../assets/helpers/states";
 import { useState } from "react";
+import { updateDatabase } from "./SendToDatabase.js"
 
 function PaymentMethod() {
+  let log = useStates('login');
+  let u = useStates('user');
+  let s = useStates("booking");
   //   const [payment, setPayment] = useState();
 
   // function paymentPopup() {
@@ -29,7 +33,7 @@ function PaymentMethod() {
   const [swish, setSwish] = useState(false);
   const [card, setCard] = useState(false);
   const handleCloseSwish = () => setSwish(false);
-  const handleCloseCard = () => setCard(false);
+  const handleCloseCard = () => { setCard(false), updateDatabase(log, u, s) }; //move to "Fortsätt knapp"
   const handlePaymentMethod = (e) => {
     const id = e.target.id;
     console.log(value);
@@ -102,7 +106,7 @@ function PaymentMethod() {
               </Button>
             </Row>
           </Col>
-          <h1>{}</h1>
+          <h1>{ }</h1>
         </Form>
       </Container>
       <Modal show={swish} onHide={handleCloseSwish} className="modal-xl">
@@ -181,7 +185,7 @@ function PaymentMethod() {
                     <Form.Control
                       id="cvv"
                       type="tel"
-                      inputmode ="numeric"
+                      inputmode="numeric"
                       pattern="[0-9]{3}"
                       maxlength="3"
                       placeHolder="xxx"
