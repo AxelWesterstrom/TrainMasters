@@ -1,5 +1,6 @@
 const mailCredentials = require("./secrets/mailCredentials");
 const nodemailer = require("nodemailer");
+const { dirname } = require("path");
 
 module.exports = class Mailer {
   constructor() {
@@ -7,34 +8,55 @@ module.exports = class Mailer {
   }
 
   mail(body) {
-    let { email, date, chosenJourney } = body;
+    let { email, date, chosenJourney, totalPassengers, bookingsNumber } = body;
     let {
       stationNameA,
       stationNameB,
       departureTimeA,
       arrivalTimeB,
-      trainNumber
+      trainNumber,
     } = chosenJourney;
+    if (arrivalTimeB > 24) {
+      arrivalTimeB = arrivalTimeB - 24;
+    }
     console.log("Using MAIL");
     let options = {
       from: "tagmastarna@outlook.com",
-      to: email,
+      to: "sanabarilad@gmail.com",
       subject: "Bokningsbekräftelse",
       text: "Hi, I'm emailing from node.js AGAIN!",
       html:
-        "<div style='background-color:#7aac71;border:solid 2px;border-radius:5px;border-color:#4b7c4b; padding: 5px'><div><h1>Din Bokning<h1/><h2>För resa från " +
+        '<div style="border:solid 2px;border-radius:5px;"><div><header style="background-color:#4C2C50;text-align:center"><a href="http://localhost:3000"><img src="cid:logo"></a><header/></div><div style="padding:20px;text-align:center">' +
+        "<h1> Din Bokning</h1><h2> För resa från " +
         stationNameA +
         " till " +
         stationNameB +
-        ".</h2><h3> Datum: " +
+        ".</h2><h2> Datum: " +
         date +
-        "</h3><h3>Avgångstid: " +
+        "</h2><h2>Avgångstid: " +
         departureTimeA +
-        " </h3><h3> Beräknad ankomsttid: " +
+        " </h2><h2> Beräknad ankomsttid: " +
         arrivalTimeB +
-        " </h3><h3>Tågnummer: " +
+        " </h2><h2>Tågnummer: " +
         trainNumber +
-        "</h3></div><img style='display: inline; margin: 0 5px; title=tagmastarnaLogo src=../public/images/wheelchair.svg alt=wheelchair width=50 height=50' /></div > "
+        " </h2><h2>Bokningsnummer: " +
+        bookingsNumber +
+        " </h2><h2>Antal resenärer: " +
+        totalPassengers +
+        '</h2><img/ src="cid:balloons"></div></div>',
+
+      attachments: [
+        {
+          filename: "balloons.jpg",
+          path: __dirname + "/imagesForEmail/balloons.jpg",
+          cid: "balloons",
+        },
+        {
+          filename: "logo.png",
+          path: __dirname + "/imagesForEmail/logo.png",
+          cid: "logo",
+        },
+      ],
     };
 
     this.transporter.sendMail(options, function (err, info) {
