@@ -165,7 +165,7 @@ function CustomizeTrip() {
                   <Row>
                     <Col className="col col-8">
                       <p className="custom-text">
-                        Vi erbjuder alltid Löfbergs Lila kaffee
+                        Vi erbjuder alltid Löfbergs Lila kaffe
                       </p>
                       <img
                         src="../public/images/coffee-icon.svg"
