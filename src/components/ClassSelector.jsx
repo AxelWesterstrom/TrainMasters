@@ -4,64 +4,67 @@ import { Container, Form } from "react-bootstrap";
 import { useStates } from "../assets/helpers/states";
 
 function ClassSelector({
-  totalOccupiedSeats,
   totalSeatsInTrain,
   setWheelChairSeatsFullBooked,
   setPetsCarriageFullBooked,
   seatsToBook,
+  bookedSeats,
 }) {
   const [firstClassFullBooked, setFirstClassFullBooked] = useState(false);
   const [secondClassFullBooked, setSecondClassFullBooked] = useState(false);
+  const [bookedFirstClass, setBookedFirstClass] = useState(0);
+  const [bookedPetsSeats, setBookedPetsSeats] = useState(0);
+  const [bookedSecondClass, setBookedSecondClass] = useState(0);
+  const [bookedWheelchair, setBookedWheelchair] = useState(0);
 
   let s = useStates("booking");
+
   useEffect(() => {
-    if (totalOccupiedSeats !== 0) {
-      if (
-        +totalOccupiedSeats["occupiedFirstClass"] ===
-        +totalSeatsInTrain["firstClass"]
-      ) {
-        setFirstClassFullBooked(true);
+    let countF = 0;
+    let countP = 0;
+    let countS = 0;
+    let countW = 0;
+
+    bookedSeats.map((seat) => {
+      if (seat.firstClass === 1) {
+        countF += 1;
       }
-      if (
-        +totalOccupiedSeats["occupiedSeats"] -
-          +totalOccupiedSeats["occupiedFirstClass"] ===
-        +totalSeatsInTrain["secondClass"]
-      ) {
-        setSecondClassFullBooked(true);
+      if (seat.firstClass === 0) {
+        countS += 1;
       }
-      if (
-        +totalOccupiedSeats["occupiedPetsAllowed"] ===
-        +totalSeatsInTrain["petsAllowed"]
-      ) {
-        setPetsCarriageFullBooked(true);
+      if (seat.petsAllowed === 1) {
+        countP += 1;
       }
-      if (
-        +totalOccupiedSeats["occupiedIsHandicapSeat"] ===
-        +totalSeatsInTrain["hasHandicapSeats"]
-      ) {
-        setWheelChairSeatsFullBooked(true);
+      if (seat.isHandicapSeat === 1) {
+        countW += 1;
       }
-      if (
-        +totalOccupiedSeats["occupiedFirstClass"] + seatsToBook >
-        +totalSeatsInTrain["firstClass"]
-      ) {
-        setFirstClassFullBooked(true);
-      }
-      if (
-        +totalOccupiedSeats["occupiedSeats"] -
-          +totalOccupiedSeats["occupiedFirstClass"] +
-          seatsToBook >
-        +totalSeatsInTrain["secondClass"]
-      ) {
-        setSecondClassFullBooked(true);
-      }
-    } else {
-      setFirstClassFullBooked(false);
-      setSecondClassFullBooked(false);
-      setPetsCarriageFullBooked(false);
-      setWheelChairSeatsFullBooked(false);
+    });
+    setBookedFirstClass(countF);
+    setBookedSecondClass(countS);
+    setBookedPetsSeats(countP);
+    setBookedWheelchair(countW);
+  }, []);
+
+  useEffect(() => {
+    if (bookedFirstClass === +totalSeatsInTrain["firstClass"]) {
+      setFirstClassFullBooked(true);
     }
-  }, [totalSeatsInTrain, totalOccupiedSeats]);
+    if (bookedSecondClass === +totalSeatsInTrain["secondClass"]) {
+      setSecondClassFullBooked(true);
+    }
+    if (bookedPetsSeats === +totalSeatsInTrain["petsAllowed"]) {
+      setPetsCarriageFullBooked(true);
+    }
+    if (bookedWheelchair === +totalSeatsInTrain["hasHandicapSeats"]) {
+      setWheelChairSeatsFullBooked(true);
+    }
+    if (bookedFirstClass + seatsToBook > +totalSeatsInTrain["firstClass"]) {
+      setFirstClassFullBooked(true);
+    }
+    if (bookedSecondClass + seatsToBook > +totalSeatsInTrain["secondClass"]) {
+      setSecondClassFullBooked(true);
+    }
+  }, [totalSeatsInTrain]);
 
   const handleSelectClass = (e) => {
     let value = e.target.id;

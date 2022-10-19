@@ -13,12 +13,12 @@ function CustomizeTrip() {
   const [showModal, setShowModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [totalSeatsInTrain, setTotalSeatsInTrain] = useState([]);
-  const [totalOccupiedSeats, setTotolOccupiedSeats] = useState([]);
   const [wheechairSeatsFullBooked, setWheelChairSeatsFullBooked] =
     useState(false);
   const [petsCarraigeFullBooked, setPetsCarriageFullBooked] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [bookedSeats, setBookedSeats] = useState([]);
 
   let s = useStates("booking");
   let count = 0;
@@ -51,24 +51,22 @@ function CustomizeTrip() {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchBookdSeats = async () => {
       await fetch(
-        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(
+        `/api/occupiedSeatIdWithDateAndJourneyId?date=${new Date(
           s.ticket.date
-        ).toLocaleDateString("sv-SE")}&journeyId=${
-          s.ticket.chosenJourney.journeyId
-        }&trainSetId=${s.ticket.chosenJourney.trainSetId}`
+        ).toLocaleDateString("sv-SE")}&departureStationDeparture<${
+          s.ticket.chosenJourney.arrivalOffsetB
+        }&arrivalStationArrival>${
+          s.ticket.chosenJourney.departureOffsetA
+        }&journeyId=${s.ticket.chosenJourney.journeyId}`
       )
         .then((res) => res.json())
         .then((jsonData) => {
-          if (jsonData[0] !== undefined) {
-            setTotolOccupiedSeats(jsonData[0]);
-          } else {
-            setTotolOccupiedSeats(0);
-          }
+          setBookedSeats(jsonData);
         });
     };
-    fetchData();
+    fetchBookdSeats();
   }, [totalSeatsInTrain]);
 
   const handleModalClose = () => {
@@ -154,11 +152,11 @@ function CustomizeTrip() {
             </Container>
           </Container>
           <ClassSelector
-            totalOccupiedSeats={totalOccupiedSeats}
             totalSeatsInTrain={totalSeatsInTrain}
             setWheelChairSeatsFullBooked={setWheelChairSeatsFullBooked}
             setPetsCarriageFullBooked={setPetsCarriageFullBooked}
             setSeatsToBook={seatsToBook}
+            bookedSeats={bookedSeats}
           />
           <CancelableSelector />
           <Container className="p-2">
@@ -224,6 +222,7 @@ function CustomizeTrip() {
               setPetsCarriageFullBooked={setPetsCarriageFullBooked}
               selectedSeats={selectedSeats}
               setSelectedSeats={setSelectedSeats}
+              bookedSeats={bookedSeats}
             />
           </Modal.Body>
           <Modal.Footer>
