@@ -27,6 +27,7 @@ function PickJourney() {
 
   const goToNextPage = () => {
     if (Object.keys(s.ticket.chosenJourney).length !== 0) {
+      console.log(s.ticket.chosenJourney);
       navigate("/anpassa-resa");
     } else {
       setShowModal(true);

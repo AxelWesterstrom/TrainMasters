@@ -55,10 +55,8 @@ function CustomizeTrip() {
       await fetch(
         `/api/occupiedSeatIdWithDateAndJourneyId?date=${new Date(
           s.ticket.date
-        ).toLocaleDateString("sv-SE")}&departureStationDeparture<=${
-          s.ticket.chosenJourney.arrivalOffsetB
-        }&arrivalStationArrival>=${
-          s.ticket.chosenJourney.departureOffsetA
+        ).toLocaleDateString("sv-SE")}&departureStationDeparture<=${s.ticket.chosenJourney.arrivalOffsetB
+        }&arrivalStationArrival>=${s.ticket.chosenJourney.departureOffsetA
         }&journeyId=${s.ticket.chosenJourney.journeyId}`
       )
         .then((res) => res.json())
@@ -74,14 +72,14 @@ function CustomizeTrip() {
       setShowErrorModal(true);
       setErrorMessage(
         "Antal sittplats att välja är " +
-          seatsToBook +
-          ", välj " +
-          (seatsToBook - selectedSeats.length) +
-          " till!"
+        seatsToBook +
+        ", välj " +
+        (seatsToBook - selectedSeats.length) +
+        " till!"
       );
     } else {
       setShowModal(false);
-      s.ticket.seat = [...selectedSeats];
+      s.ticket.seats = [...selectedSeats];
     }
   };
 
@@ -98,7 +96,7 @@ function CustomizeTrip() {
         "Välj klass, biljett-flexibilitet och sittplats för att fortsätta!"
       );
     }
-    if (!s.ticket.seat || s.ticket.seat.length === 0) {
+    if (!s.ticket.seats || s.ticket.seats.length === 0) {
       setShowErrorModal(true);
       setErrorMessage(
         "Välj klass, biljett-flexibilitet och sittplats för att fortsätta!"
@@ -113,7 +111,7 @@ function CustomizeTrip() {
   };
 
   const deleteSelectedSeats = () => {
-    s.ticket.seat = [];
+    s.ticket.seats = [];
     setSelectedSeats([]);
   };
 
