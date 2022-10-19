@@ -23,7 +23,7 @@ function Ticket() {
 
   function typeOutTickets() {
     for (let i = 0; i < count; i++) {
-      list.push(<TicketTemplate />)
+      list.push(<TicketTemplate personId={i} />)
     }
     return (<div>{list}</div>)
   };
