@@ -23,7 +23,7 @@ function Ticket() {
 
   function typeOutTickets() {
     for (let i = 0; i < count; i++) {
-      list.push(<TicketTemplate personId={i} />)
+      list.push(<TicketTemplate interval={i} />)
     }
     return (<div>{list}</div>)
   };
@@ -51,7 +51,7 @@ function Ticket() {
             </Container>
             :
             <Row>
-              <h1 className="booking-number">Bokningsnummer: 321494912489</h1>
+              <h1 className="booking-number">Bokningsnummer: {s.ticket.bookingNumber}</h1>
               {typeOutTickets()}
             </Row>
 

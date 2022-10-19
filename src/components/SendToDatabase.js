@@ -2,23 +2,19 @@ export async function updateDatabase(log, u, s) {
     function randomIntBetween(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-    console.log('DATABASE!');
     s.ticket.bookingNumber = randomIntBetween(1, 10000000);
 
     let isCancelable;
     if (s.ticket.type === 'cancelable') {
-        console.log('cancelable');
         isCancelable = 1;
     } else {
         isCancelable = 0;
-        console.log('cancelable');
     }
     let bookingsId = 0;
     let peopleId = [];
     let passengersId = [];
 
     for (let i = 0; i < s.ticket.people.length; i++) {
-        console.log('people');
         let { insertId } = await (
             await fetch(`/api/people`, {
                 method: 'POST',
@@ -73,7 +69,6 @@ export async function updateDatabase(log, u, s) {
     }
 
     for (let i = 0; i < peopleId.length; i++) {
-        console.log('people 12');
         let { insertId } = await (
             await fetch(`/api/passengers`, {
                 method: 'POST',
@@ -98,7 +93,6 @@ export async function updateDatabase(log, u, s) {
         ).json();
         passengersId.push(insertId);
     }
-    console.log(s.ticket.seats);
     for (let i = 0; i < s.ticket.seats.length; i++) {
         await (
             await fetch(`/api/bookingParts`, {
