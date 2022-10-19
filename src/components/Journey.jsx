@@ -20,7 +20,6 @@ function Journey(props) {
   } = journey;
 
   const [occupiedSeatsData, setOccupiedSeatsData] = useState([]);
-  //  const [seatsInTrain, setSeatsInTrain] = useState();
   const [hasBistro, setHasBistro] = useState(false);
   const [bistro, setBistro] = useState(0);
   const [hasHandicapSeats, setHasHandicapSeats] = useState(true);

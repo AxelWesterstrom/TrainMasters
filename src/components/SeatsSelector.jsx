@@ -22,7 +22,8 @@ function SeatsSelector({
 
   useEffect(() => {
     let idList = [];
-    if (bookedSeats !== 0) {
+
+    if (bookedSeats.length !== 0) {
       bookedSeats.map((seat) => {
         idList.push(seat.seatId);
       });
@@ -44,7 +45,7 @@ function SeatsSelector({
       }
     }
 
-    if (bookedSeats === 0) {
+    if (bookedSeats.length === 0) {
       if (s.ticket.carriageClass === 1) {
         trainSetAndCarriages.map((seat) => {
           if (seat.firstClass === 0) {
@@ -148,7 +149,8 @@ function SeatsSelector({
     setHandicapSeats(handicapSeatsList);
     setAvailableSeats(availableSeatsList);
     setRightFacingSeats(rightFacingSeatsList);
-  }, [filterOnSeats]);
+  }, [filterOnSeats, bookedSeats, filteredSeatsOnClass]);
+ 
 
   const renderAllSeats = () => {
     return (

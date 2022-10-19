@@ -58,3 +58,16 @@
     font-size: 16px !important;
   }
 }
+
+.login-popup {
+  position: fixed;
+  background-color: rgb(254, 174, 0);
+  padding: 20px;
+  bottom: 20px;
+  right: 20px;
+}
+
+.login-popup.fade {
+  transition: opacity 1.0s ease-out;
+  opacity: 0;
+}
