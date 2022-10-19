@@ -31,7 +31,7 @@ module.exports = class Mailer {
     console.log("Using MAIL");
     let options = {
       from: "tagmastarna@outlook.com",
-      to: "sanabarilad@gmail.com",
+      to: email,
       subject: "Bokningsbekräftelse",
       text: "Hi, I'm emailing from node.js AGAIN!",
       html:
