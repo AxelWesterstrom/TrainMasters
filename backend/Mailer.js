@@ -16,8 +16,17 @@ module.exports = class Mailer {
       arrivalTimeB,
       trainNumber,
     } = chosenJourney;
-    if (arrivalTimeB > 24) {
-      arrivalTimeB = arrivalTimeB - 24;
+    if (arrivalTimeB.slice(0, 2) > 24) {
+      arrivalTimeB =
+        "0" +
+        (arrivalTimeB.slice(0, 2) - 24).toString() +
+        arrivalTimeB.slice(2, 6);
+    }
+    if (departureTimeA.slice(0, 2) > 24) {
+      departureTimeA =
+        "0" +
+        (departureTimeA.slice(0, 2) - 24).toString() +
+        departureTimeA.slice(2, 6);
     }
     console.log("Using MAIL");
     let options = {
