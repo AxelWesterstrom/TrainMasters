@@ -41,6 +41,7 @@ function LoginForm() {
         setShow(true);
         log.login = "true";
         u.email = l.email;
+        u.showMessage = 'login'
         navigate("/");
       } else {
         setErrorMessage("Fel e-post eller lösenord  ");

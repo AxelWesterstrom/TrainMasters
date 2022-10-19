@@ -27,6 +27,7 @@ function ChooseSeatsModal({
 
   let s = useStates("booking");
 
+
   useEffect(() => {
     const fetchData = async () => {
       await fetch(
@@ -58,25 +59,20 @@ function ChooseSeatsModal({
   useEffect(() => {
     const fetchBookdSeats = async () => {
       await fetch(
-        `/api/bookingPartsWithDepartureAndArrivalStationInfo/?date=${
-          new Date(s.ticket.date).toISOString().split("T")[0]
-        }&departureStationDeparture>=${
-          s.ticket.chosenJourney.departureOffsetA
-        }&arrivalStationArrival<=${
+        `/api/bookingPartsWithDepartureAndArrivalStationInfo?date=${new Date(
+          s.ticket.date
+        ).toLocaleDateString("sv-SE")}&arrivalStationArrival>=${
           s.ticket.chosenJourney.arrivalOffsetB
         }&journeyId=${s.ticket.chosenJourney.journeyId}`
       )
         .then((res) => res.json())
         .then((jsonData) => {
-          if (jsonData[0] !== undefined) {
-            setBookedSeats(jsonData[0]);
-          } else {
-            setBookedSeats(0);
-          }
+          setBookedSeats(jsonData);
         });
     };
     fetchBookdSeats();
-  }, [carriagesLayout]);
+  }, [carriagesLayout, trainSetAndCarriages]);
+  
 
   useEffect(() => {
     const fetchData = async () => {

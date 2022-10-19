@@ -21,7 +21,7 @@ function Seat(props) {
           let secondClass = (seat.seatNumber - 2) % 4 === 0;
           let isAvaliable = availableSeats.includes(seat.seatId);
           let isBooked = false;
-          if (occupiedSeats !== 0) {
+          if (occupiedSeats.length !== 0) {
             isBooked = occupiedSeats.includes(seat.seatId);
           }
           let isForWheelChair = wheelChairSeats.includes(seat.seatId);
@@ -114,9 +114,7 @@ function Seat(props) {
                         backgroundColor: "gray",
                       }}
                       className="d-flex align-items-center"
-                    >
-
-                    </div>
+                    ></div>
                   )}
                 </React.Fragment>
               );

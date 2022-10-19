@@ -61,7 +61,7 @@ function ClassSelector({
       setPetsCarriageFullBooked(false);
       setWheelChairSeatsFullBooked(false);
     }
-  }, []);
+  }, [totalSeatsInTrain, totalOccupiedSeats]);
 
   const handleSelectClass = (e) => {
     let value = e.target.id;
