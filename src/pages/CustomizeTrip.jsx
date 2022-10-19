@@ -55,9 +55,9 @@ function CustomizeTrip() {
       await fetch(
         `/api/occupiedSeatIdWithDateAndJourneyId?date=${new Date(
           s.ticket.date
-        ).toLocaleDateString("sv-SE")}&departureStationDeparture<${
+        ).toLocaleDateString("sv-SE")}&departureStationDeparture<=${
           s.ticket.chosenJourney.arrivalOffsetB
-        }&arrivalStationArrival>${
+        }&arrivalStationArrival>=${
           s.ticket.chosenJourney.departureOffsetA
         }&journeyId=${s.ticket.chosenJourney.journeyId}`
       )

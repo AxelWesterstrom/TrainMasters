@@ -43,7 +43,7 @@ function ClassSelector({
     setBookedSecondClass(countS);
     setBookedPetsSeats(countP);
     setBookedWheelchair(countW);
-  }, []);
+  }, [bookedSeats, totalSeatsInTrain]);
 
   useEffect(() => {
     if (bookedFirstClass === +totalSeatsInTrain["firstClass"]) {
@@ -64,7 +64,7 @@ function ClassSelector({
     if (bookedSecondClass + seatsToBook > +totalSeatsInTrain["secondClass"]) {
       setSecondClassFullBooked(true);
     }
-  }, [totalSeatsInTrain]);
+  }, [bookedFirstClass, bookedSecondClass, bookedPetsSeats, bookedWheelchair]);
 
   const handleSelectClass = (e) => {
     let value = e.target.id;
