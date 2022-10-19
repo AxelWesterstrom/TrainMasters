@@ -58,7 +58,6 @@ function Picker() {
     });
 
     s.ticket.people = peopleList;
-    console.log(s.ticket.people);
     navigate("/valj-tag");
   };
 
