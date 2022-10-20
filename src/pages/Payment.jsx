@@ -29,7 +29,7 @@ function Payment() {
   return (
     <>
       <Header />
-      <div className="body pb-5">
+      <div className="body">
         <div onClick={goToFormerPage}>
           <img
             src="../images/arrow-left.svg"

@@ -138,7 +138,7 @@ function CustomizeTrip() {
                   {s.ticket.chosenJourney.stationNameB}
                 </p>
                 <p className="custom-label">
-                  {new Date(s.ticket.date).toLocaleDateString()}
+                  {new Date(s.ticket.date).toLocaleDateString("sv-SE")}
                 </p>
                 <p className="custom-label">
                   {s.ticket.chosenJourney.departureTimeA} -{" "}
@@ -256,7 +256,7 @@ function CustomizeTrip() {
           </Modal.Footer>
         </Modal>
       </div>
-      <Container className="d-flex justify-content-end info pb-5 mb-5">
+      <Container className="d-flex justify-content-end info mb-5">
         <Button className="custom-button mt-1 mb-5 me-2" onClick={goToNextPage}>
           Fortsätt
         </Button>
