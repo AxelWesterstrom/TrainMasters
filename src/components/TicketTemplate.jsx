@@ -6,7 +6,7 @@ import { useStates } from "../assets/helpers/states";
 function TicketTemplate({ interval }) {
 
   let s = useStates("booking")
-  let qrCodeValue = s.ticket.people[interval].firstName + " " + s.ticket.people[interval].lastName + " " + s.ticket.people[interval].type + " " + s.ticket.seats[interval].seatNumber + " " + s.ticket.bookingNumber
+  let qrCodeValue = "Namn: " + s.ticket.people[interval].firstName + " " + s.ticket.people[interval].lastName + "\n " + s.ticket.people[interval].type + " \n Vagn: " + s.ticket.seats[interval].carriage + " \n Plats: " + s.ticket.seats[interval].seatNumber + "\n Bokningsnummer: " + s.ticket.bookingNumber
 
   return (
     <>
