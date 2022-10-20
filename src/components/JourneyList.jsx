@@ -101,7 +101,11 @@ function JourneyList() {
 
   function filterAvailableJourneys(journey) {
     let today = new Date();
-    let currentTime = today.getHours() + ":" + today.getMinutes();
+    let hours = today.getHours();
+    hours = hours < 10 ? "0" + hours : hours;
+    let minutes = today.getMinutes();
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    let currentTime = hours + ":" + minutes;
     if (
       today.toLocaleDateString("sv-SE") ===
       new Date(s.ticket.date).toLocaleDateString("sv-SE")
