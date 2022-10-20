@@ -123,13 +123,18 @@ function PaymentMethod() {
             <Container>
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Skriv ditt email" />
+                <Form.Control
+                  type="email"
+                  placeholder="Skriv ditt email"
+                  required
+                />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="phone-Number">
                 <Form.Label>Telefon nummer</Form.Label>
                 <Form.Text></Form.Text>
                 <Form.Control
+                  required
                   type="tel"
                   pattern="[+]{1}[4]{1}[6]{1}[7]{1}[0-9]{8}"
                   placeholder="+467xxxxxxxx"
@@ -140,6 +145,7 @@ function PaymentMethod() {
           <Modal.Footer>
             <Button
               className="custom-button"
+              type="submit"
               onClick={handleCloseSwish}
             >
               Betala
@@ -162,19 +168,20 @@ function PaymentMethod() {
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" placeholder="Email" />
+                  <Form.Control type="email" placeholder="Email" required />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="firstName">
                   <Form.Label>Förnamn</Form.Label>
-                  <Form.Control type="text" placeholder="Förnamn" />
+                  <Form.Control type="text" placeholder="Förnamn" required />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="lastName">
                   <Form.Label>Efternamn</Form.Label>
-                  <Form.Control type="text" placeholder="Efternamn" />
+                  <Form.Control type="text" placeholder="Efternamn" required />
                 </Form.Group>
                 <Form.Group>
                   <Form.Label for="kort">Kort nummer:</Form.Label>
                   <Form.Control
+                    required
                     id="kort"
                     type="tel"
                     inputmode="numeric"
@@ -187,6 +194,7 @@ function PaymentMethod() {
                 <Form.Group>
                   <Form.Label for="cvv">CVV</Form.Label>
                   <Form.Control
+                    required
                     id="cvv"
                     type="tel"
                     inputmode="numeric"
