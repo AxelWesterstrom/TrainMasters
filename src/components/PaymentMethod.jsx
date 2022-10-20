@@ -9,6 +9,9 @@ function PaymentMethod() {
   let log = useStates("login");
   let u = useStates("user");
   let s = useStates("booking");
+  const [paymentDone, setPaymentDone] = useState(false);
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(false);
   //   const [payment, setPayment] = useState();
 
   // function paymentPopup() {
@@ -40,7 +43,6 @@ function PaymentMethod() {
   }; //move to "Fortsätt knapp"
   const handlePaymentMethod = (e) => {
     const id = e.target.id;
-    console.log(value);
     if (id == "radio-swish") {
       setValue("swish");
     }
@@ -48,6 +50,7 @@ function PaymentMethod() {
       setValue("kort");
     }
   };
+
   function paymentPopup() {
     if (value == "swish") {
       setSwish(true);
@@ -56,6 +59,31 @@ function PaymentMethod() {
     } else {
       alert("välj betalsätt");
     }
+  }
+
+
+
+  async function paymentCheck(event) {
+    event.preventDefault();
+    if (paymentDone) {
+      handleMail(e.mail)
+      updateDatabase()
+    }
+  }
+
+  async function handleMail(e) {
+    e.preventDefault;
+    await fetch("/api/mailer", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        date: new Date(s.ticket.date).toLocaleDateString("sv-SE"),
+        chosenJourney: s.ticket.chosenJourney,
+        totalPassengers: s.ticket.people.length,
+        bookingsNumber: s.ticket.bookingNumber
+      })
+    });
   }
 
   return (
@@ -102,20 +130,27 @@ function PaymentMethod() {
             </Row>
             <Row>
               <Button
+                type="submit"
                 className="custom-button paymentButton"
-                type="button"
                 onClick={() => paymentPopup()}
               >
-                Fortsätt
+                Betala
               </Button>
             </Row>
           </Col>
-          <h1>{}</h1>
+          <h1>{ }</h1>
         </Form>
+        <Button
+          type="submit"
+          className="custom-button paymentButton"
+          onClick={(event) => { paymentCheck(event) }}
+        >
+          Fortsätt
+        </Button>
       </Container>
 
-      <Modal show={swish} onHide={handleCloseSwish} className="modal-xl">
-        <Form>
+      <Modal show={swish} onHide={() => { setSwish(false) }} className="modal-xl">
+        <Form onSubmit={(event) => { paymentCheck(event) }}>
           <Modal.Header closeButton>
             <Modal.Title>Swish</Modal.Title>
           </Modal.Header>
@@ -124,6 +159,7 @@ function PaymentMethod() {
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
+                  onChange={event => setEmail(event.target.value)}
                   type="email"
                   placeholder="Skriv ditt email"
                   required
@@ -134,6 +170,7 @@ function PaymentMethod() {
                 <Form.Label>Telefon nummer</Form.Label>
                 <Form.Text></Form.Text>
                 <Form.Control
+                  onChange={event => setPhoneNumber(event.target.value)}
                   required
                   type="tel"
                   pattern="[+]{1}[4]{1}[6]{1}[7]{1}[0-9]{8}"
@@ -156,7 +193,7 @@ function PaymentMethod() {
 
       <Modal
         show={card}
-        onHide={handleCloseCard}
+        onHide={() => { setCard(false) }}
         className="modal-xl paymentModal"
       >
         <Container>
