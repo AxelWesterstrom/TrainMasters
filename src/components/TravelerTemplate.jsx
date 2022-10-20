@@ -17,36 +17,48 @@ function TravelerTemplate({ personId }) {
   return (
     <>
       <Container>
-        <Col className="person">
-          <p className="custom-label">
-            Resenär {personId + 1}: {s.ticket.people[personId].type}
-          </p>
-        </Col>
-        <Form className="travelerForm">
-          <Row className="">
-            <Container>
-              <Col className="">
-                <label className="custom-text nameLabel">Förnamn</label>
-              </Col>
-              <Col className="text-center col-xs-12 col-md-5 col-md-3 col-xl-3">
-                <input
-                  id={personId}
-                  className="nameInput firstNameInput"
-                  type="text"
-                  required
-                  onChange={(event) => { handleFormInputFirstName(event) }}
-                />
-              </Col>
-
-              <Col className="">
-                <label className="custom-text nameLabel">Efternamn</label>
-              </Col>
-              <Col className="text-center col-xs-12 col-md-5 col-md-3 col-xl-3">
-                <input id={personId} className="nameInput" type="text" required onChange={(event) => { handleFormInputLastName(event) }} />
-              </Col>
-            </Container>
+        <Container>
+          <Row>
+            <p className="custom-text">
+              Resenär {personId + 1}: {s.ticket.people[personId].type}
+            </p>
           </Row>
-        </Form>
+          <div>
+            <Form>
+              <Row>
+                <Col className="col col-lg-6 col-12">
+                  <Form.Label className="custom-text nameLabel me-2">
+                    Förnamn
+                  </Form.Label>
+                  <Form.Control
+                    id={personId}
+                    className="nameInput"
+                    type="text"
+                    required
+                    onChange={(event) => {
+                      handleFormInputFirstName(event);
+                    }}
+                  />
+                </Col>
+
+                <Col className="col col-lg-6 col-12">
+                  <Form.Label className="custom-text nameLabel me-2">
+                    Efternamn
+                  </Form.Label>
+                  <Form.Control
+                    id={personId}
+                    className="nameInput"
+                    type="text"
+                    required
+                    onChange={(event) => {
+                      handleFormInputLastName(event);
+                    }}
+                  />
+                </Col>
+              </Row>
+            </Form>
+          </div>
+        </Container>
       </Container>
     </>
   );

@@ -24,7 +24,7 @@ function Traveler() {
   return (
     <>
       <Container className="travelerContainer">
-        <Row>
+        <Row className="ms-1">
           <Col className="travelers">
             <p className="custom-label">Resenärer</p>
           </Col>

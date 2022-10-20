@@ -77,7 +77,7 @@ function PaymentMethod() {
   return (
     <>
       <Container className="travelerContainer">
-        <Row>
+        <Row className="ms-2">
           <Col className="travelers">
             <p className="custom-label">Välj betalsätt</p>
           </Col>
@@ -87,9 +87,9 @@ function PaymentMethod() {
             <Row>
               <Row className="d-flex p-2">
                 <Col>
-                  <input
+                  <Form.Check
                     type="radio"
-                    className="custom-radio"
+                    className="custom-label"
                     name="paymentChoice"
                     value="swish"
                     id="radio-swish"
@@ -97,14 +97,14 @@ function PaymentMethod() {
                   />
                 </Col>
                 <Col>
-                  <label>Swish</label>
+                  <label className="custom-label">Swish</label>
                 </Col>
               </Row>
               <Row className="d-flex p-2">
                 <Col>
-                  <input
+                  <Form.Check
                     type="radio"
-                    className="custom-radio"
+                    className="custom-label"
                     name="paymentChoice"
                     value="kort"
                     id="radio-kort"
@@ -112,7 +112,7 @@ function PaymentMethod() {
                   />
                 </Col>
                 <Col>
-                  <label>Kort</label>
+                  <label className="custom-label">Kort</label>
                 </Col>
               </Row>
             </Row>
@@ -126,7 +126,7 @@ function PaymentMethod() {
               </Button>
             </Row>
           </Col>
-          <h1>{ }</h1>
+          <h1>{}</h1>
         </Form>
         {paymentDone && (
           <Button
@@ -159,7 +159,6 @@ function PaymentMethod() {
                 <Form.Control
                   onChange={(event) => setEmail(event.target.value)}
                   type="email"
-
                   required
                 />
               </Form.Group>
@@ -172,7 +171,6 @@ function PaymentMethod() {
                   required
                   type="tel"
                   pattern="[+]{1}[4]{1}[6]{1}[7]{1}[0-9]{8}"
-
                 />
               </Form.Group>
             </Container>
@@ -224,10 +222,9 @@ function PaymentMethod() {
                     pattern="[0-9\s]{13,19}"
                     autocomplete="cc-number"
                     maxlength="19"
-
                   ></Form.Control>
                 </Form.Group>
-                <Form.Group   >
+                <Form.Group>
                   <Form.Label>CVC/CVV</Form.Label>
                   <Form.Control
                     id="cvv"
@@ -235,7 +232,6 @@ function PaymentMethod() {
                     inputmode="numeric"
                     pattern="[0-9]{3}"
                     maxlength="3"
-
                   ></Form.Control>
                 </Form.Group>
               </Form>
@@ -251,7 +247,7 @@ function PaymentMethod() {
             </Button>
           </Modal.Footer>
         </Container>
-      </Modal >
+      </Modal>
     </>
   );
 }
