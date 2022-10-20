@@ -15,26 +15,7 @@ function PaymentMethod() {
   const [phoneNumber, setPhoneNumber] = useState(false);
   const navigate = useNavigate();
 
-  //   const [payment, setPayment] = useState();
 
-  // function paymentPopup() {
-
-  // if ({ payment } == "swish") {
-  //   console.log("im SWISH WOOO")
-  //   console.log({ payment })
-  // }
-  // else if ({ payment } == "kort") {
-  //   console.log("im KORT WOOO")
-  //   console.log({ payment })
-  // }
-  // else {
-
-  //   return (
-  //     alert("Välj betalsätt!  " + {payment})
-
-  //   );
-  // }
-  // }
   const [value, setValue] = useState("");
   const [swish, setSwish] = useState(false);
   const [card, setCard] = useState(false);
@@ -73,6 +54,8 @@ function PaymentMethod() {
       setPaymentDone(true);
       updateDatabase(log, u, s);
       handleMail();
+      navigate("/mina-biljetter");
+      //Clear global states
     }
   }
 
@@ -88,7 +71,7 @@ function PaymentMethod() {
         bookingsNumber: s.ticket.bookingNumber,
       }),
     });
-    navigate("/");
+
   }
 
   return (
@@ -143,7 +126,7 @@ function PaymentMethod() {
               </Button>
             </Row>
           </Col>
-          <h1>{}</h1>
+          <h1>{ }</h1>
         </Form>
         {paymentDone && (
           <Button
@@ -172,24 +155,24 @@ function PaymentMethod() {
           <Modal.Body>
             <Container>
               <Form.Group className="mb-3" controlId="email">
-                <Form.Label>Email address</Form.Label>
+                <Form.Label>E-post</Form.Label>
                 <Form.Control
                   onChange={(event) => setEmail(event.target.value)}
                   type="email"
-                  placeholder="Skriv ditt email"
+
                   required
                 />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="phone-Number">
-                <Form.Label>Telefon nummer</Form.Label>
+                <Form.Label>Telefonnummer</Form.Label>
                 <Form.Text></Form.Text>
                 <Form.Control
                   onChange={(event) => setPhoneNumber(event.target.value)}
                   required
                   type="tel"
                   pattern="[+]{1}[4]{1}[6]{1}[7]{1}[0-9]{8}"
-                  placeholder="+467xxxxxxxx"
+
                 />
               </Form.Group>
             </Container>
@@ -221,19 +204,19 @@ function PaymentMethod() {
             <Container>
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" placeholder="Email" />
+                  <Form.Label>E-post</Form.Label>
+                  <Form.Control type="email" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="firstName">
                   <Form.Label>Förnamn</Form.Label>
-                  <Form.Control type="text" placeholder="Förnamn" />
+                  <Form.Control type="text" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="lastName">
                   <Form.Label>Efternamn</Form.Label>
-                  <Form.Control type="text" placeholder="Efternamn" />
+                  <Form.Control type="text" />
                 </Form.Group>
-                <Form.Group>
-                  <Form.Label>Kort nummer:</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label>Kortnummer:</Form.Label>
                   <Form.Control
                     id="kort"
                     type="tel"
@@ -241,18 +224,18 @@ function PaymentMethod() {
                     pattern="[0-9\s]{13,19}"
                     autocomplete="cc-number"
                     maxlength="19"
-                    placeholder="xxxx xxxx xxxx xxxx"
+
                   ></Form.Control>
                 </Form.Group>
-                <Form.Group>
-                  <Form.Label>CVV</Form.Label>
+                <Form.Group   >
+                  <Form.Label>CVC/CVV</Form.Label>
                   <Form.Control
                     id="cvv"
                     type="tel"
                     inputmode="numeric"
                     pattern="[0-9]{3}"
                     maxlength="3"
-                    placeHolder="xxx"
+
                   ></Form.Control>
                 </Form.Group>
               </Form>
@@ -268,7 +251,7 @@ function PaymentMethod() {
             </Button>
           </Modal.Footer>
         </Container>
-      </Modal>
+      </Modal >
     </>
   );
 }

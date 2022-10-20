@@ -22,13 +22,9 @@ function Payment() {
   // }
   return (
     <>
+      <Header />
       <Container>
-        <Row className="header">
-          <Header />
-        </Row>
         <Traveler></Traveler>
-        
-        
         <PaymentMethod></PaymentMethod>
       </Container>
     </>
