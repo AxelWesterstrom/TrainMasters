@@ -16,7 +16,7 @@ function Traveler() {
 
   function typeOutTravelers() {
     for (let i = 0; i < count; i++) {
-      list.push(<TravelerTemplate personId={i}/>);
+      list.push(<TravelerTemplate personId={i} />);
     }
     return <div>{list}</div>;
   }
