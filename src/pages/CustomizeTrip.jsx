@@ -130,9 +130,8 @@ function CustomizeTrip() {
           />
         </div>
         <Container>
-
           <Container className="p-2">
-            <Container className="train-info-container p-5">
+            <Container className="train-info-container p-4">
               <Container className="m-3">
                 <p className="custom-label">
                   {s.ticket.chosenJourney.stationNameA} -{" "}
@@ -161,7 +160,7 @@ function CustomizeTrip() {
 
           <CancelableSelector />
           <Container className="p-2">
-            <Container className="seat-selector-container p-5">
+            <Container className="seat-selector-container p-4">
               {selectedSeats.length === 0 && (
                 <p
                   className="custom-label m-4"
@@ -205,19 +204,16 @@ function CustomizeTrip() {
             </Container>
           </Container>
           <Container className="p-2">
-            <Container className="train-info-container p-5">
-              <Container className="m-3">
-                <Row>
-                  <Col className="col col-8">
+            <Container className="train-info-container p-4">
+              <Container className="m-1">
+                <Row className="d-flex">
+                  <Col className="col justify-content-center">
                     <p className="custom-text">
                       Vi erbjuder alltid Löfbergs Lila kaffe
                     </p>
-                    <img
-                      src="../public/images/coffee-icon.svg"
-                      style={{ width: "40px" }}
-                    />
                   </Col>
-                  <Col>
+
+                  <Col className="col d-flex justify-content-center">
                     <img
                       src="../public/images/lofbergs.png"
                       style={{ width: "180px", height: "80px" }}

@@ -16,10 +16,10 @@ import RegisterForm from "./components/RegisterForm";
 
 const travelerTypes = [
   "Vuxen",
-  "Ungdom(16-25 år)",
-  "Barn(0-15 år)",
+  "Ungdom (16-25 år)",
+  "Barn (0-15 år)",
   "Student",
-  "Pensionär"
+  "Pensionär",
 ];
 
 function App() {
