@@ -148,7 +148,7 @@ function PaymentMethod() {
         {paymentDone && (
           <Button
             type="submit"
-            className="custom-button paymentButton"
+            className="custom-button paymentButton mt-2"
             onClick={(event) => {
               paymentCheck(event);
             }}
@@ -200,7 +200,7 @@ function PaymentMethod() {
               type="submit"
               onClick={paymentCheck}
             >
-              Förtsätt
+              Fortsätt
             </Button>
           </Modal.Footer>
         </Form>
@@ -264,7 +264,7 @@ function PaymentMethod() {
               type="submit"
               onClick={handleCloseCard}
             >
-              Förtsätt
+              Fortsätt
             </Button>
           </Modal.Footer>
         </Container>
