@@ -22,7 +22,7 @@ function Payment() {
   // }
   return (
     <>
-      <container>
+      <Container>
         <Row className="header">
           <Header />
         </Row>
@@ -30,7 +30,7 @@ function Payment() {
         
         
         <PaymentMethod></PaymentMethod>
-      </container>
+      </Container>
     </>
   );
 }

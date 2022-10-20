@@ -81,7 +81,7 @@ function PaymentMethod() {
                   />
                 </Col>
                 <Col>
-                  <label for="radio-swish">Swish</label>
+                  <label>Swish</label>
                 </Col>
               </Row>
               <Row className="d-flex p-2">
@@ -96,7 +96,7 @@ function PaymentMethod() {
                   />
                 </Col>
                 <Col>
-                  <label for="radio-kort">Kort</label>
+                  <label>Kort</label>
                 </Col>
               </Row>
             </Row>
@@ -165,44 +165,42 @@ function PaymentMethod() {
           </Modal.Header>
           <Modal.Body>
             <Container>
-              <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" placeholder="Email" required />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="firstName">
-                  <Form.Label>Förnamn</Form.Label>
-                  <Form.Control type="text" placeholder="Förnamn" required />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="lastName">
-                  <Form.Label>Efternamn</Form.Label>
-                  <Form.Control type="text" placeholder="Efternamn" required />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label for="kort">Kort nummer:</Form.Label>
-                  <Form.Control
-                    required
-                    id="kort"
-                    type="tel"
-                    inputmode="numeric"
-                    pattern="[0-9\s]{13,19}"
-                    autocomplete="cc-number"
-                    maxlength="19"
-                    placeholder="xxxx xxxx xxxx xxxx"
-                  ></Form.Control>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label for="cvv">CVV</Form.Label>
-                  <Form.Control
-                    required
-                    id="cvv"
-                    type="tel"
-                    inputmode="numeric"
-                    pattern="[0-9]{3}"
-                    maxlength="3"
-                    placeHolder="xxx"
-                  ></Form.Control>
-                </Form.Group>
+                <Form>
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="email" placeholder="Email" />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="firstName">
+                    <Form.Label>Förnamn</Form.Label>
+                    <Form.Control type="text" placeholder="Förnamn" />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="lastName">
+                    <Form.Label>Efternamn</Form.Label>
+                    <Form.Control type="text" placeholder="Efternamn" />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Kort nummer:</Form.Label>
+                    <Form.Control
+                      id="kort"
+                      type="tel"
+                      inputmode="numeric"
+                      pattern="[0-9\s]{13,19}"
+                      autocomplete="cc-number"
+                      maxlength="19"
+                      placeholder="xxxx xxxx xxxx xxxx"
+                    ></Form.Control>
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>CVV</Form.Label>
+                    <Form.Control
+                      id="cvv"
+                      type="tel"
+                      inputmode="numeric"
+                      pattern="[0-9]{3}"
+                      maxlength="3"
+                      placeHolder="xxx"
+                    ></Form.Control>
+                  </Form.Group>
               </Form>
             </Container>
           </Modal.Body>
