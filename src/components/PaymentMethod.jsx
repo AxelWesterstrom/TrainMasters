@@ -4,6 +4,7 @@ import { Row, Col, Container, Form, Button, Modal } from "react-bootstrap";
 import { useStates } from "../assets/helpers/states";
 import { useState } from "react";
 import { updateDatabase } from "./SendToDatabase.js";
+import { useNavigate } from "react-router-dom";
 
 function PaymentMethod() {
   let log = useStates("login");
@@ -12,6 +13,8 @@ function PaymentMethod() {
   const [paymentDone, setPaymentDone] = useState(false);
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(false);
+  const navigate = useNavigate();
+
   //   const [payment, setPayment] = useState();
 
   // function paymentPopup() {
@@ -35,12 +38,14 @@ function PaymentMethod() {
   const [value, setValue] = useState("");
   const [swish, setSwish] = useState(false);
   const [card, setCard] = useState(false);
-  const handleCloseSwish = () => {
-    setSwish(false), updateDatabase(log, u, s);
-  };
+  // const handleCloseSwish = () => {
+  //   setSwish(false), updateDatabase(log, u, s);
+  // };
   const handleCloseCard = () => {
     setCard(false), updateDatabase(log, u, s);
-  }; //move to "Fortsätt knapp"
+  };
+
+  //move to "Fortsätt knapp"
   const handlePaymentMethod = (e) => {
     const id = e.target.id;
     if (id == "radio-swish") {
@@ -61,18 +66,17 @@ function PaymentMethod() {
     }
   }
 
-
-
   async function paymentCheck(event) {
+    setSwish(false);
     event.preventDefault();
-    if (paymentDone) {
-      handleMail(e.mail)
-      updateDatabase()
+    if (phoneNumber !== "" && email !== "") {
+      setPaymentDone(true);
+      updateDatabase(log, u, s);
+      handleMail();
     }
   }
 
-  async function handleMail(e) {
-    e.preventDefault;
+  async function handleMail() {
     await fetch("/api/mailer", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -81,9 +85,10 @@ function PaymentMethod() {
         date: new Date(s.ticket.date).toLocaleDateString("sv-SE"),
         chosenJourney: s.ticket.chosenJourney,
         totalPassengers: s.ticket.people.length,
-        bookingsNumber: s.ticket.bookingNumber
-      })
+        bookingsNumber: s.ticket.bookingNumber,
+      }),
     });
+    navigate("/");
   }
 
   return (
@@ -130,27 +135,37 @@ function PaymentMethod() {
             </Row>
             <Row>
               <Button
-                type="submit"
+                type="button"
                 className="custom-button paymentButton"
-                onClick={() => paymentPopup()}
+                onClick={(event) => paymentPopup(event)}
               >
                 Betala
               </Button>
             </Row>
           </Col>
-          <h1>{ }</h1>
+          <h1>{}</h1>
         </Form>
-        <Button
-          type="submit"
-          className="custom-button paymentButton"
-          onClick={(event) => { paymentCheck(event) }}
-        >
-          Fortsätt
-        </Button>
+        {paymentDone && (
+          <Button
+            type="submit"
+            className="custom-button paymentButton"
+            onClick={(event) => {
+              paymentCheck(event);
+            }}
+          >
+            Fortsätt
+          </Button>
+        )}
       </Container>
 
-      <Modal show={swish} onHide={() => { setSwish(false) }} className="modal-xl">
-        <Form onSubmit={(event) => { paymentCheck(event) }}>
+      <Modal
+        show={swish}
+        onHide={() => {
+          setSwish(false);
+        }}
+        className="modal-xl"
+      >
+        <Form>
           <Modal.Header closeButton>
             <Modal.Title>Swish</Modal.Title>
           </Modal.Header>
@@ -159,7 +174,7 @@ function PaymentMethod() {
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
-                  onChange={event => setEmail(event.target.value)}
+                  onChange={(event) => setEmail(event.target.value)}
                   type="email"
                   placeholder="Skriv ditt email"
                   required
@@ -170,7 +185,7 @@ function PaymentMethod() {
                 <Form.Label>Telefon nummer</Form.Label>
                 <Form.Text></Form.Text>
                 <Form.Control
-                  onChange={event => setPhoneNumber(event.target.value)}
+                  onChange={(event) => setPhoneNumber(event.target.value)}
                   required
                   type="tel"
                   pattern="[+]{1}[4]{1}[6]{1}[7]{1}[0-9]{8}"
@@ -183,9 +198,9 @@ function PaymentMethod() {
             <Button
               className="custom-button"
               type="submit"
-              onClick={handleCloseSwish}
+              onClick={paymentCheck}
             >
-              Betala
+              Förtsätt
             </Button>
           </Modal.Footer>
         </Form>
@@ -193,7 +208,9 @@ function PaymentMethod() {
 
       <Modal
         show={card}
-        onHide={() => { setCard(false) }}
+        onHide={() => {
+          setCard(false);
+        }}
         className="modal-xl paymentModal"
       >
         <Container>
@@ -202,42 +219,42 @@ function PaymentMethod() {
           </Modal.Header>
           <Modal.Body>
             <Container>
-                <Form>
-                  <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="Email" />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="firstName">
-                    <Form.Label>Förnamn</Form.Label>
-                    <Form.Control type="text" placeholder="Förnamn" />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="lastName">
-                    <Form.Label>Efternamn</Form.Label>
-                    <Form.Control type="text" placeholder="Efternamn" />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Kort nummer:</Form.Label>
-                    <Form.Control
-                      id="kort"
-                      type="tel"
-                      inputmode="numeric"
-                      pattern="[0-9\s]{13,19}"
-                      autocomplete="cc-number"
-                      maxlength="19"
-                      placeholder="xxxx xxxx xxxx xxxx"
-                    ></Form.Control>
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>CVV</Form.Label>
-                    <Form.Control
-                      id="cvv"
-                      type="tel"
-                      inputmode="numeric"
-                      pattern="[0-9]{3}"
-                      maxlength="3"
-                      placeHolder="xxx"
-                    ></Form.Control>
-                  </Form.Group>
+              <Form>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control type="email" placeholder="Email" />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="firstName">
+                  <Form.Label>Förnamn</Form.Label>
+                  <Form.Control type="text" placeholder="Förnamn" />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="lastName">
+                  <Form.Label>Efternamn</Form.Label>
+                  <Form.Control type="text" placeholder="Efternamn" />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Kort nummer:</Form.Label>
+                  <Form.Control
+                    id="kort"
+                    type="tel"
+                    inputmode="numeric"
+                    pattern="[0-9\s]{13,19}"
+                    autocomplete="cc-number"
+                    maxlength="19"
+                    placeholder="xxxx xxxx xxxx xxxx"
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>CVV</Form.Label>
+                  <Form.Control
+                    id="cvv"
+                    type="tel"
+                    inputmode="numeric"
+                    pattern="[0-9]{3}"
+                    maxlength="3"
+                    placeHolder="xxx"
+                  ></Form.Control>
+                </Form.Group>
               </Form>
             </Container>
           </Modal.Body>
@@ -247,7 +264,7 @@ function PaymentMethod() {
               type="submit"
               onClick={handleCloseCard}
             >
-              Betala
+              Förtsätt
             </Button>
           </Modal.Footer>
         </Container>
