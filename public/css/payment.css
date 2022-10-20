@@ -11,6 +11,10 @@
   margin-bottom: 2%x;
 }
 
+.travelerForm{
+  margin-bottom: 2%;
+}
+
 .person{
   margin-left: 12%;
 
@@ -48,3 +52,4 @@ input[type="radio"]:checked{
 .paymentButton{
   float: right;
 }
+
