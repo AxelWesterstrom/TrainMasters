@@ -1,5 +1,6 @@
 const mailCredentials = require("./secrets/mailCredentials");
 const nodemailer = require("nodemailer");
+const QrCode = require("qrcode");
 const { dirname } = require("path");
 
 module.exports = class Mailer {
@@ -7,8 +8,11 @@ module.exports = class Mailer {
     this.transporter = nodemailer.createTransport(mailCredentials);
   }
 
-  mail(body) {
+  async mail(body) {
     let { email, date, chosenJourney, totalPassengers, bookingsNumber } = body;
+    let stJson = JSON.stringify(bookingsNumber);
+    let img = await QrCode.toDataURL(stJson);
+
     let {
       stationNameA,
       stationNameB,
@@ -35,6 +39,7 @@ module.exports = class Mailer {
       to: email,
       subject: "Bokningsbekräftelse",
       text: "Hi, I'm emailing from node.js AGAIN!",
+      attachDataUrls: true,
       html:
         '<div style="border:solid 2px;border-radius:5px;"><div><header style="background-color:#4C2C50;text-align:center"><a href="http://localhost:3000"><img src="cid:logo"></a><header/></div><div style="padding:20px;text-align:center">' +
         "<h1> Din Bokning</h1><h2> För resa från " +
@@ -53,14 +58,11 @@ module.exports = class Mailer {
         bookingsNumber +
         " </h2><h2>Antal resenärer: " +
         totalPassengers +
-        '</h2><img/ src="cid:balloons"></div></div>',
+        '</h2><img src="' +
+        img +
+        '"></div></div>',
 
       attachments: [
-        {
-          filename: "balloons.jpg",
-          path: __dirname + "/imagesForEmail/balloons.jpg",
-          cid: "balloons",
-        },
         {
           filename: "logo.png",
           path: __dirname + "/imagesForEmail/logo.png",
