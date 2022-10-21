@@ -12,7 +12,6 @@ async function routeSeed() {
   let trainset = 1; // Borde inte vara hårdkodad
   let counter = 0;
   for (let routeName of Object.keys(data)) {
-    console.log(routeName, trainset);
     let result = await db.query(
       "INSERT INTO routes(trainSetId, name) VALUES (?,?)",
       [trainset, routeName]

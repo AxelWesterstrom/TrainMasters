@@ -36,6 +36,8 @@ function LoginForm() {
     else {
       const customerInfo = Object.values(customer)
       const correctPassword = customerInfo[0].password
+      const customerId = customerInfo[0].id
+      u.customerId = customerId
       if (correctPassword == l.password) {
         setErrorMessage("Välkommen!");
         setShow(true);

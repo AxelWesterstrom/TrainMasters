@@ -29,6 +29,7 @@ module.exports = class Mailer {
         departureTimeA.slice(2, 6);
     }
     console.log("Using MAIL");
+
     let options = {
       from: "tagmastarna@outlook.com",
       to: email,

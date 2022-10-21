@@ -80,7 +80,7 @@ function ClassSelector({
     <>
       <div>
         <Container className="p-2">
-          <Container className="class-selector-container p-5">
+          <Container className="class-selector-container p-4">
             <Container className="m-3">
               <Form>
                 {["radio"].map((type) => (

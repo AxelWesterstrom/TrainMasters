@@ -16,10 +16,10 @@ import RegisterForm from "./components/RegisterForm";
 
 const travelerTypes = [
   "Vuxen",
-  "Ungdom(16-25 år)",
-  "Barn(0-15 år)",
+  "Ungdom (16-25 år)",
+  "Barn (0-15 år)",
   "Student",
-  "Pensionär"
+  "Pensionär",
 ];
 
 function App() {
@@ -59,6 +59,20 @@ function App() {
     email: "",
     customerId: 0
   });
+
+  let t = useStates("bookingNumber", {
+    date: "",
+    departureStation: "",
+    departureTime: "",
+    arrivalStation: "",
+    arrivalTime: "",
+    carriageNumber: [],
+    seatNumber: [],
+    price: 0,
+    trainNumber: "",
+    bookingNumber: 0,
+    person:[]
+  })
 
 
 
