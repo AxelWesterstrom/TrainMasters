@@ -13,6 +13,7 @@ export async function updateDatabase(log, u, s) {
     let bookingsId = 0;
     let peopleId = [];
     let passengersId = [];
+    console.log(s);
 
     for (let i = 0; i < s.ticket.people.length; i++) {
         let { insertId } = await (
@@ -30,17 +31,17 @@ export async function updateDatabase(log, u, s) {
 
     if (log.login) {
         let { insertId } = await (
-          await fetch(`/api/bookings`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              cancelable: isCancelable,
-              bookingNumber: s.ticket.bookingNumber,
-              customerId: u.customerId,
-              price: s.ticket.totalPrice,
-              qrCode: s.ticket.bookingNumber,
-            }),
-          })
+            await fetch(`/api/bookings`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cancelable: isCancelable,
+                    bookingNumber: s.ticket.bookingNumber,
+                    customerId: u.customerId,
+                    price: s.ticket.totalPrice,
+                    qrCode: s.ticket.bookingNumber,
+                }),
+            })
         ).json();
         bookingsId = insertId;
     } else {
@@ -56,17 +57,17 @@ export async function updateDatabase(log, u, s) {
         ).json();
 
         let { insertId } = await (
-          await fetch(`/api/bookings`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              cancelable: isCancelable,
-              bookingNumber: s.ticket.bookingNumber,
-              customerId: newCustomerId,
-              price: s.ticket.totalPrice,
-              qrCode: s.ticket.bookingNumber,
-            }),
-          })
+            await fetch(`/api/bookings`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cancelable: isCancelable,
+                    bookingNumber: s.ticket.bookingNumber,
+                    customerId: newCustomerId,
+                    price: s.ticket.totalPrice,
+                    qrCode: s.ticket.bookingNumber,
+                }),
+            })
         ).json();
         bookingsId = insertId;
     }

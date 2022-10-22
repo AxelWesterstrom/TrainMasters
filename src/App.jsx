@@ -71,11 +71,6 @@ function App() {
     person: []
   })
 
-  function clearS() {
-    let s = useStates("booking")
-      ;
-
-  }
   // useEffect(() => {
   //   (async () => {
   //     s.stations = await (await fetch("/api/stations")).json()
