@@ -3,7 +3,7 @@ export async function updateDatabase(log, u, s) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
     s.ticket.bookingNumber = randomIntBetween(1, 10000000);
-
+    u.bookingNumber = s.ticket.bookingNumber;
     let isCancelable;
     if (s.ticket.type === 'cancelable') {
         isCancelable = 1;
@@ -30,15 +30,16 @@ export async function updateDatabase(log, u, s) {
 
     if (log.login) {
         let { insertId } = await (
-            await fetch(`/api/bookings`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    cancelable: isCancelable,
-                    bookingNumber: s.ticket.bookingNumber,
-                    customerId: u.customerId,
-                }),
-            })
+          await fetch(`/api/bookings`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              cancelable: isCancelable,
+              bookingNumber: s.ticket.bookingNumber,
+              customerId: u.customerId,
+              price: s.ticket.totalPrice,
+            }),
+          })
         ).json();
         bookingsId = insertId;
     } else {
@@ -54,16 +55,16 @@ export async function updateDatabase(log, u, s) {
         ).json();
 
         let { insertId } = await (
-            await fetch(`/api/bookings`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    cancelable: isCancelable,
-                    bookingNumber: s.ticket.bookingNumber,
-                    customerId: newCustomerId,
-                    price: s.ticket.totalPrice,
-                }),
-            })
+          await fetch(`/api/bookings`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              cancelable: isCancelable,
+              bookingNumber: s.ticket.bookingNumber,
+              customerId: newCustomerId,
+              price: s.ticket.totalPrice,
+            }),
+          })
         ).json();
         bookingsId = insertId;
     }
@@ -108,5 +109,58 @@ export async function updateDatabase(log, u, s) {
                 }),
             })
         ).json();
+    }
+}
+export async function getTicket(log, s, t, u) {
+    console.log(u.bookingNumber);
+
+    if (t.departureStation === '') {
+        getBookingInfoFromNumber();
+    }
+    async function getBookingInfoFromNumber() {
+        console.log('HERE');
+        let bookingData;
+        if (log.login) {
+            bookingData = await (
+                await fetch(
+                    `/api/bookingsWithJourneys?bookingNumber=${u.bookingNumber}`
+                )
+            ).json();
+        } else {
+            bookingData = await (
+                await fetch(
+                    `/api/bookingsWithJourneys?bookingNumber=${u.bookingNumber}`
+                )
+            ).json();
+        }
+        t.date = bookingData[0].date;
+        t.departureStation = bookingData[0].departureStationName;
+        t.departureTime = bookingData[0].departureStationDepartureTime;
+        t.arrivalStation = bookingData[0].arrivalStationName;
+        t.arrivalTime = bookingData[0].arrivalStationArrivalTime;
+        t.price = bookingData[0].price;
+        t.trainNumber = bookingData[0].trainNumber;
+        t.bookingNumber = bookingData[0].bookingNumber;
+        let bookingId = bookingData[0].bookingId;
+        for (let i = 0; i < bookingData.length; i++) {
+            t.carriageNumber.push(bookingData[i].carriageNumber);
+            t.seatNumber.push(bookingData[i].seatNumber);
+        }
+
+        let ticketData = await (
+            await fetch(`/api/ticketWithPassenger?bookingId=${bookingId}`)
+        ).json();
+        for (let i = 0; i < ticketData.length; i++) {
+            t.person.push({
+                firstName: ticketData[i].firstName,
+                lastName: ticketData[i].lastName,
+                type: ticketData[i].type,
+            });
+        }
+        showTickets = true;
+        // t.person.length((x) => {
+        //   count += x.count;
+        // });
+        // console.log(count);
     }
 }

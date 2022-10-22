@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 import { useStates } from "../assets/helpers/states";
 
 function AutoSuggest({ stations }) {
@@ -9,8 +10,49 @@ function AutoSuggest({ stations }) {
   const [suggestDepature, setSuggestDepature] = useState([]);
   const [suggestArrival, setSuggestArrival] = useState([]);
   let allStations = [];
+  const { state } = useLocation();
 
   let s = useStates("booking");
+
+  const travelerTypes = [
+    "Vuxen",
+    "Ungdom (16-25 år)",
+    "Barn (0-15 år)",
+    "Student",
+    "Pensionär",
+  ];
+
+  useEffect(() => {
+    if (state === null) {
+      let newDate = new Date();
+      s.ticket.departure = "";
+      s.ticket.arrival = "";
+      s.ticket.date = newDate.getTime();
+      s.ticket.passengers = travelerTypes.map((type) => {
+        return { travelerType: type, count: 0 };
+      });
+      s.ticket.chosenJourney = {};
+      s.ticket.carriageClass = 0;
+      s.ticket.seats = [];
+      s.ticket.type = "";
+      s.ticket.secondClassPrice = 0;
+      s.ticket.firstClassPrice = 0;
+      s.ticket.totalPrice = 0;
+      s.ticket.bookingNumber = 0;
+      s.ticket.people = [];
+      s.ticket.email = "";
+    } else {
+      s.ticket.chosenJourney = {};
+      s.ticket.carriageClass = 0;
+      s.ticket.seats = [];
+      s.ticket.type = "";
+      s.ticket.secondClassPrice = 0;
+      s.ticket.firstClassPrice = 0;
+      s.ticket.totalPrice = 0;
+      s.ticket.bookingNumber = 0;
+      s.ticket.email = "";
+    }
+  }, []);
 
   const handleDepature = (e) => {
     let searchValue = e.target.value;
