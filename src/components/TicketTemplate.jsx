@@ -4,9 +4,8 @@ import QRCode from "react-qr-code"
 import { useStates } from "../assets/helpers/states";
 
 function TicketTemplate({ interval }) {
-
-  let s = useStates("booking")
-  let qrCodeValue = "Namn: " + s.ticket.people[interval].firstName + " " + s.ticket.people[interval].lastName + "\n " + s.ticket.people[interval].type + " \n Vagn: " + s.ticket.seats[interval].carriage + " \n Plats: " + s.ticket.seats[interval].seatNumber + "\n Bokningsnummer: " + s.ticket.bookingNumber
+  let t = useStates("bookingNumber")
+  let qrCodeValue = "Namn: " + t.person[interval].firstName + " " + t.person[interval].lastName + "\n " + t.person[interval].type + " \n Vagn: " + t.carriageNumber[interval] + " \n Plats: " + t.seatNumber[interval] + "\n Bokningsnummer: " + t.bookingNumber
 
   return (
     <>
@@ -14,7 +13,7 @@ function TicketTemplate({ interval }) {
         <Container id="ticketBorder">
           <Row>
             <Col id="ticketTitel" >
-              <h1>{s.ticket.departure} - {s.ticket.arrival}</h1>
+              <h1>{t.departureStation} - {t.arrivalStation}</h1>
             </Col>
           </Row>
 
@@ -22,25 +21,25 @@ function TicketTemplate({ interval }) {
             <Row >
               <Col className="col-lg-3 col-sm-6"> <h4>Namn</h4>
                 <p>
-                  {s.ticket.people[interval].firstName} {s.ticket.people[interval].lastName}
+                  {t.person[interval].firstName} {t.person[interval].lastName}
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Datum</h4>
                 <p>
-                  {new Date(s.ticket.date).toLocaleDateString('sv-SE')}
+                  {new Date(t.date).toLocaleDateString('sv-SE')}
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Avgång</h4>
                 <p>
-                  {s.ticket.chosenJourney.arrivalTimeA}
+                  {t.departureTime}
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Ankomst</h4>
                 <p>
-                  {s.ticket.chosenJourney.arrivalTimeB}
+                  {t.arrivalTime}
                 </p>
               </Col>
             </Row>
@@ -49,25 +48,25 @@ function TicketTemplate({ interval }) {
               <Col className="col-lg-3 col-sm-6">
                 <h4>Biljettyp</h4>
                 <p>
-                  {s.ticket.people[interval].type}
+                  {t.person[interval].type}
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Tågnummer</h4>
                 <p>
-                  {s.ticket.chosenJourney.trainNumber}
+                  {t.trainNumber}
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Vagn</h4>
                 <p>
-                  {s.ticket.seats[interval].carriage}
+                  {t.carriageNumber[interval]}
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Plats</h4>
                 <p>
-                  {s.ticket.seats[interval].seatNumber}
+                  {t.seatNumber[interval]}
                 </p>
               </Col>
             </Row>

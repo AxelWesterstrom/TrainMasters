@@ -37,6 +37,11 @@ function Picker() {
     ];
   };
 
+  function goToFormerPage() {
+    
+    navigate("/")
+  }
+
   const onSearchClick = () => {
     const addedTravelers = s.ticket.passengers.filter((t) => t.count > 0);
     if (addedTravelers.length == 0) {
@@ -71,7 +76,7 @@ function Picker() {
           alt="arrowBack"
           src="../images/arrow-left.svg"
           className="mt-2 ms-3 mb-2 back-button"
-          onClick={() => navigate("/")}
+          onClick={() => goToFormerPage()}
         />
       </div>
       <Container className="stations-container">

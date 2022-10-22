@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import { Row, Col, Container, Form, Button, Modal } from "react-bootstrap";
 import { useStates } from "../assets/helpers/states";
 import { useState } from "react";
-import { updateDatabase } from "./SendToDatabase.js";
+import { updateDatabase, getTicket } from "../assets/helpers/SendToDatabase.js";
 import { useNavigate } from "react-router-dom";
 
 function PaymentMethod() {
   let log = useStates("login");
   let u = useStates("user");
   let s = useStates("booking");
+  let t = useStates("bookingNumber")
   const [paymentDone, setPaymentDone] = useState(false);
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(false);
@@ -54,8 +55,8 @@ function PaymentMethod() {
       setPaymentDone(true);
       updateDatabase(log, u, s);
       handleMail();
-      navigate("/mina-biljetter");
-      //Clear global states
+
+      navigate("/biljetter");
     }
   }
 
@@ -126,7 +127,7 @@ function PaymentMethod() {
               </Button>
             </Row>
           </Col>
-          <h1>{}</h1>
+          <h1>{ }</h1>
         </Form>
         {paymentDone && (
           <Button
@@ -220,8 +221,8 @@ function PaymentMethod() {
                     type="tel"
                     inputmode="numeric"
                     pattern="[0-9\s]{13,19}"
-                    autocomplete="cc-number"
-                    maxlength="19"
+                    autoComplete="cc-number"
+                    maxLength="19"
                   ></Form.Control>
                 </Form.Group>
                 <Form.Group>
@@ -231,7 +232,7 @@ function PaymentMethod() {
                     type="tel"
                     inputmode="numeric"
                     pattern="[0-9]{3}"
-                    maxlength="3"
+                    maxLength="3"
                   ></Form.Control>
                 </Form.Group>
               </Form>
