@@ -1,6 +1,7 @@
 const db = require("./DatabaseQuerry");
 db.verbose = true; // set to true to log db queries
 const Mailer = require("./Mailer");
+const QrCode = require("qrcode");
 
 module.exports = class RestApi {
   constructor(expressApp) {
@@ -20,10 +21,10 @@ module.exports = class RestApi {
 
   async tablesAndViews() {
     return (await db.query("SHOW FULL TABLES"))
-      .map(x => Object.values(x))
+      .map((x) => Object.values(x))
       .map(([name, type]) => ({
         name,
-        type: type.includes("VIEW") ? "view" : "table"
+        type: type.includes("VIEW") ? "view" : "table",
       }));
   }
 
@@ -52,7 +53,7 @@ module.exports = class RestApi {
 
   async runQuery(res, sql, params) {
     let error,
-      result = await db.query(sql, params).catch(err => (error = err));
+      result = await db.query(sql, params).catch((err) => (error = err));
     if (error) {
       res.status(400);
       delete error.sql;
@@ -80,12 +81,12 @@ module.exports = class RestApi {
     } else if (isTable && !["get", "post", "put", "delete"].includes(method)) {
       res.status(405);
       res.json({
-        error: `${method}-method not allowed on table ${name}.`
+        error: `${method}-method not allowed on table ${name}.`,
       });
     } else if (isView && method !== "get") {
       res.status(405);
       res.json({
-        error: `${method}-method not allowed on table ${name}.`
+        error: `${method}-method not allowed on table ${name}.`,
       });
     }
     // go ahead
@@ -98,10 +99,10 @@ module.exports = class RestApi {
     id = !isNaN(+id) ? id : null;
     let [urlQueryParams, ors] = this.parseUrlQueryParams(req.url);
     let { sort, limit, offset } = urlQueryParams;
-    ["sort", "limit", "offset"].forEach(x => delete urlQueryParams[x]);
+    ["sort", "limit", "offset"].forEach((x) => delete urlQueryParams[x]);
     sort = !sort
       ? sort
-      : sort.split(",").map(x => (x[0] === "-" ? x.slice(1) + " DESC" : x));
+      : sort.split(",").map((x) => (x[0] === "-" ? x.slice(1) + " DESC" : x));
     id && (urlQueryParams = { id });
     let [where, whereVals] = this.whereFromParams(urlQueryParams, ors);
     let result = await this.runQuery(
@@ -116,7 +117,7 @@ module.exports = class RestApi {
       [
         ...(where ? whereVals : []),
         ...(limit ? [limit] : []),
-        ...(offset ? [offset] : [])
+        ...(offset ? [offset] : []),
       ]
     );
     if (id !== null && result.length === 0) {
@@ -135,6 +136,23 @@ module.exports = class RestApi {
       res.status(200).send({ status: "recieved" });
       this.mailer.mail(body);
       return;
+    }
+    if (tableName === "bookings") {
+      let stJson = JSON.stringify(body.bookingNumber);
+      let urlCode = await QrCode.toDataURL(stJson);
+      body.qrCode = urlCode;
+      console.log("QR code generated!");
+
+      if (id || body.id) {
+        res.status(400);
+        res.json({ error: "Do not use id:s with post requests!" });
+        return;
+      }
+      let sql = `
+      INSERT INTO ${tableName} (${Object.keys(body)})
+      VALUES (${Object.keys(body).map((x) => "?")})
+    `;
+      res.json(await this.runQuery(res, sql, Object.values(body)));
     } else {
       if (id || body.id) {
         res.status(400);
@@ -143,7 +161,7 @@ module.exports = class RestApi {
       }
       let sql = `
       INSERT INTO ${tableName} (${Object.keys(body)})
-      VALUES (${Object.keys(body).map(x => "?")})  
+      VALUES (${Object.keys(body).map((x) => "?")})  
     `;
       res.json(await this.runQuery(res, sql, Object.values(body)));
     }
@@ -154,20 +172,20 @@ module.exports = class RestApi {
     if (!id) {
       res.status(400);
       res.json({
-        error: "You must provide an id in the URL with put requests!"
+        error: "You must provide an id in the URL with put requests!",
       });
       return;
     }
     if (body.id) {
       res.status(400);
       res.json({
-        error: "You should not provide an id in the request body!"
+        error: "You should not provide an id in the request body!",
       });
       return;
     }
     let sql = `
       UPDATE ${tableName} 
-      SET ${Object.keys(body).map(x => x + " = ?")}
+      SET ${Object.keys(body).map((x) => x + " = ?")}
       WHERE id = ?
     `;
     res.json(await this.runQuery(res, sql, [...Object.values(body), id]));
@@ -177,7 +195,7 @@ module.exports = class RestApi {
     if (!id) {
       res.status(400);
       res.json({
-        error: "You must provide an id in the URL with delete requests!"
+        error: "You must provide an id in the URL with delete requests!",
       });
       return;
     }
