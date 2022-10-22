@@ -81,7 +81,10 @@ function PaymentMethod() {
     setCard(false);
     event.preventDefault();
     if (phoneNumber !== "" && email !== "") {
-      
+       setPaymentDone(true);
+      updateDatabase(log, u, s);
+      handleMail();
+      navigate("/mina-biljetter");
     }
   }
 
@@ -257,6 +260,7 @@ function PaymentMethod() {
                     type="tel"
                     inputmode="numeric"
                     pattern="[0-9]{3}"
+                    autocomplete="cc-csc"
                     maxlength="3"
                   ></Form.Control>
                 </Form.Group>
