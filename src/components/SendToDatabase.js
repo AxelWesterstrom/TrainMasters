@@ -30,15 +30,17 @@ export async function updateDatabase(log, u, s) {
 
     if (log.login) {
         let { insertId } = await (
-            await fetch(`/api/bookings`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    cancelable: isCancelable,
-                    bookingNumber: s.ticket.bookingNumber,
-                    customerId: u.customerId,
-                }),
-            })
+          await fetch(`/api/bookings`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              cancelable: isCancelable,
+              bookingNumber: s.ticket.bookingNumber,
+              customerId: u.customerId,
+              price: s.ticket.totalPrice,
+              qrCode: s.ticket.bookingNumber,
+            }),
+          })
         ).json();
         bookingsId = insertId;
     } else {
@@ -54,16 +56,17 @@ export async function updateDatabase(log, u, s) {
         ).json();
 
         let { insertId } = await (
-            await fetch(`/api/bookings`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    cancelable: isCancelable,
-                    bookingNumber: s.ticket.bookingNumber,
-                    customerId: newCustomerId,
-                    price: s.ticket.totalPrice,
-                }),
-            })
+          await fetch(`/api/bookings`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              cancelable: isCancelable,
+              bookingNumber: s.ticket.bookingNumber,
+              customerId: newCustomerId,
+              price: s.ticket.totalPrice,
+              qrCode: s.ticket.bookingNumber,
+            }),
+          })
         ).json();
         bookingsId = insertId;
     }

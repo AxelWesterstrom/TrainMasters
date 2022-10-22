@@ -43,8 +43,8 @@ function PickJourney() {
         date: new Date(s.ticket.date).toLocaleDateString("sv-SE"),
         chosenJourney: s.ticket.chosenJourney,
         totalPassengers: s.ticket.people.length,
-        bookingsNumber: s.ticket.bookingNumber
-      })
+        bookingsNumber: s.ticket.bookingNumber,
+      }),
     });
   }
 
