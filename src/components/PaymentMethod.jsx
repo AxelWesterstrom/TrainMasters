@@ -14,6 +14,8 @@ function PaymentMethod() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(false);
   const navigate = useNavigate();
+  let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  let regexPhone =/[0]{1}[7]{1}[0|2|3|6|9]{1}[0-9]{7}/
 
 
   const [value, setValue] = useState("");
@@ -47,15 +49,39 @@ function PaymentMethod() {
     }
   }
 
-  async function paymentCheck(event) {
+  async function paymentCheckSwish(event) {
     setSwish(false);
     event.preventDefault();
-    if (phoneNumber !== "" && email !== "") {
+    if (phoneNumber.match(regexPhone) && email.match(regexEmail)) {
       setPaymentDone(true);
       updateDatabase(log, u, s);
       handleMail();
       navigate("/mina-biljetter");
       //Clear global states
+    }
+    else if ((!(email.match(regexEmail)))|| email =="") {
+      alert("Fyll i rätt Epost")
+      paymentPopup();
+    }
+    else if ((!(phoneNumber.match(regexPhone)))|| phoneNumber =="") { 
+      alert("Fyll i rätt telefonnummer");
+      paymentPopup();
+    }
+   else if (phoneNumber == "" && email == "") {
+      alert("Fyll i alla fält");
+      paymentPopup();
+    }
+    else {
+      alert("Fyll i epost och telefonnummer")
+      paymentPopup();
+   }
+
+  }
+  async function paymentCheckCard(event) {
+    setCard(false);
+    event.preventDefault();
+    if (phoneNumber !== "" && email !== "") {
+      
     }
   }
 
@@ -126,14 +152,13 @@ function PaymentMethod() {
               </Button>
             </Row>
           </Col>
-          <h1>{}</h1>
         </Form>
         {paymentDone && (
           <Button
             type="submit"
             className="custom-button paymentButton mt-2"
             onClick={(event) => {
-              paymentCheck(event);
+              paymentCheckSwish(event);
             }}
           >
             Fortsätt
@@ -170,7 +195,8 @@ function PaymentMethod() {
                   onChange={(event) => setPhoneNumber(event.target.value)}
                   required
                   type="tel"
-                  pattern="[+]{1}[4]{1}[6]{1}[7]{1}[0-9]{8}"
+                  pattern="[0]{1}[7]{1}[0|2|3|6|9]{1}[0-9]{7}"
+                  maxlength="10"
                 />
               </Form.Group>
             </Container>
@@ -179,7 +205,7 @@ function PaymentMethod() {
             <Button
               className="custom-button"
               type="submit"
-              onClick={paymentCheck}
+              onClick={paymentCheckSwish}
             >
               Fortsätt
             </Button>
