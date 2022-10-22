@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 function Home() {
   const [stations, setStations] = useState([]);
   let u = useStates("user");
+  let s = useStates("booking");
 
   if (u.showMessage && window.timeoutsInPlay && window.timeoutsInPlay !== u.showMessage) {
     // you were fast we are still showing the last message but ok
@@ -42,6 +43,7 @@ function Home() {
     };
     fetchData();
   }, []);
+
 
   return (
     <>
