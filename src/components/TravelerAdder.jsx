@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Button, Col, Container } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import "../../public/css/picker.css";
 
 function TravelerAdder({ travelerType, count, setTraveler }) {
