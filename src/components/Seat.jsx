@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import React from "react";
+import { Row } from "react-bootstrap";
 import style from "../../public/css/seats.css";
 
 function Seat(props) {

@@ -38,7 +38,6 @@ export async function updateDatabase(log, u, s) {
               bookingNumber: s.ticket.bookingNumber,
               customerId: u.customerId,
               price: s.ticket.totalPrice,
-              qrCode: s.ticket.bookingNumber,
             }),
           })
         ).json();
@@ -64,7 +63,6 @@ export async function updateDatabase(log, u, s) {
               bookingNumber: s.ticket.bookingNumber,
               customerId: newCustomerId,
               price: s.ticket.totalPrice,
-              qrCode: s.ticket.bookingNumber,
             }),
           })
         ).json();

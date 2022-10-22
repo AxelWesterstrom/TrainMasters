@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Row, Col, Container, Form } from "react-bootstrap";
 import { useStates } from "../assets/helpers/states";
 import TravelerTemplate from "../components/TravelerTemplate";

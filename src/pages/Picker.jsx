@@ -3,11 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../components/Header";
 import { Row, Container, Col, Button, Modal } from "react-bootstrap";
 import Calendar from "react-calendar";
-import Popup from "../components/Popup";
-import { useLocation } from "react-router-dom";
 import TravelerAdder from "../components/TravelerAdder";
 import { useNavigate } from "react-router-dom";
-import { Stack } from "react-bootstrap";
 import { useStates } from "../assets/helpers/states";
 import "react-calendar/dist/Calendar.css";
 import styles from "../../public/css/commonStyles.css";
@@ -38,8 +35,7 @@ function Picker() {
   };
 
   function goToFormerPage() {
-    
-    navigate("/")
+    navigate("/", { state: "/valj-resa" });
   }
 
   const onSearchClick = () => {
@@ -103,32 +99,7 @@ function Picker() {
             prev2Label={null}
             showFixedNumberOfWeeks={true}
           />
-          {/* {!buttonPopup && (
-              <ReactDatePicker
-                selected={new Date(s.ticket.date)}
-                onChange={(date) => s.ticket.date = date.getTime()}
-                minDate={new Date()}
-              ></ReactDatePicker>
-            )} */}
         </Row>
-        {/* <Row className="justify-content-center">
-          {s.ticket.passengers.filter((t) => t.count > 0).length > 0 ? (
-            <Col className="col-9 traveler-overview">
-              {s.ticket.passengers.map((t, i) => {
-                return t.count > 0 ? (
-                  <Stack key={i} direction="horizontal">
-                    <div>{t.travelerType}</div>
-                    <div className="ms-auto">{`x${t.count}`}</div>
-                  </Stack>
-                ) : (
-                  ""
-                );
-              })}
-            </Col>
-          ) : (
-            ""
-          )}
-        </Row> */}
         <Container className="passenger-container mt-4 mb-2">
           {s.ticket.passengers.map((t, i) => {
             return (

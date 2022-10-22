@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Row, Col, Container, Form, Button, Modal } from "react-bootstrap";
 import { useStates } from "../assets/helpers/states";
 import { useState } from "react";
@@ -10,12 +9,11 @@ function PaymentMethod() {
   let log = useStates("login");
   let u = useStates("user");
   let s = useStates("booking");
-  let t = useStates("bookingNumber")
+  let t = useStates("bookingNumber");
   const [paymentDone, setPaymentDone] = useState(false);
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(false);
   const navigate = useNavigate();
-
 
   const [value, setValue] = useState("");
   const [swish, setSwish] = useState(false);
@@ -72,7 +70,6 @@ function PaymentMethod() {
         bookingsNumber: s.ticket.bookingNumber,
       }),
     });
-
   }
 
   return (
@@ -127,7 +124,7 @@ function PaymentMethod() {
               </Button>
             </Row>
           </Col>
-          <h1>{ }</h1>
+          <h1>{}</h1>
         </Form>
         {paymentDone && (
           <Button
