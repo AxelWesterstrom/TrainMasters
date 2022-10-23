@@ -11,7 +11,7 @@ function PaymentMethod() {
   let s = useStates("booking");
   let t = useStates("bookingNumber");
   const handleClose = () => setShow(false);
-   const [show, setShow] = useState();
+  const [show, setShow] = useState();
   const [errorMessage, setErrorMessage] = useState("");
   const [paymentDone, setPaymentDone] = useState(false);
   const [email, setEmail] = useState("");
@@ -40,19 +40,23 @@ function PaymentMethod() {
       setValue("kort");
     }
   };
-  
+
   function paymentPopup() {
-    if(!(u.firstNameIsFilled.includes(false) || u.lastNameIsFilled.includes(false))){
-    if (value == "swish") {
-      setSwish(true);
-    } else if (value == "kort") {
-      setCard(true);
-    } else {
-      setErrorMessage("Välj betalsätt");
-      setShow(true);
+    if (
+      !(
+        u.firstNameIsFilled.includes(false) ||
+        u.lastNameIsFilled.includes(false)
+      )
+    ) {
+      if (value == "swish") {
+        setSwish(true);
+      } else if (value == "kort") {
+        setCard(true);
+      } else {
+        setErrorMessage("Välj betalsätt");
+        setShow(true);
       }
-    }
-    else {
+    } else {
       setErrorMessage("Fyll i alla fält");
       setShow(true);
     }
@@ -244,19 +248,11 @@ function PaymentMethod() {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="firstName">
                   <Form.Label>Förnamn</Form.Label>
-                  <Form.Control
-                    required
-                    type="text"
-                   
-                  />
+                  <Form.Control required type="text" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="lastName">
                   <Form.Label>Efternamn</Form.Label>
-                  <Form.Control
-                  required
-                    type="text"
-                  
-                  />
+                  <Form.Control required type="text" />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Kortnummer:</Form.Label>
@@ -292,16 +288,16 @@ function PaymentMethod() {
         </Form>
       </Modal>
       <Modal show={show} onHide={handleClose}>
-                  <Modal.Header closeButton></Modal.Header>
-                  <Modal.Body>
-                    <p className='custom-label'>{errorMessage}</p>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button className='custom-button' onClick={handleClose}>
-                      Stäng
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          <p className="custom-label">{errorMessage}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button className="custom-button" onClick={handleClose}>
+            Stäng
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
