@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useEffect } from "react";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import CarriageSelector from "./CarriageSelector";
 import SeatsSelector from "./SeatsSelector";
 import { useStates } from "../assets/helpers/states";

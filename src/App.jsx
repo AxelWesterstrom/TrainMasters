@@ -13,6 +13,7 @@ import Contact from "./pages/Contact";
 import { useStates } from "./assets/helpers/states";
 import { useEffect } from "react";
 import RegisterForm from "./components/RegisterForm";
+import ShowTicket from "./pages/ShowTicket";
 
 const travelerTypes = [
   "Vuxen",
@@ -32,7 +33,7 @@ function App() {
       passengers: travelerTypes.map((type) => {
         return { travelerType: type, count: 0 };
       }),
-      chosenJourney: {}, //
+      chosenJourney: {},
       carriageClass: 0,
       seats: [],
       type: "", // type is for cancelable or notCancelable
@@ -40,11 +41,6 @@ function App() {
       firstClassPrice: 0,
       totalPrice: 0, //final price for all tickets
       bookingNumber: 0,
-      // people: [{ firstName: "Axel", lastName: "West", type: "Vuxen" },
-      // { firstName: "Hlf", lastName: "Sdasgg", type: "Barn(0-15 år)" },
-      // { firstName: "Jldad", lastName: "Kifsifa", type: "Ungdom(16-25 år)" },
-      //   { firstName: "Hskdjas", lastName: "Gsdgsdg", type: "Student" }],
-
       people: [], // {firstName, lastName, type}
       email: "",
     },
@@ -57,7 +53,8 @@ function App() {
 
   let u = useStates("user", {
     email: "",
-    customerId: 0
+    customerId: 0,
+    bookingNumber: 0,
   });
 
   let t = useStates("bookingNumber", {
@@ -71,11 +68,14 @@ function App() {
     price: 0,
     trainNumber: "",
     bookingNumber: 0,
-    person:[]
+    person: []
   })
 
+  function clearS() {
+    let s = useStates("booking")
+      ;
 
-
+  }
   // useEffect(() => {
   //   (async () => {
   //     s.stations = await (await fetch("/api/stations")).json()
@@ -95,6 +95,7 @@ function App() {
           <Route path='/logga-in' element={<Login />} />
           <Route path='/skapa-konto' element={<RegisterForm />} />
           <Route path='/kontakta-oss' element={<Contact />} />
+          <Route path='/biljetter' element={<ShowTicket />} onLeave={() => { console.log("CLEAR!"); }} />
         </Routes>
       </BrowserRouter>
     </div>

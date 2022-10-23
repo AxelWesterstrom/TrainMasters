@@ -1,4 +1,4 @@
-import { Row, Col, Button, Form, Container, Modal } from "react-bootstrap";
+import { Button, Form, Container, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AutoSuggest from "./AutoSuggest.jsx";

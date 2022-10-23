@@ -136,23 +136,6 @@ module.exports = class RestApi {
       res.status(200).send({ status: "recieved" });
       this.mailer.mail(body);
       return;
-    }
-    if (tableName === "bookings") {
-      let stJson = JSON.stringify(body.bookingNumber);
-      let urlCode = await QrCode.toDataURL(stJson);
-      body.qrCode = urlCode;
-      console.log("QR code generated!");
-
-      if (id || body.id) {
-        res.status(400);
-        res.json({ error: "Do not use id:s with post requests!" });
-        return;
-      }
-      let sql = `
-      INSERT INTO ${tableName} (${Object.keys(body)})
-      VALUES (${Object.keys(body).map((x) => "?")})
-    `;
-      res.json(await this.runQuery(res, sql, Object.values(body)));
     } else {
       if (id || body.id) {
         res.status(400);

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Journey from "./Journey";
 import "../../public/css/journey.css";
 import { useStates } from "../assets/helpers/states";

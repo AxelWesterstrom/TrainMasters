@@ -3,17 +3,18 @@ import { Row, Col, Container } from "react-bootstrap";
 import QRCode from "react-qr-code"
 import { useStates } from "../assets/helpers/states";
 
-function TicketTemplate({ interval }) {
-  let t = useStates("bookingNumber")
-  let qrCodeValue = "Namn: " + t.person[interval].firstName + " " + t.person[interval].lastName + "\n " + t.person[interval].type + " \n Vagn: " + t.carriageNumber[interval] + " \n Plats: " + t.seatNumber[interval] + "\n Bokningsnummer: " + t.bookingNumber
-
+function showTicketTemplate({ interval}) {
+  let s = useStates("booking")
+  //let qrCodeValue = "Namn: " + t.person[interval].firstName + " " + t.person[interval].lastName + "\n " + t.person[interval].type + " \n Vagn: " + t.carriageNumber[interval] + " \n Plats: " + t.seatNumber[interval] + "\n Bokningsnummer: " + t.bookingNumber
+  let qrCodeValue = "22144fdsf"
   return (
     <>
       <Container>
         <Container id="ticketBorder">
           <Row>
             <Col id="ticketTitel" >
-              <h1>{t.departureStation} - {t.arrivalStation}</h1>
+              {//<h1>{t.departureStation} - {t.arrivalStation}</h1>
+              }
             </Col>
           </Row>
 
@@ -21,25 +22,29 @@ function TicketTemplate({ interval }) {
             <Row >
               <Col className="col-lg-3 col-sm-6"> <h4>Namn</h4>
                 <p>
-                  {t.person[interval].firstName} {t.person[interval].lastName}
+                  {//{t.person[interval].firstName} {t.person[interval].lastName}
+                  }
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Datum</h4>
                 <p>
-                  {new Date(t.date).toLocaleDateString('sv-SE')}
+                  {//{new Date(t.date).toLocaleDateString('sv-SE')}
+                  }
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Avgång</h4>
                 <p>
-                  {t.departureTime}
+                  {// {t.departureTime}
+                  }
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Ankomst</h4>
                 <p>
-                  {t.arrivalTime}
+                  {// {t.arrivalTime}
+                  }
                 </p>
               </Col>
             </Row>
@@ -48,25 +53,28 @@ function TicketTemplate({ interval }) {
               <Col className="col-lg-3 col-sm-6">
                 <h4>Biljettyp</h4>
                 <p>
-                  {t.person[interval].type}
-                </p>
+                  {// {t.person[interval].type}
+                  }</p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Tågnummer</h4>
                 <p>
-                  {t.trainNumber}
+                  {//{t.trainNumber}
+                  }
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Vagn</h4>
                 <p>
-                  {t.carriageNumber[interval]}
+                  {//{t.carriageNumber[interval]}
+                  }
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Plats</h4>
                 <p>
-                  {t.seatNumber[interval]}
+                  {//{t.seatNumber[interval]}
+                  }
                 </p>
               </Col>
             </Row>
@@ -84,4 +92,4 @@ function TicketTemplate({ interval }) {
   );
 }
 
-export default TicketTemplate;
+export default showTicketTemplate;

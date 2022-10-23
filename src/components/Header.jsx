@@ -1,13 +1,11 @@
 import React from "react";
-import { useState } from "react";
 import { useStates } from "../assets/helpers/states";
 import { Container, Navbar, Nav, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import style from "../../public/css/header.css";
 
-function Header({ }) {
-
+function Header({}) {
   const navigate = useNavigate();
 
   let log = useStates("login");
@@ -16,11 +14,9 @@ function Header({ }) {
   const logOut = () => {
     log.login = false;
     u.email = "";
-    u.showMessage = 'logout';
+    u.showMessage = "logout";
     navigate("/");
   };
-
-
 
   return (
     <>
@@ -42,20 +38,19 @@ function Header({ }) {
                   className="dropdown-menu"
                   style={{
                     left: "-76px",
-                    position: "absolute"
+                    position: "absolute",
                   }}
                 >
                   <Dropdown.Item onClick={() => navigate("/mina-biljetter")}>
                     Mina biljetter
                   </Dropdown.Item>
-                  {!log.login
-                    ? <Dropdown.Item onClick={() => navigate("/logga-in")}>
+                  {!log.login ? (
+                    <Dropdown.Item onClick={() => navigate("/logga-in")}>
                       Logga in
                     </Dropdown.Item>
-                    : <Dropdown.Item onClick={logOut} >
-                      Logga ut
-                    </Dropdown.Item>
-                  }
+                  ) : (
+                    <Dropdown.Item onClick={logOut}>Logga ut</Dropdown.Item>
+                  )}
                 </Dropdown.Menu>
               </Dropdown>
             </Nav>
