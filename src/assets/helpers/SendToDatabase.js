@@ -208,5 +208,5 @@ export async function getAllTickets(t, u) {
         arrayWithAllTickets.push(ticketToAdd);
     }
     t = arrayWithAllTickets;
-    return t;
+    return t; //
 }
