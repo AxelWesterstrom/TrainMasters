@@ -13,7 +13,6 @@ export async function updateDatabase(log, u, s) {
     let bookingsId = 0;
     let peopleId = [];
     let passengersId = [];
-    console.log(s);
 
     for (let i = 0; i < s.ticket.people.length; i++) {
         let { insertId } = await (
@@ -112,25 +111,19 @@ export async function updateDatabase(log, u, s) {
         ).json();
     }
 }
-export async function getTicket(log, t, u, bookNum) {
-    console.log(bookNum);
-    console.log('T!', t);
-    log;
-
+export async function getTicket(log, t, bookNum) {
     await getBookingInfoFromNumber();
 
     async function getBookingInfoFromNumber() {
         let carriageNumberArray = [];
         let seatNumberArray = [];
         let personArray = [];
-        console.log('HERE');
         let bookingData;
 
         bookingData = await (
             await fetch(`/api/bookingsWithJourneys?bookingNumber=${bookNum}`)
         ).json();
 
-        console.log('Bookdata!', bookingData);
         t.date = bookingData[0].date;
         t.departureStation = bookingData[0].departureStationName;
         t.departureTime = bookingData[0].departureStationDepartureTime;
@@ -161,7 +154,7 @@ export async function getTicket(log, t, u, bookNum) {
     }
 }
 
-export async function getAllTickets(log, t, u) {
+export async function getAllTickets(t, u) {
     let bookingData;
     let customerId;
     let allBookingNumbers = [];

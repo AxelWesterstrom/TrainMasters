@@ -9,9 +9,7 @@ import Payment from "./pages/Payment";
 import Ticket from "./pages/Ticket";
 import Login from "./pages/Login";
 import styles from "../public/css/commonStyles.css"; // Common styling for all pages
-import Contact from "./pages/Contact";
 import { useStates } from "./assets/helpers/states";
-import { useEffect } from "react";
 import RegisterForm from "./components/RegisterForm";
 import ShowTicket from "./pages/ShowTicket";
 
@@ -71,14 +69,8 @@ function App() {
     price: 0,
     trainNumber: "",
     bookingNumber: 0,
-    person: []
+    person: [] // {firstName, lastName, type}
   }])
-
-  // useEffect(() => {
-  //   (async () => {
-  //     s.stations = await (await fetch("/api/stations")).json()
-  //   })()
-  // }, [])
 
   return (
     <div className='App'>
@@ -92,8 +84,7 @@ function App() {
           <Route path='/mina-biljetter' element={<Ticket />} />
           <Route path='/logga-in' element={<Login />} />
           <Route path='/skapa-konto' element={<RegisterForm />} />
-          <Route path='/kontakta-oss' element={<Contact />} />
-          <Route path='/biljetter' element={<ShowTicket />} onLeave={() => { console.log("CLEAR!"); }} />
+          <Route path='/biljetter' element={<ShowTicket />} />
         </Routes>
       </BrowserRouter>
     </div>

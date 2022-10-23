@@ -9,8 +9,6 @@ import { useStates } from "../assets/helpers/states";
 import "react-calendar/dist/Calendar.css";
 import styles from "../../public/css/commonStyles.css";
 
-const travelerTypes = ["Vuxen", "Barn/ungdom(0-25 år)", "Student", "Pensionär"];
-
 function Picker() {
   let u = useStates("user")
   let s = useStates("booking");

@@ -5,8 +5,7 @@ import { useState } from "react";
 import styles from "../../public/css/ticket.css";
 import { useStates } from "../assets/helpers/states";
 import { Row, Form, FormLabel, FormControl, Col, Container, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { updateDatabase, getTicket, getAllTickets } from "../assets/helpers/SendToDatabase.js";
+import { getTicket, getAllTickets } from "../assets/helpers/SendToDatabase.js";
 
 function Ticket() {
   const [bookNum, setBookNum] = useState("");
@@ -22,7 +21,6 @@ function Ticket() {
   function typeOutAllTickets(allTickets) {
     for (let ticket of allTickets) {
       for (let i = 0; i < ticket.person.length; i++) {
-        console.log(allTickets.indexOf(ticket) + "-" + i);
         list.push(<TicketTemplate ticket={ticket} interval={i} key={allTickets.indexOf(ticket) + "-" + i} />)
       }
     }
