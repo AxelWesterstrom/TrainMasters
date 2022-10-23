@@ -214,3 +214,4 @@ export async function getAllTickets(t, u) {
   t = arrayWithAllTickets;
   return t;
 }
+
