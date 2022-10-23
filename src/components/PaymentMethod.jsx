@@ -259,7 +259,7 @@ function PaymentMethod() {
                     required
                     id="kort"
                     type="card"
-                    inputmode="numeric"
+                    inputMode="numeric"
                     pattern="[0-9\s]{13,19}"
                     autoComplete="cc-number"
                     maxLength="19"
@@ -271,7 +271,7 @@ function PaymentMethod() {
                     required
                     id="cvv"
                     type="tel"
-                    inputmode="numeric"
+                    inputMode="numeric"
                     pattern="[0-9]{3}"
                     maxLength="3"
                   ></Form.Control>

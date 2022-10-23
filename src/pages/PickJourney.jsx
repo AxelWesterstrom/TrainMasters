@@ -33,20 +33,6 @@ function PickJourney() {
     }
   };
 
-  async function handleMail(e) {
-    e.preventDefault;
-    await fetch("/api/mailer", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: "anne.perstav@hotmail.com",
-        date: new Date(s.ticket.date).toLocaleDateString("sv-SE"),
-        chosenJourney: s.ticket.chosenJourney,
-        totalPassengers: s.ticket.people.length,
-        bookingsNumber: s.ticket.bookingNumber,
-      }),
-    });
-  }
 
   return (
     <div className="pickJourney">
