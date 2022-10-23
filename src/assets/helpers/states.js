@@ -1,5 +1,3 @@
-// Simplify states, contexts and binding to forms
-// ironboy 2022
 
 import { useState, useDebugValue } from 'react';
 

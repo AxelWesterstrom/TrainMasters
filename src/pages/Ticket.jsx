@@ -5,8 +5,7 @@ import { useState } from "react";
 import styles from "../../public/css/ticket.css";
 import { useStates } from "../assets/helpers/states";
 import { Row, Form, FormLabel, FormControl, Col, Container, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { updateDatabase, getTicket, getAllTickets } from "../assets/helpers/SendToDatabase.js";
+import { getTicket, getAllTickets } from "../assets/helpers/SendToDatabase.js";
 
 function Ticket() {
   const [bookNum, setBookNum] = useState("");

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Row, Col, Container, Form, Button, Modal } from "react-bootstrap";
 import { useStates } from "../assets/helpers/states";
 import { useState } from "react";
-import { updateDatabase, getTicket } from "../assets/helpers/SendToDatabase.js";
+import { updateDatabase } from "../assets/helpers/SendToDatabase.js";
 import { useNavigate } from "react-router-dom";
 
 function PaymentMethod() {
@@ -24,9 +24,6 @@ function PaymentMethod() {
   const [value, setValue] = useState("");
   const [swish, setSwish] = useState(false);
   const [card, setCard] = useState(false);
-  // const handleCloseSwish = () => {
-  //   setSwish(false), updateDatabase(log, u, s);
-  // };
   const handleCloseCard = () => {
     setCard(false), updateDatabase(log, u, s);
   };
@@ -74,7 +71,6 @@ function PaymentMethod() {
     setSwish(false);
     event.preventDefault();
     if (
-      // phoneNumber.match(regexPhone) &&
       email.match(regexEmail)
     ) {
       s.ticket.email = email
@@ -92,30 +88,6 @@ function PaymentMethod() {
       setEmail(event.target.value)
     }
   }
-  // } else if (!email.match(regexEmail) || email == null) {
-  //   alert("Ogiltlig Epost");
-  //   paymentPopup();
-  // } else if (!phoneNumber.match(regexPhone) || phoneNumber == "") {
-  //   alert("Ogiltlig telefonnummer");
-  //   paymentPopup();
-  // } else if (phoneNumber == "" || email == "") {
-  //   alert("Fyll i alla fält");
-  //   paymentPopup();
-  // } else {
-  //   alert("Fyll i epost och telefonnummer");
-  //   paymentPopup();
-  // }
-  // }
-  // async function paymentCheckCard(event) {
-  //   setCard(false);
-  //   event.preventDefault();
-  //   if (!email == "") {
-  //     setPaymentDone(true);
-  //     updateDatabase(log, u, s);
-  //     handleMail();
-  //     navigate("biljetter");
-  //   }
-  // }
 
   async function handleMail() {
     await fetch("/api/mailer", {
@@ -184,17 +156,6 @@ function PaymentMethod() {
             </Row>
           </Col>
         </Form>
-        {/* {paymentDone && (
-          <Button
-            type="submit"
-            className="custom-button paymentButton mt-2"
-            onClick={(event) => {
-              paymentCheck(event);
-            }}
-          >
-            Fortsätt
-          </Button>
-        )} */}
       </Container>
 
       <Modal

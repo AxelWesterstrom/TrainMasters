@@ -13,7 +13,6 @@ function Home() {
     window.timeoutsInPlay &&
     window.timeoutsInPlay !== u.showMessage
   ) {
-    // you were fast we are still showing the last message but ok
     clearTimeout(window.ongoingTimeout);
     window.timeoutsInPlay = false;
   }

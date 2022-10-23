@@ -4,7 +4,6 @@ function calculateTicketPrice(
     isFirstClass,
     occupancy,
     ticketType
-    // cancelable
 ) {
     let totalMin = arrivalOffsetArrival - departureOffsetDeparture;
     let price = isFirstClass ? totalMin * 3 : totalMin * 2;
@@ -32,7 +31,6 @@ function calculateTicketPrice(
             break;
     }
     price = price * typeFactor;
-    //price = cancelable ? price * 1.2 : price;
     return Math.round(price);
 }
 
