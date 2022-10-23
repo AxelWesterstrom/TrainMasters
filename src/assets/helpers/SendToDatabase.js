@@ -31,16 +31,16 @@ export async function updateDatabase(log, u, s) {
 
     if (log.login) {
         let { insertId } = await (
-          await fetch(`/api/bookings`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              cancelable: isCancelable,
-              bookingNumber: s.ticket.bookingNumber,
-              customerId: u.customerId,
-              price: s.ticket.totalPrice,
-            }),
-          })
+            await fetch(`/api/bookings`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cancelable: isCancelable,
+                    bookingNumber: s.ticket.bookingNumber,
+                    customerId: u.customerId,
+                    price: s.ticket.totalPrice,
+                }),
+            })
         ).json();
         bookingsId = insertId;
     } else {
@@ -56,16 +56,16 @@ export async function updateDatabase(log, u, s) {
         ).json();
 
         let { insertId } = await (
-          await fetch(`/api/bookings`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              cancelable: isCancelable,
-              bookingNumber: s.ticket.bookingNumber,
-              customerId: newCustomerId,
-              price: s.ticket.totalPrice,
-            }),
-          })
+            await fetch(`/api/bookings`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cancelable: isCancelable,
+                    bookingNumber: s.ticket.bookingNumber,
+                    customerId: newCustomerId,
+                    price: s.ticket.totalPrice,
+                }),
+            })
         ).json();
         bookingsId = insertId;
     }
@@ -112,28 +112,25 @@ export async function updateDatabase(log, u, s) {
         ).json();
     }
 }
-export async function getTicket(log, s, t, u) {
-    console.log(u.bookingNumber);
+export async function getTicket(log, t, u, bookNum) {
+    console.log(bookNum);
+    console.log('T!', t);
+    log;
 
-    if (t.departureStation === '') {
-        getBookingInfoFromNumber();
-    }
+    await getBookingInfoFromNumber();
+
     async function getBookingInfoFromNumber() {
+        let carriageNumberArray = [];
+        let seatNumberArray = [];
+        let personArray = [];
         console.log('HERE');
         let bookingData;
-        if (log.login) {
-            bookingData = await (
-                await fetch(
-                    `/api/bookingsWithJourneys?bookingNumber=${u.bookingNumber}`
-                )
-            ).json();
-        } else {
-            bookingData = await (
-                await fetch(
-                    `/api/bookingsWithJourneys?bookingNumber=${u.bookingNumber}`
-                )
-            ).json();
-        }
+
+        bookingData = await (
+            await fetch(`/api/bookingsWithJourneys?bookingNumber=${bookNum}`)
+        ).json();
+
+        console.log('Bookdata!', bookingData);
         t.date = bookingData[0].date;
         t.departureStation = bookingData[0].departureStationName;
         t.departureTime = bookingData[0].departureStationDepartureTime;
@@ -144,24 +141,79 @@ export async function getTicket(log, s, t, u) {
         t.bookingNumber = bookingData[0].bookingNumber;
         let bookingId = bookingData[0].bookingId;
         for (let i = 0; i < bookingData.length; i++) {
-            t.carriageNumber.push(bookingData[i].carriageNumber);
-            t.seatNumber.push(bookingData[i].seatNumber);
+            carriageNumberArray.push(bookingData[i].carriageNumber);
+            seatNumberArray.push(bookingData[i].seatNumber);
         }
 
         let ticketData = await (
             await fetch(`/api/ticketWithPassenger?bookingId=${bookingId}`)
         ).json();
         for (let i = 0; i < ticketData.length; i++) {
-            t.person.push({
+            personArray.push({
                 firstName: ticketData[i].firstName,
                 lastName: ticketData[i].lastName,
                 type: ticketData[i].type,
             });
         }
-        showTickets = true;
-        // t.person.length((x) => {
-        //   count += x.count;
-        // });
-        // console.log(count);
+        t.carriageNumber = carriageNumberArray;
+        t.seatNumber = seatNumberArray;
+        t.person = personArray;
     }
+}
+
+export async function getAllTickets(log, t, u) {
+    let bookingData;
+    let customerId;
+    let allBookingNumbers = [];
+    customerId = await (await fetch(`/api/customers?email=${u.email}`)).json();
+    let arrayWithAllTickets = [];
+
+    bookingData = await (
+        await fetch(`/api/bookingsWithJourneys?customerId=${customerId[0].id}`)
+    ).json();
+
+    for (let data of bookingData) {
+        if (!allBookingNumbers.includes(data.bookingNumber)) {
+            allBookingNumbers.push(data.bookingNumber);
+        }
+    }
+
+    for (let i = 0; i < allBookingNumbers.length; i++) {
+        let carriageNumberArray = [];
+        let seatNumberArray = [];
+        let personArray = [];
+
+        for (let j = 0; j < bookingData.length; j++) {
+            carriageNumberArray.push(bookingData[j].carriageNumber),
+                seatNumberArray.push(bookingData[j].seatNumber);
+        }
+
+        let bookingId = bookingData[i].bookingId;
+        let ticketData = await (
+            await fetch(`/api/ticketWithPassenger?bookingId=${bookingId}`)
+        ).json();
+        for (let k = 0; k < ticketData.length; k++) {
+            personArray.push({
+                firstName: ticketData[k].firstName,
+                lastName: ticketData[k].lastName,
+                type: ticketData[k].type,
+            });
+        }
+        let ticketToAdd = {
+            date: bookingData[i].date,
+            departureStation: bookingData[i].departureStationName,
+            departureTime: bookingData[i].departureStationDepartureTime,
+            arrivalStation: bookingData[i].arrivalStationName,
+            arrivalTime: bookingData[i].arrivalStationArrivalTime,
+            price: bookingData[i].price,
+            trainNumber: bookingData[i].trainNumber,
+            bookingNumber: bookingData[i].bookingNumber,
+            carriageNumber: carriageNumberArray,
+            seatNumber: seatNumberArray,
+            person: personArray,
+        };
+        arrayWithAllTickets.push(ticketToAdd);
+    }
+    t = arrayWithAllTickets;
+    return t;
 }

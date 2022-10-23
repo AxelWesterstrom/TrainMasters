@@ -46,14 +46,13 @@ function PaymentMethod() {
     }
   }
 
-  async function paymentCheck(event) {
+  function paymentCheck(event) {
     setSwish(false);
     event.preventDefault();
     if (phoneNumber !== "" && email !== "") {
       setPaymentDone(true);
       updateDatabase(log, u, s);
       handleMail();
-
       navigate("/biljetter");
     }
   }
@@ -124,7 +123,7 @@ function PaymentMethod() {
               </Button>
             </Row>
           </Col>
-          <h1>{}</h1>
+          <h1>{ }</h1>
         </Form>
         {paymentDone && (
           <Button
