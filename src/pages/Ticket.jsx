@@ -43,7 +43,7 @@ function Ticket() {
   }
 
   async function getTicketByNumber() {
-    await getTicket(log, t, u, bookNum);
+    await getTicket(t, bookNum);
     setInfoFromDatabase(true);
   }
 
