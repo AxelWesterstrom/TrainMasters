@@ -13,7 +13,6 @@ export async function updateDatabase(log, u, s) {
     let bookingsId = 0;
     let peopleId = [];
     let passengersId = [];
-    console.log(s);
 
     for (let i = 0; i < s.ticket.people.length; i++) {
         let { insertId } = await (
@@ -212,6 +211,7 @@ export async function getAllTickets(log, t, u) {
             seatNumber: seatNumberArray,
             person: personArray,
         };
+        console.log(bookingData);
         arrayWithAllTickets.push(ticketToAdd);
     }
     t = arrayWithAllTickets;

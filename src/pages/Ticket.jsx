@@ -18,14 +18,14 @@ function Ticket() {
   let list = [];
   const [allTickets, setAllTickets] = useState(list);
 
-  function typeOutAllTickets(allTickets) {
-    for (let ticket of allTickets) {
+  function typeOutAllTickets(tickets) {
+    for (let ticket of tickets) {
       for (let i = 0; i < ticket.person.length; i++) {
         list.push(
           <TicketTemplate
             ticket={ticket}
             interval={i}
-            key={allTickets.indexOf(ticket) + "-" + i}
+            key={tickets.indexOf(ticket) + "-" + i}
           />
         );
       }
@@ -53,8 +53,8 @@ function Ticket() {
   }
 
   async function getTicketByUser() {
-    let allTickets = await getAllTickets(log, t, u);
-    typeOutAllTickets(allTickets);
+    let tickets = await getAllTickets(log, t, u);
+    typeOutAllTickets(tickets);
   }
 
   if (!log.login) {

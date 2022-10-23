@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row, Col, Container, Form, Button, Modal } from "react-bootstrap";
 import { useStates } from "../assets/helpers/states";
 import { useState } from "react";
@@ -15,6 +15,7 @@ function PaymentMethod() {
   const [errorMessage, setErrorMessage] = useState("");
   const [paymentDone, setPaymentDone] = useState(false);
   const [email, setEmail] = useState("");
+
   const [phoneNumber, setPhoneNumber] = useState(false);
   const navigate = useNavigate();
   let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -29,6 +30,13 @@ function PaymentMethod() {
   const handleCloseCard = () => {
     setCard(false), updateDatabase(log, u, s);
   };
+
+  useEffect(() => {
+    if (log.login) {
+      setEmail(u.email)
+    }
+  }, [log])
+
 
   //move to "Fortsätt knapp"
   const handlePaymentMethod = (e) => {
@@ -69,10 +77,19 @@ function PaymentMethod() {
       // phoneNumber.match(regexPhone) &&
       email.match(regexEmail)
     ) {
+      s.ticket.email = email
       setPaymentDone(true);
       updateDatabase(log, u, s);
       handleMail();
       navigate("/biljetter");
+    }
+  }
+
+  function controlHandleEmail(event) {
+    if (log.login) {
+      setEmail(u.email)
+    } else {
+      setEmail(event.target.value)
     }
   }
   // } else if (!email.match(regexEmail) || email == null) {
@@ -196,7 +213,8 @@ function PaymentMethod() {
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label>E-post</Form.Label>
                 <Form.Control
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={(event) => controlHandleEmail(event)}
+                  value={email}
                   type="email"
                   required
                 />
@@ -242,7 +260,8 @@ function PaymentMethod() {
                   <Form.Control
                     required
                     type="email"
-                    onChange={(event) => setEmail(event.target.value)}
+                    onChange={(event) => controlHandleEmail(event)}
+                    value={email}
                   />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="firstName">
