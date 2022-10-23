@@ -55,6 +55,9 @@ function App() {
     email: "",
     customerId: 0,
     bookingNumber: 0,
+    firstNameIsFilled: [],
+    lastNameIsFilled: []
+
   });
 
   let t = useStates("bookingNumber", [{

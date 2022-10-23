@@ -12,6 +12,7 @@ import styles from "../../public/css/commonStyles.css";
 const travelerTypes = ["Vuxen", "Barn/ungdom(0-25 år)", "Student", "Pensionär"];
 
 function Picker() {
+  let u = useStates("user")
   let s = useStates("booking");
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -45,7 +46,8 @@ function Picker() {
       return;
     }
     let peopleList = [];
-
+    u.firstNameIsFilled = []
+    u.lastNameIsFilled = []
     s.ticket.passengers.map((x) => {
       if (x.count > 0) {
         for (let y = 0; y < x.count; y++) {
@@ -54,6 +56,8 @@ function Picker() {
             lastName: "",
             type: x.travelerType,
           });
+          u.firstNameIsFilled.push(false),
+          u.lastNameIsFilled.push(false)
         }
       }
     });
