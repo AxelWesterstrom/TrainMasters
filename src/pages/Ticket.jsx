@@ -15,30 +15,32 @@ function Ticket() {
   let u = useStates("user");
   let s = useStates("booking");
   let t = useStates("bookingNumber");
-  const list = []
-  const [allTickets, setAllTickets] = useState([])
-
+  let list = [];
+  const [allTickets, setAllTickets] = useState(list);
 
   function typeOutAllTickets(allTickets) {
     for (let ticket of allTickets) {
       for (let i = 0; i < ticket.person.length; i++) {
-        console.log(allTickets.indexOf(ticket) + "-" + i);
-        list.push(<TicketTemplate ticket={ticket} interval={i} key={allTickets.indexOf(ticket) + "-" + i} />)
+        list.push(
+          <TicketTemplate
+            ticket={ticket}
+            interval={i}
+            key={allTickets.indexOf(ticket) + "-" + i}
+          />
+        );
       }
     }
-    return (<div>{list}</div>)
-  };
+  }
   function typeOutTicket() {
     for (let i = 0; i < t.person.length; i++) {
-      list.push(<TicketTemplate interval={i} key={i} ticket={t} />)
+      list.push(<TicketTemplate interval={i} key={i} ticket={t} />);
     }
-    return (<div>{list}</div>)
-  };
+    return <div>{list}</div>;
+  }
 
   function getTicketInput(event) {
     event.preventDefault();
-    getTicketByNumber()
-
+    getTicketByNumber();
   }
 
   async function getTicketByNumber() {
@@ -47,12 +49,12 @@ function Ticket() {
   }
 
   function getLoggedInTickets() {
-    getTicketByUser()
+    getTicketByUser();
   }
 
   async function getTicketByUser() {
-    let tickets = await getAllTickets(log, t, u);
-    setAllTickets(tickets)
+    let allTickets = await getAllTickets(log, t, u);
+    typeOutAllTickets(allTickets);
   }
 
   if (!log.login) {
@@ -63,27 +65,43 @@ function Ticket() {
         </Row>
 
         <Container overflow="hidden">
-          <Row >
-            {!infoFromDatabase
-              ? <Container>
+          <Row>
+            {!infoFromDatabase ? (
+              <Container>
                 <Row className="form-booking-number">
                   <Col className="form-body" xs={12} md={10} lg={6}>
-                    <Form className="booking-number-form" onSubmit={getTicketInput} autoComplete="off">
+                    <Form
+                      className="booking-number-form"
+                      onSubmit={getTicketInput}
+                      autoComplete="off"
+                    >
                       <FormLabel>
                         <h2>Skriv in ditt bokningsnummer</h2>
                       </FormLabel>
-                      <FormControl type="text" onChange={e => setBookNum(e.target.value)} value={bookNum} />
-                      <Button type="submit" className="custom-button" style={{ marginTop: 20 }}>Sök bokning</Button>
+                      <FormControl
+                        type="text"
+                        onChange={(e) => setBookNum(e.target.value)}
+                        value={bookNum}
+                      />
+                      <Button
+                        type="submit"
+                        className="custom-button"
+                        style={{ marginTop: 20 }}
+                      >
+                        Sök bokning
+                      </Button>
                     </Form>
                   </Col>
                 </Row>
               </Container>
-              :
+            ) : (
               <Row>
-                <h1 className="booking-number">Bokningsnummer: {t.bookingNumber}</h1>
+                <h1 className="booking-number">
+                  Bokningsnummer: {t.bookingNumber}
+                </h1>
                 {typeOutTicket()}
               </Row>
-            }
+            )}
           </Row>
         </Container>
       </>
@@ -95,16 +113,13 @@ function Ticket() {
         <Header />
       </Row>
       <Container overflow="hidden">
-        <Row >
-          <Row>
-
-            {getLoggedInTickets()}
-          </Row>
+        <Row>
+          <Row>{getLoggedInTickets()}</Row>
         </Row>
       </Container>
-      <Container>
-        {typeOutAllTickets(allTickets)}
-      </Container>
+      {allTickets.map((x) => {
+        return x;
+      })}
     </>
   );
 }
