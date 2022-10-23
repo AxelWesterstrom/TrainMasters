@@ -10,6 +10,9 @@ function PaymentMethod() {
   let u = useStates("user");
   let s = useStates("booking");
   let t = useStates("bookingNumber");
+  const handleClose = () => setShow(false);
+   const [show, setShow] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
   const [paymentDone, setPaymentDone] = useState(false);
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(false);
@@ -37,14 +40,21 @@ function PaymentMethod() {
       setValue("kort");
     }
   };
-
+  
   function paymentPopup() {
+    if(!(u.firstNameIsFilled.includes(false) || u.lastNameIsFilled.includes(false))){
     if (value == "swish") {
       setSwish(true);
     } else if (value == "kort") {
       setCard(true);
     } else {
-      alert("välj betalsätt");
+      setErrorMessage("Välj betalsätt");
+      setShow(true);
+      }
+    }
+    else {
+      setErrorMessage("Fyll i alla fält");
+      setShow(true);
     }
   }
 
@@ -154,7 +164,7 @@ function PaymentMethod() {
             </Row>
           </Col>
         </Form>
-        {paymentDone && (
+        {/* {paymentDone && (
           <Button
             type="submit"
             className="custom-button paymentButton mt-2"
@@ -164,7 +174,7 @@ function PaymentMethod() {
           >
             Fortsätt
           </Button>
-        )}
+        )} */}
       </Container>
 
       <Modal
@@ -196,7 +206,7 @@ function PaymentMethod() {
                   required
                   type="tel"
                   pattern="[0]{1}[7]{1}[0|2|3|6|9]{1}[0-9]{7}"
-                  maxlength="10"
+                  maxLength="10"
                 />
               </Form.Group>
             </Container>
@@ -281,6 +291,17 @@ function PaymentMethod() {
           </Container>
         </Form>
       </Modal>
+      <Modal show={show} onHide={handleClose}>
+                  <Modal.Header closeButton></Modal.Header>
+                  <Modal.Body>
+                    <p className='custom-label'>{errorMessage}</p>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button className='custom-button' onClick={handleClose}>
+                      Stäng
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
     </>
   );
 }

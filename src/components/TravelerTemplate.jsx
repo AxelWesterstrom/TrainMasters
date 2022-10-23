@@ -5,14 +5,33 @@ import { useStates } from "../assets/helpers/states";
 
 function TravelerTemplate({ personId }) {
   let s = useStates("booking");
+  let u = useStates("user");
 
   function handleFormInputFirstName(event) {
     s.ticket.people[personId].firstName = event.target.value
+    if (event.target.value !== "") {
+     u.firstNameIsFilled[personId] = true;
+    }
+    else {
+      u.firstNameIsFilled[personId] = false
+    }
+      
+    
 
   }
   function handleFormInputLastName(event) {
     s.ticket.people[personId].lastName = event.target.value
+   if (event.target.value !== "") {
+     u.lastNameIsFilled[personId] = true;
+    }
+    
+   else {
+     u.lastNameIsFilled[personId] = false;
+    }
+      
   }
+
+  
 
   return (
     <>
