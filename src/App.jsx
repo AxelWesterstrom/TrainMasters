@@ -60,8 +60,8 @@ function App() {
 
   });
 
-  let t = useStates("bookingNumber", {
-    date: "",
+  let t = useStates("bookingNumber", [{
+    date: newDate.getTime(),
     departureStation: "",
     departureTime: "",
     arrivalStation: "",
@@ -72,13 +72,8 @@ function App() {
     trainNumber: "",
     bookingNumber: 0,
     person: []
-  })
+  }])
 
-  function clearS() {
-    let s = useStates("booking")
-      ;
-
-  }
   // useEffect(() => {
   //   (async () => {
   //     s.stations = await (await fetch("/api/stations")).json()

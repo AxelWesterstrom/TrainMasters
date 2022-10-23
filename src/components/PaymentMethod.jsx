@@ -62,7 +62,7 @@ function PaymentMethod() {
     }
   }
 
-  async function paymentCheck(event) {
+  function paymentCheck(event) {
     setSwish(false);
     event.preventDefault();
     if (
@@ -72,7 +72,6 @@ function PaymentMethod() {
       setPaymentDone(true);
       updateDatabase(log, u, s);
       handleMail();
-
       navigate("/biljetter");
     }
   }
@@ -260,7 +259,7 @@ function PaymentMethod() {
                     required
                     id="kort"
                     type="card"
-                    inputmode="numeric"
+                    inputMode="numeric"
                     pattern="[0-9\s]{13,19}"
                     autoComplete="cc-number"
                     maxLength="19"
@@ -272,7 +271,7 @@ function PaymentMethod() {
                     required
                     id="cvv"
                     type="tel"
-                    inputmode="numeric"
+                    inputMode="numeric"
                     pattern="[0-9]{3}"
                     maxLength="3"
                   ></Form.Control>
