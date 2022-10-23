@@ -1,35 +1,34 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Row, Col, Container, Form } from "react-bootstrap";
+import { Row, Col, Container} from "react-bootstrap";
+import { useStates } from "../assets/helpers/states";
+import TravelerTemplate from "../components/TravelerTemplate";
 
 function Traveler() {
+  let s = useStates("booking");
+
+  let count = 0;
+  s.ticket.passengers.map((x) => {
+    count += x.count;
+  });
+
+  const list = [];
+
+  function typeOutTravelers() {
+    for (let i = 0; i < count; i++) {
+      list.push(<TravelerTemplate personId={i} key={i} />);
+    }
+    return <div>{list}</div>;
+  }
+
   return (
     <>
       <Container className="travelerContainer">
-        <Row>
+        <Row className="ms-1">
           <Col className="travelers">
             <p className="custom-label">Resenärer</p>
           </Col>
         </Row>
-        <Row>
-          <Col className="person">
-            <p className="custom-label">Resenär 1 - Kontaktperson</p>
-          </Col>
-          <Row>
-            <Col>
-              <Form>
-                <Container>
-                  <label className="custom-text nameLabel">Förnamn</label>
-                  <input className="nameInput firstNameInput" type="text" />
-                </Container>
-                <Container>
-                  <label className="custom-text nameLabel">Efternamn</label>
-                  <input className="nameInput" type="text" />
-                </Container>
-              </Form>
-            </Col>
-          </Row>
-        </Row>
+        {typeOutTravelers()}
       </Container>
     </>
   );

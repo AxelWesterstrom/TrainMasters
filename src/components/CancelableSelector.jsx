@@ -32,7 +32,7 @@ function CancelableSelector() {
     <>
       <div>
         <Container className="p-2">
-          <Container className="class-selector-container p-5">
+          <Container className="class-selector-container p-4">
             <Container className="m-3">
               <Form>
                 {["radio"].map((type) => (
@@ -41,7 +41,7 @@ function CancelableSelector() {
                       key={"1"}
                       label={
                         s.ticket.carriageClass !== 0
-                          ? `Kan återbetalas ${Math.round(price * 1.2)} kr`
+                          ? `Kan återbetalas ${Math.round(price * 1.2)}\u00A0kr`
                           : "Kan återbetalas"
                       }
                       name="group1"
@@ -53,13 +53,15 @@ function CancelableSelector() {
                           ? {}
                           : { opacity: "0.68", pointerEvents: "none" }
                       }
+                      value={"cancelable"}
+                      checked={s.ticket.type === "cancelable"}
                     />
 
                     <Form.Check
                       key={"2"}
                       label={
                         s.ticket.carriageClass !== 0
-                          ? `Kan ej återbetalas / ombokas ${price} kr`
+                          ? `Kan ej återbetalas / ombokas ${price}\u00A0kr`
                           : "Kan ej återbetalas / ombokas"
                       }
                       name="group1"
@@ -71,6 +73,8 @@ function CancelableSelector() {
                           ? {}
                           : { opacity: "0.68", pointerEvents: "none" }
                       }
+                      value={"notCancelable"}
+                      checked={s.ticket.type === "not-cancelable"}
                     />
                   </div>
                 ))}

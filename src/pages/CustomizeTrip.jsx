@@ -2,7 +2,7 @@ import ClassSelector from "../components/ClassSelector";
 import Header from "../components/Header";
 import styles from "../../public/css/customizeTrip.css";
 import { useState, useEffect } from "react";
-import { Container, Button, Modal } from "react-bootstrap";
+import { Container, Button, Modal, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import ChooseSeatsModal from "../components/ChooseSeatsModal";
 import { useStates } from "../assets/helpers/states";
@@ -13,11 +13,12 @@ function CustomizeTrip() {
   const [showModal, setShowModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [totalSeatsInTrain, setTotalSeatsInTrain] = useState([]);
-  const [totalOccupiedSeats, setTotolOccupiedSeats] = useState([]);
   const [wheechairSeatsFullBooked, setWheelChairSeatsFullBooked] =
     useState(false);
   const [petsCarraigeFullBooked, setPetsCarriageFullBooked] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [bookedSeats, setBookedSeats] = useState([]);
 
   let s = useStates("booking");
   let count = 0;
@@ -50,33 +51,37 @@ function CustomizeTrip() {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchBookdSeats = async () => {
       await fetch(
-        `/api/occupiedSeatsWithDateAndJourneyAndTrainSet?date=${new Date(
+        `/api/occupiedSeatIdWithDateAndJourneyId?date=${new Date(
           s.ticket.date
-        ).toLocaleDateString("sv-SE")}&journeyId=${
-          s.ticket.chosenJourney.journeyId
-        }&trainSetId=${s.ticket.chosenJourney.trainSetId}`
+        ).toLocaleDateString("sv-SE")}&departureStationDeparture<=${
+          s.ticket.chosenJourney.arrivalOffsetB
+        }&arrivalStationArrival>=${
+          s.ticket.chosenJourney.departureOffsetA
+        }&journeyId=${s.ticket.chosenJourney.journeyId}`
       )
         .then((res) => res.json())
         .then((jsonData) => {
-          if (jsonData[0] !== undefined) {
-            setTotolOccupiedSeats(jsonData[0]);
-          } else {
-            setTotolOccupiedSeats(0);
-          }
+          setBookedSeats(jsonData);
         });
     };
-    fetchData();
+    fetchBookdSeats();
   }, [totalSeatsInTrain]);
 
   const handleModalClose = () => {
-   
     if (selectedSeats.length !== seatsToBook) {
       setShowErrorModal(true);
+      setErrorMessage(
+        "Antal sittplats att välja är " +
+          seatsToBook +
+          ", välj " +
+          (seatsToBook - selectedSeats.length) +
+          " till!"
+      );
     } else {
       setShowModal(false);
-      s.ticket.seat = [...selectedSeats];
+      s.ticket.seats = [...selectedSeats];
     }
   };
 
@@ -87,12 +92,17 @@ function CustomizeTrip() {
   };
 
   const goToNextPage = () => {
-    if (
-      s.ticket.carriageClass === 0 ||
-      s.ticket.type === "" ||
-      s.ticket.seat === []
-    ) {
+    if (s.ticket.carriageClass === 0 || s.ticket.type === "") {
       setShowErrorModal(true);
+      setErrorMessage(
+        "Välj klass, biljett-flexibilitet och sittplats för att fortsätta!"
+      );
+    }
+    if (!s.ticket.seats || s.ticket.seats.length === 0) {
+      setShowErrorModal(true);
+      setErrorMessage(
+        "Välj klass, biljett-flexibilitet och sittplats för att fortsätta!"
+      );
     } else {
       navigate("/kassan");
     }
@@ -103,6 +113,7 @@ function CustomizeTrip() {
   };
 
   const deleteSelectedSeats = () => {
+    s.ticket.seats = [];
     setSelectedSeats([]);
   };
 
@@ -122,17 +133,18 @@ function CustomizeTrip() {
         </div>
         <Container>
           <Container className="p-2">
-            <Container className="train-info-container p-5">
+            <Container className="train-info-container p-4">
               <Container className="m-3">
                 <p className="custom-label">
                   {s.ticket.chosenJourney.stationNameA} -{" "}
                   {s.ticket.chosenJourney.stationNameB}
                 </p>
                 <p className="custom-label">
-                  {new Date(s.ticket.date).toLocaleDateString()}
+                  {new Date(s.ticket.date).toLocaleDateString("sv-SE")}
                 </p>
                 <p className="custom-label">
-                  {s.ticket.chosenJourney.departureTimeA}
+                  {s.ticket.chosenJourney.departureTimeA} -{" "}
+                  {s.ticket.chosenJourney.arrivalTimeB}
                 </p>
                 <Button className="custom-button" onClick={goToFormerPage}>
                   Ändra
@@ -141,15 +153,15 @@ function CustomizeTrip() {
             </Container>
           </Container>
           <ClassSelector
-            totalOccupiedSeats={totalOccupiedSeats}
             totalSeatsInTrain={totalSeatsInTrain}
             setWheelChairSeatsFullBooked={setWheelChairSeatsFullBooked}
             setPetsCarriageFullBooked={setPetsCarriageFullBooked}
             setSeatsToBook={seatsToBook}
+            bookedSeats={bookedSeats}
           />
           <CancelableSelector />
           <Container className="p-2">
-            <Container className="seat-selector-container p-5">
+            <Container className="seat-selector-container p-4">
               {selectedSeats.length === 0 && (
                 <p
                   className="custom-label m-4"
@@ -170,9 +182,9 @@ function CustomizeTrip() {
                     <div key={"seat" + index}>
                       <div className="d-flex">
                         <p className="custom-text me-4">
-                          Seat: {seat.seatNumber}
+                          Plats: {seat.seatNumber}
                         </p>
-                        <p className="custom-text">Carriage: {seat.carriage}</p>
+                        <p className="custom-text">Vagn: {seat.carriage}</p>
                       </div>
                       {index === selectedSeats.length - 1 && (
                         <div className="d-flex justify-content-end">
@@ -190,6 +202,26 @@ function CustomizeTrip() {
                     </div>
                   );
                 })}
+            </Container>
+          </Container>
+          <Container className="p-2">
+            <Container className="train-info-container p-4">
+              <Container className="m-1">
+                <Row className="d-flex">
+                  <Col className="col justify-content-center">
+                    <p className="custom-text">
+                      Vi erbjuder alltid Löfbergs Lila kaffe
+                    </p>
+                  </Col>
+
+                  <Col className="col d-flex justify-content-center">
+                    <img
+                      src="../public/images/lofbergs.png"
+                      style={{ width: "180px", height: "80px" }}
+                    />
+                  </Col>
+                </Row>
+              </Container>
             </Container>
           </Container>
         </Container>
@@ -211,6 +243,7 @@ function CustomizeTrip() {
               setPetsCarriageFullBooked={setPetsCarriageFullBooked}
               selectedSeats={selectedSeats}
               setSelectedSeats={setSelectedSeats}
+              bookedSeats={bookedSeats}
             />
           </Modal.Body>
           <Modal.Footer>
@@ -224,7 +257,7 @@ function CustomizeTrip() {
           </Modal.Footer>
         </Modal>
       </div>
-      <Container className="d-flex justify-content-end info pb-5 mb-5">
+      <Container className="d-flex justify-content-end info mb-5">
         <Button className="custom-button mt-1 mb-5 me-2" onClick={goToNextPage}>
           Fortsätt
         </Button>
@@ -235,9 +268,7 @@ function CustomizeTrip() {
         className="seat-picker-modal"
       >
         <Modal.Header closeButton></Modal.Header>
-        <Modal.Body>
-          Välj klass, biljett-flexibilitet och sittplats för att fortsätta!
-        </Modal.Body>
+        <Modal.Body>{errorMessage}</Modal.Body>
         <Modal.Footer>
           <Button
             variant="primary"

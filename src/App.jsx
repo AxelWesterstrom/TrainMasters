@@ -9,17 +9,16 @@ import Payment from "./pages/Payment";
 import Ticket from "./pages/Ticket";
 import Login from "./pages/Login";
 import styles from "../public/css/commonStyles.css"; // Common styling for all pages
-import Contact from "./pages/Contact";
 import { useStates } from "./assets/helpers/states";
-import { useEffect } from "react";
 import RegisterForm from "./components/RegisterForm";
+import ShowTicket from "./pages/ShowTicket";
 
 const travelerTypes = [
   "Vuxen",
-  "Ungdom(16-25 år)",
-  "Barn(0-15 år)",
+  "Ungdom (16-25 år)",
+  "Barn (0-15 år)",
   "Student",
-  "Pensionär"
+  "Pensionär",
 ];
 
 function App() {
@@ -39,6 +38,9 @@ function App() {
       secondClassPrice: 0,
       firstClassPrice: 0,
       totalPrice: 0, //final price for all tickets
+      bookingNumber: 0,
+      people: [], // {firstName, lastName, type}
+      email: "",
     },
     autoSuggestStations: [],
   });
@@ -48,14 +50,27 @@ function App() {
   });
 
   let u = useStates("user", {
-    email: ""
+    email: "",
+    customerId: 0,
+    bookingNumber: 0,
+    firstNameIsFilled: [],
+    lastNameIsFilled: []
+
   });
 
-  // useEffect(() => {
-  //   (async () => {
-  //     s.stations = await (await fetch("/api/stations")).json()
-  //   })()
-  // }, [])
+  let t = useStates("bookingNumber", [{
+    date: newDate.getTime(),
+    departureStation: "",
+    departureTime: "",
+    arrivalStation: "",
+    arrivalTime: "",
+    carriageNumber: [],
+    seatNumber: [],
+    price: 0,
+    trainNumber: "",
+    bookingNumber: 0,
+    person: [] // {firstName, lastName, type}
+  }])
 
   return (
     <div className='App'>
@@ -69,7 +84,7 @@ function App() {
           <Route path='/mina-biljetter' element={<Ticket />} />
           <Route path='/logga-in' element={<Login />} />
           <Route path='/skapa-konto' element={<RegisterForm />} />
-          <Route path='/kontakta-oss' element={<Contact />} />
+          <Route path='/biljetter' element={<ShowTicket />} />
         </Routes>
       </BrowserRouter>
     </div>

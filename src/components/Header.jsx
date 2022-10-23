@@ -1,33 +1,22 @@
 import React from "react";
-import { useState } from "react";
 import { useStates } from "../assets/helpers/states";
-import { Container, Navbar, Nav, Modal, Dropdown, Button } from "react-bootstrap";
+import { Container, Navbar, Nav, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import style from "../../public/css/header.css";
 
-function Header({ }) {
-
-  const { click, setClick } = useState(false);
-
+function Header({}) {
   const navigate = useNavigate();
-
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const handleClose = () => setShow(false);
-  const [show, setShow] = useState();
 
   let log = useStates("login");
   let u = useStates("user");
 
   const logOut = () => {
-    setErrorMessage("Du är nu utloggad");
-    setShow(true);
     log.login = false;
     u.email = "";
+    u.showMessage = "logout";
+    navigate("/");
   };
-
-
 
   return (
     <>
@@ -49,33 +38,21 @@ function Header({ }) {
                   className="dropdown-menu"
                   style={{
                     left: "-76px",
-                    position: "absolute"
+                    position: "absolute",
                   }}
                 >
                   <Dropdown.Item onClick={() => navigate("/mina-biljetter")}>
-                    Mina Biljetter
+                    Mina biljetter
                   </Dropdown.Item>
-                  {!log.login
-                    ? <Dropdown.Item onClick={() => navigate("/logga-in")}>
-                      Logga In
+                  {!log.login ? (
+                    <Dropdown.Item onClick={() => navigate("/logga-in")}>
+                      Logga in
                     </Dropdown.Item>
-                    : <Dropdown.Item onClick={logOut} >
-                      Logga Ut
-                    </Dropdown.Item>
-                  }
+                  ) : (
+                    <Dropdown.Item onClick={logOut}>Logga ut</Dropdown.Item>
+                  )}
                 </Dropdown.Menu>
               </Dropdown>
-              <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton></Modal.Header>
-                <Modal.Body>
-                  <p className='custom-label'>{errorMessage}</p>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button className='custom-button' onClick={handleClose}>
-                    Stäng
-                  </Button>
-                </Modal.Footer>
-              </Modal>
             </Nav>
           </Container>
         </Container>

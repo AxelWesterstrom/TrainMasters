@@ -12,7 +12,6 @@ async function seedJourneys() {
     let route = await db.query("SELECT id FROM routes WHERE name = ?", [name]);
     let routeId = route[0].id;
     for (let { time, justOnWeekdays } of data[name]) {
-      console.log(routeId, time, justOnWeekdays);
       await db.query(
         "INSERT INTO journeys(routeId, startTime, justOnWeekdays) VALUES (?,?, ?)",
         [routeId, time, justOnWeekdays]
@@ -20,7 +19,6 @@ async function seedJourneys() {
     }
   }
   await db.query("SET foreign_key_checks = 1;");
-  console.log("Journeys populated");
 }
 seedJourneys();
 
