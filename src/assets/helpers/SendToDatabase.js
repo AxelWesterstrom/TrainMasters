@@ -205,6 +205,7 @@ export async function getAllTickets(t, u) {
             seatNumber: seatNumberArray,
             person: personArray,
         };
+        console.log(bookingData);
         arrayWithAllTickets.push(ticketToAdd);
     }
     t = arrayWithAllTickets;
