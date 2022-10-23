@@ -10,10 +10,15 @@ function PaymentMethod() {
   let u = useStates("user");
   let s = useStates("booking");
   let t = useStates("bookingNumber");
+  const handleClose = () => setShow(false);
+  const [show, setShow] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
   const [paymentDone, setPaymentDone] = useState(false);
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(false);
   const navigate = useNavigate();
+  let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  let regexPhone = /[0]{1}[7]{1}[0|2|3|6|9]{1}[0-9]{7}/;
 
   const [value, setValue] = useState("");
   const [swish, setSwish] = useState(false);
@@ -37,19 +42,33 @@ function PaymentMethod() {
   };
 
   function paymentPopup() {
-    if (value == "swish") {
-      setSwish(true);
-    } else if (value == "kort") {
-      setCard(true);
+    if (
+      !(
+        u.firstNameIsFilled.includes(false) ||
+        u.lastNameIsFilled.includes(false)
+      )
+    ) {
+      if (value == "swish") {
+        setSwish(true);
+      } else if (value == "kort") {
+        setCard(true);
+      } else {
+        setErrorMessage("Välj betalsätt");
+        setShow(true);
+      }
     } else {
-      alert("välj betalsätt");
+      setErrorMessage("Fyll i alla fält");
+      setShow(true);
     }
   }
 
   async function paymentCheck(event) {
     setSwish(false);
     event.preventDefault();
-    if (phoneNumber !== "" && email !== "") {
+    if (
+      // phoneNumber.match(regexPhone) &&
+      email.match(regexEmail)
+    ) {
       setPaymentDone(true);
       updateDatabase(log, u, s);
       handleMail();
@@ -57,6 +76,30 @@ function PaymentMethod() {
       navigate("/biljetter");
     }
   }
+  // } else if (!email.match(regexEmail) || email == null) {
+  //   alert("Ogiltlig Epost");
+  //   paymentPopup();
+  // } else if (!phoneNumber.match(regexPhone) || phoneNumber == "") {
+  //   alert("Ogiltlig telefonnummer");
+  //   paymentPopup();
+  // } else if (phoneNumber == "" || email == "") {
+  //   alert("Fyll i alla fält");
+  //   paymentPopup();
+  // } else {
+  //   alert("Fyll i epost och telefonnummer");
+  //   paymentPopup();
+  // }
+  // }
+  // async function paymentCheckCard(event) {
+  //   setCard(false);
+  //   event.preventDefault();
+  //   if (!email == "") {
+  //     setPaymentDone(true);
+  //     updateDatabase(log, u, s);
+  //     handleMail();
+  //     navigate("biljetter");
+  //   }
+  // }
 
   async function handleMail() {
     await fetch("/api/mailer", {
@@ -124,9 +167,8 @@ function PaymentMethod() {
               </Button>
             </Row>
           </Col>
-          <h1>{}</h1>
         </Form>
-        {paymentDone && (
+        {/* {paymentDone && (
           <Button
             type="submit"
             className="custom-button paymentButton mt-2"
@@ -136,7 +178,7 @@ function PaymentMethod() {
           >
             Fortsätt
           </Button>
-        )}
+        )} */}
       </Container>
 
       <Modal
@@ -146,7 +188,7 @@ function PaymentMethod() {
         }}
         className="modal-xl"
       >
-        <Form>
+        <Form onSubmit={paymentCheck}>
           <Modal.Header closeButton>
             <Modal.Title>Swish</Modal.Title>
           </Modal.Header>
@@ -163,22 +205,18 @@ function PaymentMethod() {
 
               <Form.Group className="mb-3" controlId="phone-Number">
                 <Form.Label>Telefonnummer</Form.Label>
-                <Form.Text></Form.Text>
                 <Form.Control
                   onChange={(event) => setPhoneNumber(event.target.value)}
                   required
                   type="tel"
-                  pattern="[+]{1}[4]{1}[6]{1}[7]{1}[0-9]{8}"
+                  pattern="[0]{1}[7]{1}[0|2|3|6|9]{1}[0-9]{7}"
+                  maxLength="10"
                 />
               </Form.Group>
             </Container>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              className="custom-button"
-              type="submit"
-              onClick={paymentCheck}
-            >
+            <Button className="custom-button" type="submit">
               Fortsätt
             </Button>
           </Modal.Footer>
@@ -192,30 +230,36 @@ function PaymentMethod() {
         }}
         className="modal-xl paymentModal"
       >
-        <Container>
-          <Modal.Header closeButton>
-            <Modal.Title>Kort</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Container>
-              <Form>
+        {" "}
+        <Form onSubmit={paymentCheck}>
+          <Container>
+            <Modal.Header closeButton>
+              <Modal.Title>Kort</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Container>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>E-post</Form.Label>
-                  <Form.Control type="email" />
+                  <Form.Control
+                    required
+                    type="email"
+                    onChange={(event) => setEmail(event.target.value)}
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="firstName">
                   <Form.Label>Förnamn</Form.Label>
-                  <Form.Control type="text" />
+                  <Form.Control required type="text" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="lastName">
                   <Form.Label>Efternamn</Form.Label>
-                  <Form.Control type="text" />
+                  <Form.Control required type="text" />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Kortnummer:</Form.Label>
                   <Form.Control
+                    required
                     id="kort"
-                    type="tel"
+                    type="card"
                     inputmode="numeric"
                     pattern="[0-9\s]{13,19}"
                     autoComplete="cc-number"
@@ -225,6 +269,7 @@ function PaymentMethod() {
                 <Form.Group>
                   <Form.Label>CVC/CVV</Form.Label>
                   <Form.Control
+                    required
                     id="cvv"
                     type="tel"
                     inputmode="numeric"
@@ -232,19 +277,26 @@ function PaymentMethod() {
                     maxLength="3"
                   ></Form.Control>
                 </Form.Group>
-              </Form>
-            </Container>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              className="custom-button"
-              type="submit"
-              onClick={handleCloseCard}
-            >
-              Fortsätt
-            </Button>
-          </Modal.Footer>
-        </Container>
+              </Container>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button className="custom-button" type="submit">
+                Fortsätt
+              </Button>
+            </Modal.Footer>
+          </Container>
+        </Form>
+      </Modal>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          <p className="custom-label">{errorMessage}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button className="custom-button" onClick={handleClose}>
+            Stäng
+          </Button>
+        </Modal.Footer>
       </Modal>
     </>
   );
