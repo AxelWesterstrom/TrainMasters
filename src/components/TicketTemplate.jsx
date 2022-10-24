@@ -30,33 +30,38 @@ function TicketTemplate({ ticket, interval }) {
       <Container>
         <Container id="ticketBorder">
           <Row>
-            <Col id="ticketTitel" >
-              <h1>{ticket.departureStation} - {ticket.arrivalStation}</h1>
+            <Col id="ticketTitel">
+              <h1>
+                {ticket.departureStation} - {ticket.arrivalStation} (
+                {ticket.bookingNumber})
+              </h1>
             </Col>
           </Row>
 
           <Container id="ticketDetails">
-            <Row >
-              <Col className="col-lg-3 col-sm-6"> <h4>Namn</h4>
-                <p>
-                  {ticket.person[interval].firstName} {ticket.person[interval].lastName}
+            <Row>
+              <Col className="col-lg-3 col-sm-6">
+                <h4>Namn</h4>
+                <p className="custom-text">
+                  {ticket.person[interval].firstName}{" "}
+                  {ticket.person[interval].lastName}
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Datum</h4>
-                <p>
-                  {new Date(ticket.date).toLocaleDateString('sv-SE')}
+                <p className="custom-text">
+                  {new Date(ticket.date).toLocaleDateString("sv-SE")}
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Avgång</h4>
-                <p>
+                <p className="custom-text">
                   {checkTime(ticket.departureTime).slice(0, 5)}
                 </p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Ankomst</h4>
-                <p>
+                <p className="custom-text">
                   {checkTime(ticket.arrivalTime).slice(0, 5)}
                 </p>
               </Col>
@@ -65,36 +70,26 @@ function TicketTemplate({ ticket, interval }) {
             <Row>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Biljettyp</h4>
-                <p>
-                  {ticket.person[interval].type}
-                </p>
+                <p className="custom-text">{ticket.person[interval].type}</p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Tågnummer</h4>
-                <p>
-                  {ticket.trainNumber}
-                </p>
+                <p className="custom-text">{ticket.trainNumber}</p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Vagn</h4>
-                <p>
-                  {ticket.carriageNumber[interval]}
-                </p>
+                <p className="custom-text">{ticket.carriageNumber[interval]}</p>
               </Col>
               <Col className="col-lg-3 col-sm-6">
                 <h4>Plats</h4>
-                <p>
-                  {ticket.seatNumber[interval]}
-                </p>
+                <p className="custom-text">{ticket.seatNumber[interval]}</p>
               </Col>
             </Row>
           </Container>
-          <Row >
+          <Row>
             <Col className="qrCode">
-              <QRCode
-                size={150}
-                value={qrCodeValue}
-              /></Col>
+              <QRCode size={150} value={qrCodeValue} />
+            </Col>
           </Row>
         </Container>
       </Container>

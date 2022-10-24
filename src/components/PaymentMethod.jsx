@@ -14,7 +14,8 @@ function PaymentMethod() {
   const [show, setShow] = useState();
   const [errorMessage, setErrorMessage] = useState("");
   const [paymentDone, setPaymentDone] = useState(false);
-  const [email, setEmail] = useState("");
+  let emailAdress = u.email;
+  const [email, setEmail] = useState(emailAdress);
 
   const [phoneNumber, setPhoneNumber] = useState(false);
   const navigate = useNavigate();
@@ -27,13 +28,6 @@ function PaymentMethod() {
   const handleCloseCard = () => {
     setCard(false), updateDatabase(log, u, s);
   };
-
-  useEffect(() => {
-    if (log.login) {
-      setEmail(u.email)
-    }
-  }, [log])
-
 
   //move to "Fortsätt knapp"
   const handlePaymentMethod = (e) => {
@@ -70,22 +64,12 @@ function PaymentMethod() {
   function paymentCheck(event) {
     setSwish(false);
     event.preventDefault();
-    if (
-      email.match(regexEmail)
-    ) {
-      s.ticket.email = email
+    if (email.match(regexEmail)) {
+      s.ticket.email = email;
       setPaymentDone(true);
       updateDatabase(log, u, s);
       handleMail();
       navigate("/biljetter");
-    }
-  }
-
-  function controlHandleEmail(event) {
-    if (log.login) {
-      setEmail(u.email)
-    } else {
-      setEmail(event.target.value)
     }
   }
 
@@ -174,7 +158,7 @@ function PaymentMethod() {
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label>E-post</Form.Label>
                 <Form.Control
-                  onChange={(event) => controlHandleEmail(event)}
+                  onChange={(event) => setEmail(event.target.value)}
                   value={email}
                   type="email"
                   required
@@ -221,7 +205,7 @@ function PaymentMethod() {
                   <Form.Control
                     required
                     type="email"
-                    onChange={(event) => controlHandleEmail(event)}
+                    onChange={(event) => setEmail(event.target.value)}
                     value={email}
                   />
                 </Form.Group>

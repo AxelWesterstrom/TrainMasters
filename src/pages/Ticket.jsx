@@ -1,10 +1,18 @@
 import Header from "../components/Header";
 import TicketTemplate from "../components/TicketTemplate";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import styles from "../../public/css/ticket.css";
 import { useStates } from "../assets/helpers/states";
-import { Row, Form, FormLabel, FormControl, Col, Container, Button } from "react-bootstrap";
+import {
+  Row,
+  Form,
+  FormLabel,
+  FormControl,
+  Col,
+  Container,
+  Button,
+} from "react-bootstrap";
 import { getTicket, getAllTickets } from "../assets/helpers/SendToDatabase.js";
 
 function Ticket() {
@@ -15,21 +23,25 @@ function Ticket() {
   let s = useStates("booking");
   let t = useStates("bookingNumber");
   let list = [];
-  const [allTickets, setAllTickets] = useState(list);
+  const [allTickets, setAllTickets] = useState([]);
+  const [noTickets, setNoTickets] = useState(false);
 
-  function typeOutAllTickets(tickets) {
-    for (let ticket of tickets) {
+  function typeOutAllTickets() {
+    console.log("allTickets", allTickets);
+    for (let ticket of allTickets) {
       for (let i = 0; i < ticket.person.length; i++) {
         list.push(
           <TicketTemplate
             ticket={ticket}
             interval={i}
-            key={tickets.indexOf(ticket) + "-" + i}
+            key={allTickets.indexOf(ticket) + "-" + i}
           />
         );
       }
     }
+    return <div>{list}</div>;
   }
+
   function typeOutTicket() {
     for (let i = 0; i < t.person.length; i++) {
       list.push(<TicketTemplate interval={i} key={i} ticket={t} />);
@@ -47,14 +59,18 @@ function Ticket() {
     setInfoFromDatabase(true);
   }
 
-  function getLoggedInTickets() {
+  useEffect(() => {
+    async function getTicketByUser() {
+      if (log.login) {
+        let tickets = await getAllTickets(t, u);
+        if (tickets.length === 0) {
+          setNoTickets(true);
+        }
+        setAllTickets(tickets);
+      }
+    }
     getTicketByUser();
-  }
-
-  async function getTicketByUser() {
-    let tickets = await getAllTickets(log, t, u);
-    typeOutAllTickets(tickets);
-  }
+  }, []);
 
   if (!log.login) {
     return (
@@ -106,21 +122,28 @@ function Ticket() {
       </>
     );
   }
-  return (
-    <>
-      <Row className="header">
-        <Header />
-      </Row>
-      <Container overflow="hidden">
-        <Row>
-          <Row>{getLoggedInTickets()}</Row>
+  if (log.login) {
+    return (
+      <>
+        <Row className="header">
+          <Header />
         </Row>
-      </Container>
-      {allTickets.map((x) => {
-        return x;
-      })}
-    </>
-  );
+        <Container overflow="hidden">
+          <Row>
+            {allTickets.length === 0 && noTickets && (
+              <Row className="custom-label" style={{ textAlign: "center" }}>
+                <p className="p-5">Ingen biljett hittas!</p>
+              </Row>
+            )}
+            {allTickets.length === 0 && !noTickets && (
+              <Row className="custom-label">Hämtar alla information...</Row>
+            )}
+            {allTickets.length !== 0 && <Row> {typeOutAllTickets()}</Row>}
+          </Row>
+        </Container>
+      </>
+    );
+  }
 }
 
 export default Ticket;
