@@ -27,7 +27,6 @@ function Ticket() {
   const [noTickets, setNoTickets] = useState(false);
 
   function typeOutAllTickets() {
-    console.log("allTickets", allTickets);
     for (let ticket of allTickets) {
       for (let i = 0; i < ticket.person.length; i++) {
         list.push(

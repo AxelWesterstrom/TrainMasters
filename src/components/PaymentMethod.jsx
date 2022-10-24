@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Row, Col, Container, Form, Button, Modal } from "react-bootstrap";
 import { useStates } from "../assets/helpers/states";
 import { useState } from "react";
@@ -29,7 +29,6 @@ function PaymentMethod() {
     setCard(false), updateDatabase(log, u, s);
   };
 
-  //move to "Fortsätt knapp"
   const handlePaymentMethod = (e) => {
     const id = e.target.id;
     if (id == "radio-swish") {

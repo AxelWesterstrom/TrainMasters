@@ -187,8 +187,6 @@ export async function getAllTickets(t, u) {
     await fetch(`/api/bookingsWithJourneys?customerId=${customerId[0].id}`)
   ).json();
 
-  console.log("bookingData", bookingData);
-
   for (let j = 0; j < bookingData.length; j++) {
     carriageNumberArray.push(bookingData[j].carriageNumber),
       seatNumberArray.push(bookingData[j].seatNumber);
